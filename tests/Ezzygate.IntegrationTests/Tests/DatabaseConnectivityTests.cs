@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Ezzygate.Infrastructure.Data;
+using Ezzygate.Infrastructure.Ef;
 using NUnit.Framework;
 
 namespace Ezzygate.IntegrationTests.Tests;

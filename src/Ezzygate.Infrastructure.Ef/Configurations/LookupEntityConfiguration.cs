@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Ezzygate.Domain.Entities.Lookup;
 
-namespace Ezzygate.Infrastructure.Data.Configurations;
+namespace Ezzygate.Infrastructure.Ef.Configurations;
 
 public static class LookupEntityConfiguration
 {

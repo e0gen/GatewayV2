@@ -9,13 +9,11 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        // Add MediatR
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
 
-        // Add FluentValidation
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         // Add application services (to be implemented)

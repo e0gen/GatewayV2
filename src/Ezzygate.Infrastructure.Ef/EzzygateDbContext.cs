@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Ezzygate.Domain.Entities.Core;
 using Ezzygate.Domain.Entities.Lookup;
-using Ezzygate.Infrastructure.Data.Configurations;
+using Ezzygate.Infrastructure.Ef.Configurations;
 
-namespace Ezzygate.Infrastructure.Data;
+namespace Ezzygate.Infrastructure.Ef;
 
 public class EzzygateDbContext : DbContext
 {

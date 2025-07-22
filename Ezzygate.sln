@@ -12,7 +12,7 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ezzygate.Domain", "src\Ezzygate.Domain\Ezzygate.Domain.csproj", "{3B941BF9-44D6-469F-A04A-2DA2B5E32E7F}"
 EndProject
 
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ezzygate.Infrastructure", "src\Ezzygate.Infrastructure\Ezzygate.Infrastructure.csproj", "{C3D4E5F6-7A8B-9C0D-1E2F-3A4B5C6D7E8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ezzygate.Infrastructure.Ef", "src\Ezzygate.Infrastructure.Ef\Ezzygate.Infrastructure.Ef.csproj", "{C3D4E5F6-7A8B-9C0D-1E2F-3A4B5C6D7E8F}"
 EndProject
 
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ezzygate.Application", "src\Ezzygate.Application\Ezzygate.Application.csproj", "{D4E5F6A7-8B9C-0D1E-2F3A-4B5C6D7E8F9A}"
@@ -25,6 +25,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2150E333
 EndProject
 
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ezzygate.IntegrationTests", "tests\Ezzygate.IntegrationTests\Ezzygate.IntegrationTests.csproj", "{F6A7B8C9-0D1E-2F3A-4B5C-6D7E8F9A0B1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ezzygate.Infrastructure.Ef.IntegrationTests", "tests\Ezzygate.Infrastructure.Ef.IntegrationTests\Ezzygate.Infrastructure.Ef.IntegrationTests.csproj", "{5D1D1F87-3974-4807-8CAA-2EE380C3E107}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ezzygate.Infrastructure", "src\Ezzygate.Infrastructure\Ezzygate.Infrastructure.csproj", "{704664C2-DF3D-4925-975B-923AA4E3A3E0}"
 EndProject
 
 Global
@@ -57,6 +61,14 @@ Global
 		{F6A7B8C9-0D1E-2F3A-4B5C-6D7E8F9A0B1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6A7B8C9-0D1E-2F3A-4B5C-6D7E8F9A0B1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6A7B8C9-0D1E-2F3A-4B5C-6D7E8F9A0B1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D1D1F87-3974-4807-8CAA-2EE380C3E107}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D1D1F87-3974-4807-8CAA-2EE380C3E107}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D1D1F87-3974-4807-8CAA-2EE380C3E107}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D1D1F87-3974-4807-8CAA-2EE380C3E107}.Release|Any CPU.Build.0 = Release|Any CPU
+		{704664C2-DF3D-4925-975B-923AA4E3A3E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{704664C2-DF3D-4925-975B-923AA4E3A3E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{704664C2-DF3D-4925-975B-923AA4E3A3E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{704664C2-DF3D-4925-975B-923AA4E3A3E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,8 +80,10 @@ Global
 		{D4E5F6A7-8B9C-0D1E-2F3A-4B5C6D7E8F9A} = {FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}
 		{E5F6A7B8-9C0D-1E2F-3A4B-5C6D7E8F9A0B} = {FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}
 		{F6A7B8C9-0D1E-2F3A-4B5C-6D7E8F9A0B1C} = {2150E333-8FDC-42A3-9474-1A3956D46DE9}
+		{5D1D1F87-3974-4807-8CAA-2EE380C3E107} = {2150E333-8FDC-42A3-9474-1A3956D46DE9}
+		{704664C2-DF3D-4925-975B-923AA4E3A3E0} = {FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {12345678-1234-5678-9ABC-123456789ABC}
 	EndGlobalSection
-EndGlobal 
+EndGlobal

@@ -26,7 +26,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\Ezzygate.Domain\Ezzygate.Domain.csproj" />
-        <ProjectReference Include="..\..\src\Ezzygate.Infrastructure\Ezzygate.Infrastructure.csproj" />
+        <ProjectReference Include="..\..\src\Ezzygate.Infrastructure.Ef\Ezzygate.Infrastructure.Ef.csproj" />
     </ItemGroup>
 
     <ItemGroup>

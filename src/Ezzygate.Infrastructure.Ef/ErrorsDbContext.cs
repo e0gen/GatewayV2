@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Ezzygate.Infrastructure.Data;
+namespace Ezzygate.Infrastructure.Ef;
 
 public class ErrorsDbContext : DbContext
 {
