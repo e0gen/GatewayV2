@@ -1,4 +1,4 @@
-namespace Ezzygate.Common.Enums
+namespace Ezzygate.Domain.Enums
 {
     public enum TransactionAmountGroup
     {
