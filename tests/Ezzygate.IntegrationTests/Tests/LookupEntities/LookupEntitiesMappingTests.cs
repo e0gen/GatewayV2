@@ -256,7 +256,7 @@ public class LookupEntitiesMappingTests
         {
             TestContext.WriteLine($"Loaded BalanceSourceType ID: {balanceSourceType.BalanceSourceTypeId}");
             TestContext.WriteLine($"Balance Source Type Name: {balanceSourceType.Name ?? "NULL"}");
-            TestContext.WriteLine($"Description: {balanceSourceType.Description ?? "NULL"}");
+            TestContext.WriteLine($"Is Fee: {balanceSourceType.IsFee}");
             Assert.DoesNotThrow(() => _ = balanceSourceType.AccountBalances.Count);
             TestContext.WriteLine($"BalanceSourceType has {balanceSourceType.AccountBalances.Count} balance records (max 5 loaded)");
         }

@@ -17,8 +17,6 @@ public sealed class StateList
     
     [StringLength(50)]
     public string? Name { get; set; }
-    
-    public bool IsActive { get; set; }
 
     // Navigation properties
     public CountryList Country { get; set; } = null!;

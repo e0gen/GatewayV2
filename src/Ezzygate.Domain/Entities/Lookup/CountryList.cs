@@ -13,10 +13,9 @@ public sealed class CountryList
     
     [StringLength(50)]
     public string? Name { get; set; }
-    
-    public bool IsActive { get; set; }
 
     // Collections
     public ICollection<Core.AccountAddress> AccountAddresses { get; set; } = new List<Core.AccountAddress>();
     public ICollection<StateList> States { get; set; } = new List<StateList>();
+    public ICollection<Core.AccountPaymentMethod> AccountPaymentMethodsAsIssuerCountry { get; set; } = new List<Core.AccountPaymentMethod>();
 } 

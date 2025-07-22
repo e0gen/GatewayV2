@@ -16,7 +16,7 @@ public sealed class AccountSubUser
     public int? LoginAccountId { get; set; }
     
     [StringLength(50)]
-    public string? Name { get; set; }
+    public string? Description { get; set; }
 
     // Navigation properties
     public Account Account { get; set; } = null!;

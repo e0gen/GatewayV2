@@ -54,9 +54,11 @@ public sealed class Account
     public LoginAccount? LoginAccount { get; set; }
     public AccountAddress? PersonalAddress { get; set; }
     public AccountAddress? BusinessAddress { get; set; }
+    public CurrencyList? DefaultCurrency { get; set; }
 
     // Collections
     public ICollection<AccountBalance> AccountBalances { get; set; } = new List<AccountBalance>();
     public ICollection<AccountSubUser> AccountSubUsers { get; set; } = new List<AccountSubUser>();
     public ICollection<MobileDevice> MobileDevices { get; set; } = new List<MobileDevice>();
+    public ICollection<AccountPaymentMethod> AccountPaymentMethods { get; set; } = new List<AccountPaymentMethod>();
 } 

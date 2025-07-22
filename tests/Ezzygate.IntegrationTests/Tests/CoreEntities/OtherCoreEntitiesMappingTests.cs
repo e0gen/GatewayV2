@@ -163,7 +163,7 @@ public class OtherCoreEntitiesMappingTests
             TestContext.WriteLine($"Loaded AccountSubUser ID: {subUser.AccountSubUserId}");
             Assert.DoesNotThrow(() => _ = subUser.Account);
             Assert.DoesNotThrow(() => _ = subUser.LoginAccount);
-            TestContext.WriteLine($"Sub User Name: {subUser.Name ?? "NULL"}");
+            TestContext.WriteLine($"Sub User Description: {subUser.Description ?? "NULL"}");
         }
     }
 

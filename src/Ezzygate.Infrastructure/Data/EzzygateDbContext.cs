@@ -31,6 +31,8 @@ public class EzzygateDbContext : DbContext
     public DbSet<CountryList> Countries { get; set; } = null!;
     public DbSet<StateList> States { get; set; } = null!;
     public DbSet<BalanceSourceType> BalanceSourceTypes { get; set; } = null!;
+    public DbSet<PaymentMethod> PaymentMethods { get; set; } = null!;
+    public DbSet<PaymentMethodProvider> PaymentMethodProviders { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -65,6 +67,70 @@ public class EzzygateDbContext : DbContext
         modelBuilder.Entity<LoginPassword>().Property(e => e.LoginPasswordId).HasColumnName("LoginPassword_id");
         modelBuilder.Entity<AccountAddress>().Property(e => e.AccountAddressId).HasColumnName("AccountAddress_id");
         modelBuilder.Entity<AccountBalance>().Property(e => e.AccountBalanceId).HasColumnName("AccountBalance_id");
+        modelBuilder.Entity<AccountSubUser>().Property(e => e.AccountSubUserId).HasColumnName("AccountSubUser_id");
+        modelBuilder.Entity<MobileDevice>().Property(e => e.MobileDeviceId).HasColumnName("MobileDevice_id");
+        modelBuilder.Entity<Cart>().Property(e => e.CartId).HasColumnName("Cart_id");
+        modelBuilder.Entity<CustomerShippingDetail>().Property(e => e.CustomerShippingDetailId).HasColumnName("CustomerShippingDetail_id");
+        modelBuilder.Entity<AccountPaymentMethod>().Property(e => e.AccountPaymentMethodId).HasColumnName("AccountPaymentMethod_id");
+
+        // Configure lookup entity primary keys to match legacy naming
+        modelBuilder.Entity<AccountType>().Property(e => e.AccountTypeId).HasColumnName("AccountType_id");
+        modelBuilder.Entity<ActiveStatus>().Property(e => e.ActiveStatusId).HasColumnName("ActiveStatus_id");
+        modelBuilder.Entity<LoginRole>().Property(e => e.LoginRoleId).HasColumnName("LoginRole_id");
+        modelBuilder.Entity<CurrencyList>().Property(e => e.CurrencyISOCode).HasColumnName("CurrencyISOCode");
+        modelBuilder.Entity<CountryList>().Property(e => e.CountryISOCode).HasColumnName("CountryISOCode");
+        modelBuilder.Entity<StateList>().Property(e => e.StateISOCode).HasColumnName("StateISOCode");
+        modelBuilder.Entity<BalanceSourceType>().Property(e => e.BalanceSourceTypeId).HasColumnName("BalanceSourceType_id");
+        modelBuilder.Entity<PaymentMethod>().Property(e => e.PaymentMethodId).HasColumnName("PaymentMethod_id");
+        modelBuilder.Entity<PaymentMethodProvider>().Property(e => e.PaymentMethodProviderId).HasColumnName("PaymentMethodProvider_id");
+
+        // Configure Account foreign key columns to match legacy naming
+        modelBuilder.Entity<Account>().Property(e => e.AccountTypeId).HasColumnName("AccountType_id");
+        modelBuilder.Entity<Account>().Property(e => e.MerchantId).HasColumnName("Merchant_id");
+        modelBuilder.Entity<Account>().Property(e => e.CustomerId).HasColumnName("Customer_id");
+        modelBuilder.Entity<Account>().Property(e => e.AffiliateId).HasColumnName("Affiliate_id");
+        modelBuilder.Entity<Account>().Property(e => e.DebitCompanyId).HasColumnName("DebitCompany_id");
+        modelBuilder.Entity<Account>().Property(e => e.PersonalAddressId).HasColumnName("PersonalAddress_id");
+        modelBuilder.Entity<Account>().Property(e => e.BusinessAddressId).HasColumnName("BusinessAddress_id");
+        modelBuilder.Entity<Account>().Property(e => e.PreferredWireProviderId).HasColumnName("PreferredWireProvider_id");
+        modelBuilder.Entity<Account>().Property(e => e.LoginAccountId).HasColumnName("LoginAccount_id");
+        modelBuilder.Entity<Account>().Property(e => e.DefaultCurrencyISOCode).HasColumnName("DefaultCurrencyISOCode");
+
+        // Configure other entity foreign key columns to match legacy naming
+        modelBuilder.Entity<AccountBalance>().Property(e => e.AccountId).HasColumnName("Account_id");
+        modelBuilder.Entity<AccountBalance>().Property(e => e.BalanceSourceTypeId).HasColumnName("BalanceSourceType_id");
+        modelBuilder.Entity<AccountBalance>().Property(e => e.CurrencyISOCode).HasColumnName("CurrencyISOCode");
+
+        modelBuilder.Entity<Customer>().Property(e => e.ActiveStatusId).HasColumnName("ActiveStatus_id");
+        modelBuilder.Entity<Customer>().Property(e => e.AccountId).HasColumnName("Account_id");
+        modelBuilder.Entity<Customer>().Property(e => e.ApplicationIdentityId).HasColumnName("ApplicationIdentity_id");
+
+        modelBuilder.Entity<LoginAccount>().Property(e => e.LoginRoleId).HasColumnName("LoginRole_id");
+
+        modelBuilder.Entity<LoginPassword>().Property(e => e.LoginAccountId).HasColumnName("LoginAccount_id");
+
+        modelBuilder.Entity<AccountSubUser>().Property(e => e.AccountId).HasColumnName("Account_id");
+        modelBuilder.Entity<AccountSubUser>().Property(e => e.LoginAccountId).HasColumnName("LoginAccount_id");
+
+        modelBuilder.Entity<AccountPaymentMethod>().Property(e => e.AccountId).HasColumnName("Account_id");
+        modelBuilder.Entity<AccountPaymentMethod>().Property(e => e.AccountAddressId).HasColumnName("AccountAddress_id");
+
+        modelBuilder.Entity<AccountAddress>().Property(e => e.StateISOCode).HasColumnName("StateISOCode");
+        modelBuilder.Entity<AccountAddress>().Property(e => e.CountryISOCode).HasColumnName("CountryISOCode");
+
+        modelBuilder.Entity<StateList>().Property(e => e.CountryISOCode).HasColumnName("CountryISOCode");
+
+        modelBuilder.Entity<MobileDevice>().Property(e => e.AccountId).HasColumnName("Account_id");
+
+        modelBuilder.Entity<Cart>().Property(e => e.MerchantId).HasColumnName("Merchant_id");
+        modelBuilder.Entity<Cart>().Property(e => e.CustomerId).HasColumnName("Customer_id");
+
+        modelBuilder.Entity<CustomerShippingDetail>().Property(e => e.CustomerId).HasColumnName("Customer_id");
+        modelBuilder.Entity<CustomerShippingDetail>().Property(e => e.AccountAddressId).HasColumnName("AccountAddress_id");
+
+        modelBuilder.Entity<AccountPaymentMethod>().Property(e => e.PaymentMethodId).HasColumnName("PaymentMethod_id");
+        modelBuilder.Entity<AccountPaymentMethod>().Property(e => e.PaymentMethodProviderId).HasColumnName("PaymentMethodProvider_id");
+        modelBuilder.Entity<AccountPaymentMethod>().Property(e => e.PaymentMethodStatusId).HasColumnName("PaymentMethodStatus_id");
 
         // Configure foreign key relationships
         ConfigureAccountRelationships(modelBuilder);
@@ -72,6 +138,11 @@ public class EzzygateDbContext : DbContext
         ConfigureLoginAccountRelationships(modelBuilder);
         ConfigureAddressRelationships(modelBuilder);
         ConfigureBalanceRelationships(modelBuilder);
+        ConfigureMobileDeviceRelationships(modelBuilder);
+        ConfigureAccountSubUserRelationships(modelBuilder);
+        ConfigureCartRelationships(modelBuilder);
+        ConfigureCustomerShippingDetailRelationships(modelBuilder);
+        ConfigureAccountPaymentMethodRelationships(modelBuilder);
     }
 
     private static void ConfigureAccountRelationships(ModelBuilder modelBuilder)
@@ -110,6 +181,13 @@ public class EzzygateDbContext : DbContext
             .WithMany(aa => aa.AccountsAsBusinessAddress)
             .HasForeignKey(a => a.BusinessAddressId)
             .HasConstraintName("FK_Account_AccountAddress_BusinessAddressID");
+
+        // Account -> DefaultCurrency
+        modelBuilder.Entity<Account>()
+            .HasOne(a => a.DefaultCurrency)
+            .WithMany(c => c.Accounts)
+            .HasForeignKey(a => a.DefaultCurrencyISOCode)
+            .HasConstraintName("FK_Account_DefaultCurrencyISOCode");
     }
 
     private static void ConfigureCustomerRelationships(ModelBuilder modelBuilder)
@@ -192,6 +270,98 @@ public class EzzygateDbContext : DbContext
             .WithMany(c => c.AccountBalances)
             .HasForeignKey(ab => ab.CurrencyISOCode)
             .HasConstraintName("FK_AccountBalance_CurrencyISOCode");
+    }
+
+    private static void ConfigureMobileDeviceRelationships(ModelBuilder modelBuilder)
+    {
+        // MobileDevice -> Account
+        modelBuilder.Entity<MobileDevice>()
+            .HasOne(md => md.Account)
+            .WithMany(a => a.MobileDevices)
+            .HasForeignKey(md => md.AccountId)
+            .HasConstraintName("FK_MobileDevice_Account_AccountID");
+    }
+
+    private static void ConfigureAccountSubUserRelationships(ModelBuilder modelBuilder)
+    {
+        // AccountSubUser -> Account
+        modelBuilder.Entity<AccountSubUser>()
+            .HasOne(asu => asu.Account)
+            .WithMany(a => a.AccountSubUsers)
+            .HasForeignKey(asu => asu.AccountId)
+            .HasConstraintName("FK_AccountSubUser_Account_AccountID");
+
+        // AccountSubUser -> LoginAccount
+        modelBuilder.Entity<AccountSubUser>()
+            .HasOne(asu => asu.LoginAccount)
+            .WithMany(la => la.AccountSubUsers)
+            .HasForeignKey(asu => asu.LoginAccountId)
+            .HasConstraintName("FK_AccountSubUser_LoginAccount_LoginAccountID");
+    }
+
+    private static void ConfigureCartRelationships(ModelBuilder modelBuilder)
+    {
+        // Cart -> Customer
+        modelBuilder.Entity<Cart>()
+            .HasOne(c => c.Customer)
+            .WithMany(cust => cust.Carts)
+            .HasForeignKey(c => c.CustomerId)
+            .HasConstraintName("FK_Cart_Customer_CustomerID");
+    }
+
+    private static void ConfigureCustomerShippingDetailRelationships(ModelBuilder modelBuilder)
+    {
+        // CustomerShippingDetail -> Customer
+        modelBuilder.Entity<CustomerShippingDetail>()
+            .HasOne(csd => csd.Customer)
+            .WithMany(c => c.CustomerShippingDetails)
+            .HasForeignKey(csd => csd.CustomerId)
+            .HasConstraintName("FK_CustomerShippingDetail_CustomerID");
+
+        // CustomerShippingDetail -> AccountAddress
+        modelBuilder.Entity<CustomerShippingDetail>()
+            .HasOne(csd => csd.AccountAddress)
+            .WithMany(aa => aa.CustomerShippingDetails)
+            .HasForeignKey(csd => csd.AccountAddressId)
+            .HasConstraintName("FK_CustomerShippingDetail_AccountAddressID");
+    }
+
+    private static void ConfigureAccountPaymentMethodRelationships(ModelBuilder modelBuilder)
+    {
+        // AccountPaymentMethod -> Account
+        modelBuilder.Entity<AccountPaymentMethod>()
+            .HasOne(apm => apm.Account)
+            .WithMany(a => a.AccountPaymentMethods)
+            .HasForeignKey(apm => apm.AccountId)
+            .HasConstraintName("FK_AccountPaymentMethod_AccountID");
+
+        // AccountPaymentMethod -> AccountAddress
+        modelBuilder.Entity<AccountPaymentMethod>()
+            .HasOne(apm => apm.AccountAddress)
+            .WithMany(aa => aa.AccountPaymentMethods)
+            .HasForeignKey(apm => apm.AccountAddressId)
+            .HasConstraintName("FK_AccountPaymentMethod_AccountAddress");
+
+        // AccountPaymentMethod -> PaymentMethod
+        modelBuilder.Entity<AccountPaymentMethod>()
+            .HasOne(apm => apm.PaymentMethod)
+            .WithMany(pm => pm.AccountPaymentMethods)
+            .HasForeignKey(apm => apm.PaymentMethodId)
+            .HasConstraintName("FK_AccountPaymentMethod_PaymentMethodID");
+
+        // AccountPaymentMethod -> IssuerCountry
+        modelBuilder.Entity<AccountPaymentMethod>()
+            .HasOne(apm => apm.IssuerCountry)
+            .WithMany(c => c.AccountPaymentMethodsAsIssuerCountry)
+            .HasForeignKey(apm => apm.IssuerCountryIsoCode)
+            .HasConstraintName("FK_AccountPaymentMethod_IssuerCountryIsoCode");
+
+        // AccountPaymentMethod -> PaymentMethodProvider
+        modelBuilder.Entity<AccountPaymentMethod>()
+            .HasOne(apm => apm.PaymentMethodProvider)
+            .WithMany(pmp => pmp.AccountPaymentMethods)
+            .HasForeignKey(apm => apm.PaymentMethodProviderId)
+            .HasConstraintName("FK_AccountPaymentMethod_PaymentMethodProviderID");
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

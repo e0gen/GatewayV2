@@ -16,8 +16,6 @@ public sealed class CurrencyList
     
     [StringLength(5)]
     public string? Symbol { get; set; }
-    
-    public bool IsActive { get; set; }
 
     // Collections
     public ICollection<Core.Account> Accounts { get; set; } = new List<Core.Account>();

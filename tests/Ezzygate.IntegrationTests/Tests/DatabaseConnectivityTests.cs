@@ -48,7 +48,6 @@ public class DatabaseConnectivityTests
     [Test]
     public async Task AllDbSets_ShouldBeAccessible()
     {
- - Verify all DbSets are accessible
         var entityCounts = new Dictionary<string, int>();
 
         Assert.DoesNotThrowAsync(async () =>
