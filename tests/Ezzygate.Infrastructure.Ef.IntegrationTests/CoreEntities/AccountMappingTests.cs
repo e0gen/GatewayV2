@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Ezzygate.Infrastructure.Ef;
 using NUnit.Framework;
 
-namespace Ezzygate.IntegrationTests.Tests.CoreEntities;
+namespace Ezzygate.Infrastructure.Ef.IntegrationTests.CoreEntities;
 
 [TestFixture]
 public class AccountMappingTests

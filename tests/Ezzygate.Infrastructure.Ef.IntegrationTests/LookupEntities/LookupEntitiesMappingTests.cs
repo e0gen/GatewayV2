@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Ezzygate.Infrastructure.Ef;
 using NUnit.Framework;
 
-namespace Ezzygate.IntegrationTests.Tests.LookupEntities;
+namespace Ezzygate.Infrastructure.Ef.IntegrationTests.LookupEntities;
 
 [TestFixture]
 public class LookupEntitiesMappingTests

@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Ezzygate.Infrastructure.Ef;
 using NUnit.Framework;
 
-namespace Ezzygate.IntegrationTests.Tests;
+namespace Ezzygate.Infrastructure.Ef.IntegrationTests;
 
 [TestFixture]
 public class DatabaseConnectivityTests
@@ -46,7 +45,7 @@ public class DatabaseConnectivityTests
     }
 
     [Test]
-    public async Task AllDbSets_ShouldBeAccessible()
+    public Task AllDbSets_ShouldBeAccessible()
     {
         var entityCounts = new Dictionary<string, int>();
 
@@ -90,6 +89,7 @@ public class DatabaseConnectivityTests
         }
 
         TestContext.WriteLine($"Successfully accessed {entityCounts.Count} entity tables");
+        return Task.CompletedTask;
     }
 
     [Test]
