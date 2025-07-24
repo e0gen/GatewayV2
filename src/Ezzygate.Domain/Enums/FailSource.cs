@@ -1,10 +1,8 @@
-namespace Ezzygate.Domain.Enums
+namespace Ezzygate.Domain.Enums;
+
+public enum FailSource
 {
-    public enum FailSource
-    {
-        ISSUER = 0,
-        RISK = 1,
-        GATEWAY = 2
-    }
+    ISSUER = 0,
+    RISK = 1,
+    GATEWAY = 2
 }
-   
