@@ -19,4 +19,4 @@ public static class CustomerConfiguration
             .HasForeignKey<Customer>(c => c.AccountId)
             .HasConstraintName("FK_Customer_Account_AccountID");
     }
-} 
+}

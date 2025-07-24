@@ -43,4 +43,4 @@ public static class AccountConfiguration
             .HasForeignKey(a => a.DefaultCurrencyISOCode)
             .HasConstraintName("FK_Account_DefaultCurrencyISOCode");
     }
-} 
+}

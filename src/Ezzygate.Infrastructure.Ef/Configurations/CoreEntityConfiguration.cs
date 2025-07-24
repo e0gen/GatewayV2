@@ -102,4 +102,4 @@ public static class CoreEntityConfiguration
         CustomerShippingDetailConfiguration.ConfigureRelationships(modelBuilder);
         AccountPaymentMethodConfiguration.ConfigureRelationships(modelBuilder);
     }
-} 
+}

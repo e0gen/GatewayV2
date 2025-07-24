@@ -157,4 +157,4 @@ public static class AccountPaymentMethodConfiguration
             .HasForeignKey(apm => apm.PaymentMethodProviderId)
             .HasConstraintName("FK_AccountPaymentMethod_PaymentMethodProviderID");
     }
-} 
+}

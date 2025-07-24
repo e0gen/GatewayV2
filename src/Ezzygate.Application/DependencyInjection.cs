@@ -1,6 +1,5 @@
 using System.Reflection;
 using FluentValidation;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ezzygate.Application;
@@ -23,4 +22,4 @@ public static class DependencyInjection
 
         return services;
     }
-} 
+}

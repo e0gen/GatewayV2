@@ -1,7 +1,8 @@
-using Ezzygate.Application;
-using Serilog;
 using Asp.Versioning;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Ezzygate.Application;
 using Ezzygate.Infrastructure;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,15 +20,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddHealthChecks()
-    .AddCheck("self", () => Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult.Healthy());
+    .AddCheck("self", () => HealthCheckResult.Healthy());
 
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
         policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
+            .AllowAnyMethod()
+            .AllowAnyHeader();
     });
 });
 
@@ -68,10 +69,11 @@ app.MapHealthChecks("/health");
 app.MapHealthChecks("/health/ready");
 app.MapHealthChecks("/health/live");
 
-app.MapGet("/", () => new { 
-    Message = "Ezzygate WebAPI is running", 
+app.MapGet("/", () => new
+{
+    Message = "Ezzygate WebAPI is running",
     Version = "1.0.0",
-    Timestamp = DateTime.UtcNow 
+    Timestamp = DateTime.UtcNow
 }).WithName("Root");
 
 try
@@ -86,4 +88,4 @@ catch (Exception ex)
 finally
 {
     Log.CloseAndFlush();
-} 
+}

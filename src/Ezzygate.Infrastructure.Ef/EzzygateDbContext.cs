@@ -67,10 +67,8 @@ public class EzzygateDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
-        {
             // This should be configured via DI, but adding fallback for development
             optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=EzzygateDb;Trusted_Connection=true;");
-        }
 
         base.OnConfiguring(optionsBuilder);
     }

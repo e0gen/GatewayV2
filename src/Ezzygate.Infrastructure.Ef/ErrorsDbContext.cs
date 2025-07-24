@@ -19,4 +19,4 @@ public class ErrorsDbContext : DbContext
 
         // Error logging entity configurations will be added here
     }
-} 
+}

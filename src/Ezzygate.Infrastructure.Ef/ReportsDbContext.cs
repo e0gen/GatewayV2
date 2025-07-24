@@ -19,4 +19,4 @@ public class ReportsDbContext : DbContext
 
         // Reports entity configurations will be added here
     }
-} 
+}
