@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Ezzygate.Infrastructure.Ef.Context;
 
 namespace Ezzygate.Infrastructure.Ef;
 
@@ -10,12 +11,6 @@ public static class DependencyInjection
     {
         services.AddDbContext<EzzygateDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-
-        services.AddDbContext<ReportsDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("ReportsConnection")));
-
-        services.AddDbContext<ErrorsDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("ErrorsConnection")));
 
         return services;
     }

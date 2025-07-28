@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Ezzygate.Infrastructure.Ef.Context;
 
 namespace Ezzygate.Infrastructure.Ef.IntegrationTests;
 
