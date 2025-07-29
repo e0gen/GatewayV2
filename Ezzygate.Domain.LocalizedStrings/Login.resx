@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccountHeadAfterLogin" xml:space="preserve">
+    <value>Control Panel</value>
+    <comment>?</comment>
+  </data>
+  <data name="ButtonLogin" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="EmailAddressIsInvalid" xml:space="preserve">
+    <value>Invalid email address specified</value>
+  </data>
+  <data name="EmailAddressIsMissing" xml:space="preserve">
+    <value>Please enter an email address</value>
+  </data>
+  <data name="HaveNoAccount" xml:space="preserve">
+    <value>Don't have an account yet?</value>
+  </data>
+  <data name="Mail" xml:space="preserve">
+    <value>Email address</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PasswordIsMissing" xml:space="preserve">
+    <value>Please enter a password</value>
+  </data>
+  <data name="SignUpHere" xml:space="preserve">
+    <value>Sign Up</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="UsernameIsMissing" xml:space="preserve">
+    <value>Please enter a username</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>The user entred was not found.</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="HaveAccount" xml:space="preserve">
+    <value>Do you have an account? </value>
+  </data>
+  <data name="LoginHere" xml:space="preserve">
+    <value>Login Here</value>
+  </data>
+  <data name="ContactUs" xml:space="preserve">
+    <value>Contact Us</value>
+  </data>
+  <data name="PolicyPrivacy" xml:space="preserve">
+    <value>Privacy Policy </value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>More...</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>LOADING...</value>
+  </data>
+  <data name="AboutIdentity" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="CustomerService" xml:space="preserve">
+    <value>Customer Service</value>
+  </data>
+  <data name="Skype" xml:space="preserve">
+    <value>Skype</value>
+  </data>
+  <data name="TechnicalSupport" xml:space="preserve">
+    <value>Technical Support</value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>© All right reserved to %BRAND%</value>
+  </data>
+  <data name="ValidEmail" xml:space="preserve">
+    <value>Invalid email address</value>
+  </data>
+  <data name="AcrobatReader" xml:space="preserve">
+    <value>Adobe Acrobat Reader</value>
+  </data>
+  <data name="AcrobatReaderDesc" xml:space="preserve">
+    <value>To read or print a file in PDF format, you must install on your computer the &lt;a href="https://get.adobe.com/reader/"&gt;Adobe Acrobat Reader DC&lt;/a&gt;  program.</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>Go</value>
+  </data>
+  <data name="MDcancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="MDconfirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="MDgenerate" xml:space="preserve">
+    <value>Would you like to reset a new password?&lt;br/&gt;
+     Once confirming, the current password will be erased and a temporary password will be sent to your login E-mail</value>
+  </data>
+  <data name="MDEmailNotValid" xml:space="preserve">
+    <value>Email is not valid.</value>
+  </data>
+  <data name="MDPasswordError" xml:space="preserve">
+    <value>Unable to change password: </value>
+  </data>
+  <data name="MDPasswordGenerated" xml:space="preserve">
+    <value>You will receive an email in the next 5-10 minutes with a temporary password.
+</value>
+  </data>
+  <data name="MDResetFailed" xml:space="preserve">
+    <value>Resetting the password to the user specified failed. Please contact our technical service.</value>
+  </data>
+  <data name="MDUserNameNotValid" xml:space="preserve">
+    <value>User name is not valid.</value>
+  </data>
+  <data name="MDForgotPassword" xml:space="preserve">
+    <value>Forgot password?</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="NewPassConfirmMissing" xml:space="preserve">
+    <value>Please reenter the new password </value>
+  </data>
+  <data name="NewPassMissing" xml:space="preserve">
+    <value>Please enter a new password</value>
+  </data>
+  <data name="NewPassMissmatch" xml:space="preserve">
+    <value>New password confirmation doesn't match</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="NewPasswordConfirm" xml:space="preserve">
+    <value>New Password Confirm</value>
+  </data>
+  <data name="PasswordExpired" xml:space="preserve">
+    <value>
+          Your password has expired (90 days). 
+          &lt;br/&gt;
+          Please update your password.
+   </value>
+  </data>
+  <data name="BackToLogin" xml:space="preserve">
+    <value>Back to login</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Reset password</value>
+  </data>
+  <data name="LogOut" xml:space="preserve">
+    <value>Log out</value>
+  </data>
+  <data name="WrongEmailUsernamePassword" xml:space="preserve">
+    <value>Wrong email, username or password.</value>
+  </data>
+  <data name="OldPassMissing" xml:space="preserve">
+    <value>Please enter your old password</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>Old Password</value>
+  </data>
+  <data name="LoginResult.AbsenceBlocked" xml:space="preserve">
+    <value>The user is blocked due to a period of time of inactivity, Please contact your account manager.</value>
+  </data>
+  <data name="LoginResult.AdminBlocked" xml:space="preserve">
+    <value>The user is blocked. Please contact your account manager.</value>
+  </data>
+  <data name="LoginResult.AdminClosed" xml:space="preserve">
+    <value>The user is blocked. Please contact your account manager.</value>
+  </data>
+  <data name="LoginResult.FailedAttemptsBlocked" xml:space="preserve">
+    <value>The user is blocked due to too many failed login attempts, Please contact your account manager.</value>
+  </data>
+  <data name="LoginResult.GeneralFailure" xml:space="preserve">
+    <value>Login failure. Please contact your account manager.</value>
+  </data>
+  <data name="LoginResult.MultiFactorFailed" xml:space="preserve">
+    <value>The multi factor login process have failed, Please contact your account manager.</value>
+  </data>
+  <data name="LoginResult.PasswordExpired" xml:space="preserve">
+    <value>This user password is expired. You must set a new password.</value>
+  </data>
+  <data name="LoginResult.PasswordExpired.SwitchUser" xml:space="preserve">
+    <value>The password of the user "{0}" is expired (90 days).&lt;br/&gt;
+In order to set a new password you must:&lt;br/&gt;
+- Logout from the current user &lt;br/&gt;
+- Login again with the desirable user's credentials on the Login page.</value>
+  </data>
+  <data name="LoginResult.UserNotFound" xml:space="preserve">
+    <value>Wrong email, username or password.</value>
+  </data>
+  <data name="LoginResult.WrongPassword" xml:space="preserve">
+    <value>Wrong email, username or password.</value>
+  </data>
+  <data name="ChangePasswordResult.PasswordUsedInThePast" xml:space="preserve">
+    <value>This password has been used in the past.</value>
+  </data>
+  <data name="ChangePasswordResult.WeakPassword" xml:space="preserve">
+    <value>The password must contain at least 8 characters of which at least 2 letters and 2 numbers.</value>
+  </data>
+  <data name="ChangePasswordResult.WrongCurrentPassword" xml:space="preserve">
+    <value>Wrong old password</value>
+  </data>
+  <data name="ChangePasswordResult.PasswordConfirmationMissmatch" xml:space="preserve">
+    <value>The password confirmation doesn't match the password.</value>
+  </data>
+  <data name="ChangePasswordResult.PasswordAlreadyExists" xml:space="preserve">
+    <value>The password has been used in the past.</value>
+  </data>
+  <data name="ChangePasswordResult.UserNotFound" xml:space="preserve">
+    <value>User not found.</value>
+  </data>
+  <data name="IdentityDesc" xml:space="preserve">
+    <value>is a premier Payment Service Provider, working with the online industry using a proprietary online credit card clearing service.</value>
+  </data>
+  <data name="LoginDetails" xml:space="preserve">
+    <value>Login Details</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Forgot password?</value>
+  </data>
+  <data name="SignUpNow" xml:space="preserve">
+    <value>Sign Up Now</value>
+  </data>
+  <data name="DontHaveAccount" xml:space="preserve">
+    <value>Don't you have an account?</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="PasswordResetSuccessfully" xml:space="preserve">
+    <value>Your password has been reset successfully and sent to your email.</value>
+  </data>
+  <data name="LoginResult.TemporaryPassword" xml:space="preserve">
+    <value>This user has a temporary password. You must set a new password.</value>
+  </data>
+  <data name="LoginResult.TemporayPassword.SwitchUser" xml:space="preserve">
+    <value>The user "{0}" has a temporary password.&lt;br/&gt;
+In order to set a new password you must:&lt;br/&gt;
+- Logout from the current user &lt;br/&gt;
+- Login again with the desirable user's credentials on the Login page.</value>
+  </data>
+  <data name="PasswordChangedSuccessfully" xml:space="preserve">
+    <value>Your password has been changed successfully.</value>
+  </data>
+  <data name="ErrorUserNotFound" xml:space="preserve">
+    <value>The user entred was not found.</value>
+  </data>
+  <data name="ErrorResetFailed" xml:space="preserve">
+    <value>Resetting the password to the user specified failed. Please contact our technical service.</value>
+  </data>
+  <data name="ActivityBusiness" xml:space="preserve">
+    <value>Recent 3 month processing history</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Association" xml:space="preserve">
+    <value>Association</value>
+  </data>
+  <data name="BackButton" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="BankDetails" xml:space="preserve">
+    <value>Bank Details</value>
+  </data>
+  <data name="BusinessDescription" xml:space="preserve">
+    <value>Business description</value>
+  </data>
+  <data name="BusinessInfo" xml:space="preserve">
+    <value>Business Info</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="CompanyInfo" xml:space="preserve">
+    <value>Company info</value>
+  </data>
+  <data name="Corporation" xml:space="preserve">
+    <value>Corporation</value>
+  </data>
+  <data name="CurrencyType" xml:space="preserve">
+    <value>Type of Currency</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EmailMsg" xml:space="preserve">
+    <value>, but email was not sent. Error was sent to the support team. No need to register again.</value>
+  </data>
+  <data name="EstateTrust" xml:space="preserve">
+    <value>Estate / Trust</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>First name</value>
+  </data>
+  <data name="Government" xml:space="preserve">
+    <value>Government</value>
+  </data>
+  <data name="IncoprationLocation" xml:space="preserve">
+    <value>Incopration location</value>
+  </data>
+  <data name="Industry" xml:space="preserve">
+    <value>Industry</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Last name</value>
+  </data>
+  <data name="LegalBusinessName" xml:space="preserve">
+    <value>Legal business name</value>
+  </data>
+  <data name="LLC" xml:space="preserve">
+    <value>LLC</value>
+  </data>
+  <data name="LP" xml:space="preserve">
+    <value>LP</value>
+  </data>
+  <data name="Mobile" xml:space="preserve">
+    <value>Mobile</value>
+  </data>
+  <data name="MonthlyAmount" xml:space="preserve">
+    <value>Anticipated monthly volume</value>
+  </data>
+  <data name="NextValid" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="NonProfitOrg" xml:space="preserve">
+    <value>Non Profit Org</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="Padress" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="PartnerShip" xml:space="preserve">
+    <value>Partnership</value>
+  </data>
+  <data name="PersonalInfo" xml:space="preserve">
+    <value>Personal Info</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone No.</value>
+  </data>
+  <data name="PrivateCorporation" xml:space="preserve">
+    <value>Private Corporation</value>
+  </data>
+  <data name="PublicCorporation" xml:space="preserve">
+    <value>Public Corporation</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="RegistrationFailure" xml:space="preserve">
+    <value>Registration failure</value>
+  </data>
+  <data name="RequiredField" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="School" xml:space="preserve">
+    <value>School</value>
+  </data>
+  <data name="SecurityCheck" xml:space="preserve">
+    <value>Security Check</value>
+  </data>
+  <data name="SignUp" xml:space="preserve">
+    <value>Sign Up</value>
+  </data>
+  <data name="SoleProprietor" xml:space="preserve">
+    <value>Sole Proprietor</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="SuccessMsg" xml:space="preserve">
+    <value>Registration has completed successfully</value>
+  </data>
+  <data name="TaxExempt" xml:space="preserve">
+    <value>Tax Exempt</value>
+  </data>
+  <data name="TitleRegistration" xml:space="preserve">
+    <value>Registration Page</value>
+  </data>
+  <data name="TypeOfBusiness" xml:space="preserve">
+    <value>Type of business</value>
+  </data>
+  <data name="Url" xml:space="preserve">
+    <value>Website URL</value>
+  </data>
+  <data name="ValidCaptcha" xml:space="preserve">
+    <value>Captcha doesn't match picture</value>
+  </data>
+  <data name="ValidChar" xml:space="preserve">
+    <value>Only characters</value>
+  </data>
+  <data name="ValidNum" xml:space="preserve">
+    <value>Only numbers</value>
+  </data>
+  <data name="ValidRequired" xml:space="preserve">
+    <value>Required field</value>
+  </data>
+  <data name="ValidWebsite" xml:space="preserve">
+    <value>Invalid URL address</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="ZipCode" xml:space="preserve">
+    <value>Zipcode</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Or</value>
+  </data>
+  <data name="ForgetPassword" xml:space="preserve">
+    <value>Please enter your email address and username to request a password reset.</value>
+  </data>
+  <data name="CopyrightTo" xml:space="preserve">
+    <value>© All right reserved to</value>
+  </data>
+  <data name="TitleLogin" xml:space="preserve">
+    <value>Login Page</value>
+  </data>
+  <data name="TitleMCP" xml:space="preserve">
+    <value>Merchant Control Panel </value>
+  </data>
+  <data name="DeveloperCenter" xml:space="preserve">
+    <value>Developer Center</value>
+  </data>
+  <data name="Slogan" xml:space="preserve">
+    <value>Continuously perfecting</value>
+  </data>
+  <data name="Subslogan" xml:space="preserve">
+    <value>your future payment!</value>
+  </data>
+  <data name="UserNameOnlyEnglish" xml:space="preserve">
+    <value>Characters must be in english</value>
+  </data>
+  <data name="Loginbtn" xml:space="preserve">
+    <value>Merchant Login</value>
+  </data>
+  <data name="MerchantControlPanel" xml:space="preserve">
+    <value>Merchant Control Panel</value>
+  </data>
+</root>

@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutIdentity" xml:space="preserve">
+    <value>Σχετικά με</value>
+  </data>
+  <data name="AccountHeadAfterLogin" xml:space="preserve">
+    <value>Πίνακας Ελέγχου</value>
+  </data>
+  <data name="AcrobatReader" xml:space="preserve">
+    <value>Adobe Acrobat Reader</value>
+  </data>
+  <data name="AcrobatReaderDesc" xml:space="preserve">
+    <value>Για να διαβάσετε ή να εκτυπώσετε ένα αρχείο σε μορφή PDF, πρέπει να εγκαταστήσετε στον υπολογιστή σας το πρόγραμμα &lt;a href="https://get.adobe.com/reader/"&gt; Adobe Acrobat Reader DC &lt;/a&gt;.</value>
+  </data>
+  <data name="ActivityBusiness" xml:space="preserve">
+    <value>Πρόσφατο ιστορικό επεξεργασίας 3 μηνών</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Διεύθυνση</value>
+  </data>
+  <data name="Association" xml:space="preserve">
+    <value>Σχέση</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Πίσω</value>
+  </data>
+  <data name="BackButton" xml:space="preserve">
+    <value>Πίσω</value>
+  </data>
+  <data name="BackToLogin" xml:space="preserve">
+    <value>Επιστροφή στην σελίδα εισόδου</value>
+  </data>
+  <data name="BankDetails" xml:space="preserve">
+    <value>Στοιχεία τράπεζας</value>
+  </data>
+  <data name="BusinessDescription" xml:space="preserve">
+    <value>Περιγραφή δουλειάς</value>
+  </data>
+  <data name="BusinessInfo" xml:space="preserve">
+    <value>Πληροφορίες επιχείρησης</value>
+  </data>
+  <data name="ButtonLogin" xml:space="preserve">
+    <value>Σύνδεση</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Άλλαξε κωδικό</value>
+  </data>
+  <data name="ChangePasswordResult.PasswordAlreadyExists" xml:space="preserve">
+    <value>Ο κωδικός πρόσβασης έχει χρησιμοποιηθεί στο παρελθόν.</value>
+  </data>
+  <data name="ChangePasswordResult.PasswordConfirmationMissmatch" xml:space="preserve">
+    <value>Η επιβεβαίωση κωδικού δεν ταιριάζει με τον κωδικό πρόσβασης.</value>
+  </data>
+  <data name="ChangePasswordResult.PasswordUsedInThePast" xml:space="preserve">
+    <value>Αυτός ο κωδικός πρόσβασης έχει χρησιμοποιηθεί στο παρελθόν.</value>
+  </data>
+  <data name="ChangePasswordResult.UserNotFound" xml:space="preserve">
+    <value>Ο χρήστης δεν βρέθηκε.</value>
+  </data>
+  <data name="ChangePasswordResult.WeakPassword" xml:space="preserve">
+    <value>Ο κωδικός πρόσβασης πρέπει να περιέχει τουλάχιστον 8 χαρακτήρες εκ των οποίων τουλάχιστον 2 γράμματα και 2 αριθμούς.</value>
+  </data>
+  <data name="ChangePasswordResult.WrongCurrentPassword" xml:space="preserve">
+    <value>Λανθασμένος παλιός κωδικός πρόσβασης</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>Πόλη</value>
+  </data>
+  <data name="CompanyInfo" xml:space="preserve">
+    <value>
+Πληροφορίες εταιρείας</value>
+  </data>
+  <data name="ContactUs" xml:space="preserve">
+    <value>Επικοινωνήστε μαζί μας </value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value> © Όλα τα δικαιώματα διατηρούνται στο% BRAND% ©</value>
+  </data>
+  <data name="CopyrightTo" xml:space="preserve">
+    <value>Όλα τα δικαιώματα διατηρούνται σε</value>
+  </data>
+  <data name="Corporation" xml:space="preserve">
+    <value>Εταιρεία</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Χώρα</value>
+  </data>
+  <data name="CurrencyType" xml:space="preserve">
+    <value>Τύπος νομίσματος</value>
+  </data>
+  <data name="CustomerService" xml:space="preserve">
+    <value>Εξυπηρέτηση πελατών</value>
+  </data>
+  <data name="DeveloperCenter" xml:space="preserve">
+    <value>Κέντρο προγραμματιστών</value>
+  </data>
+  <data name="DontHaveAccount" xml:space="preserve">
+    <value>Δεν έχετε λογαριασμό;</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Ηλεκτρονική Διεύθυνση</value>
+  </data>
+  <data name="EmailAddressIsInvalid" xml:space="preserve">
+    <value>Καθορίστηκε μη έγκυρη διεύθυνση email</value>
+  </data>
+  <data name="EmailAddressIsMissing" xml:space="preserve">
+    <value>Παρακαλώ εισάγετε μια διεύθυνση ηλεκτρονικού ταχυδρομείου</value>
+  </data>
+  <data name="EmailMsg" xml:space="preserve">
+    <value> αλλά δεν στάλθηκε email. Σφάλμα εστάλη στην ομάδα υποστήριξης. Δεν χρειάζεται να εγγραφείτε ξανά.</value>
+  </data>
+  <data name="ErrorResetFailed" xml:space="preserve">
+    <value>Η επαναφορά του κωδικού πρόσβασης στον καθορισμένο χρήστη απέτυχε. Επικοινωνήστε με την τεχνική μας υπηρεσία.</value>
+  </data>
+  <data name="ErrorUserNotFound" xml:space="preserve">
+    <value>Ο χρήστης που καταχωρίστηκε δεν βρέθηκε.</value>
+  </data>
+  <data name="EstateTrust" xml:space="preserve">
+    <value>Περιουσία / Εμπιστοσύνη</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Ονομα</value>
+  </data>
+  <data name="ForgetPassword" xml:space="preserve">
+    <value>Εισαγάγετε τη διεύθυνση email και το όνομα χρήστη σας για να ζητήσετε επαναφορά κωδικού πρόσβασης.</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Ξεχάσατε τον κωδικό?</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>Πήγαινε</value>
+  </data>
+  <data name="Government" xml:space="preserve">
+    <value>Κυβέρνηση</value>
+  </data>
+  <data name="HaveAccount" xml:space="preserve">
+    <value>Έχετε λογαριασμό;</value>
+  </data>
+  <data name="HaveNoAccount" xml:space="preserve">
+    <value>Δεν έχετε λογαριασμό;</value>
+  </data>
+  <data name="IdentityDesc" xml:space="preserve">
+    <value>είναι ένας κορυφαίος Πάροχος Υπηρεσιών Πληρωμών, που συνεργάζεται με τον διαδικτυακό κλάδο χρησιμοποιώντας μια ιδιόκτητη υπηρεσία εκκαθάρισης πιστωτικών καρτών.</value>
+  </data>
+  <data name="IncoprationLocation" xml:space="preserve">
+    <value>Τοποθεσία εγκλεισμού</value>
+  </data>
+  <data name="Industry" xml:space="preserve">
+    <value>Βιομηχανία</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Επίθετο</value>
+  </data>
+  <data name="LegalBusinessName" xml:space="preserve">
+    <value>Νομική επωνυμία επιχείρησης</value>
+  </data>
+  <data name="LLC" xml:space="preserve">
+    <value>LLC</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>ΦΟΡΤΩΣΗ...</value>
+  </data>
+  <data name="Loginbtn" xml:space="preserve">
+    <value>Είσοδος εμπόρου</value>
+  </data>
+  <data name="LoginDetails" xml:space="preserve">
+    <value>Λεπτομέρειες Σύνδεσης</value>
+  </data>
+  <data name="LoginHere" xml:space="preserve">
+    <value>Συνδεθείτε εδώ</value>
+  </data>
+  <data name="LoginResult.AbsenceBlocked" xml:space="preserve">
+    <value>Ο χρήστης έχει αποκλειστεί λόγω περιόδου αδράνειας. Επικοινωνήστε με τον διαχειριστή του λογαριασμού σας</value>
+  </data>
+  <data name="LoginResult.AdminBlocked" xml:space="preserve">
+    <value>Ο χρήστης έχει αποκλειστεί. Επικοινωνήστε με τον διαχειριστή του λογαριασμού σας.</value>
+  </data>
+  <data name="LoginResult.AdminClosed" xml:space="preserve">
+    <value>Ο χρήστης έχει αποκλειστεί. Επικοινωνήστε με τον διαχειριστή του λογαριασμού σας.</value>
+  </data>
+  <data name="LoginResult.FailedAttemptsBlocked" xml:space="preserve">
+    <value>Ο χρήστης αποκλείστηκε λόγω πάρα πολλών αποτυχημένων προσπαθειών σύνδεσης. Επικοινωνήστε με τον διαχειριστή του λογαριασμού σας.</value>
+  </data>
+  <data name="LoginResult.GeneralFailure" xml:space="preserve">
+    <value>Σύνδεση απετυχε Επικοινωνήστε με τον διαχειριστή του λογαριασμού σας.</value>
+  </data>
+  <data name="LoginResult.MultiFactorFailed" xml:space="preserve">
+    <value>Η διαδικασία σύνδεσης πολλαπλών παραγόντων απέτυχε. Επικοινωνήστε με τον διαχειριστή του λογαριασμού σας.</value>
+  </data>
+  <data name="LoginResult.PasswordExpired" xml:space="preserve">
+    <value>Αυτός ο κωδικός χρήστη έχει λήξει. Πρέπει να ορίσετε έναν νέο κωδικό πρόσβασης.</value>
+  </data>
+  <data name="LoginResult.PasswordExpired.SwitchUser" xml:space="preserve">
+    <value>Ο κωδικός πρόσβασης του χρήστη "" "" {0} "" "" έχει λήξει (90 ημέρες). &lt;br/&gt;</value>
+  </data>
+  <data name="LoginResult.TemporaryPassword" xml:space="preserve">
+    <value>Για να ορίσετε έναν νέο κωδικό πρόσβασης πρέπει: &lt;br/&gt;</value>
+  </data>
+  <data name="LoginResult.TemporayPassword.SwitchUser" xml:space="preserve">
+    <value>- Αποσύνδεση από τον τρέχοντα χρήστη &lt;br/&gt;</value>
+  </data>
+  <data name="LoginResult.UserNotFound" xml:space="preserve">
+    <value>Λάθος email, όνομα χρήστη ή κωδικός πρόσβασης.</value>
+  </data>
+  <data name="LoginResult.WrongPassword" xml:space="preserve">
+    <value>Λάθος email, όνομα χρήστη ή κωδικός πρόσβασης.</value>
+  </data>
+  <data name="LogOut" xml:space="preserve">
+    <value>Αποσύνδεση</value>
+  </data>
+  <data name="LP" xml:space="preserve">
+    <value>LP</value>
+  </data>
+  <data name="Mail" xml:space="preserve">
+    <value>Διεύθυνση ηλεκτρονικού ταχυδρομείου</value>
+  </data>
+  <data name="MDcancel" xml:space="preserve">
+    <value>Ακύρωση</value>
+  </data>
+  <data name="MDconfirm" xml:space="preserve">
+    <value>Επιβεβαιώνω</value>
+  </data>
+  <data name="MDEmailNotValid" xml:space="preserve">
+    <value>Το email δεν είναι έγκυρο.</value>
+  </data>
+  <data name="MDForgotPassword" xml:space="preserve">
+    <value>Ξεχάσατε τον κωδικό;</value>
+  </data>
+  <data name="MDgenerate" xml:space="preserve">
+    <value>"Θέλετε να επαναφέρετε έναν νέο κωδικό πρόσβασης; &lt;br/&gt;
+     Μόλις επιβεβαιωθεί, ο τρέχων κωδικός πρόσβασης θα διαγραφεί και ένας προσωρινός κωδικός θα σταλεί στο E-mail σύνδεσής σας "</value>
+  </data>
+  <data name="MDPasswordError" xml:space="preserve">
+    <value>Δεν είναι δυνατή η αλλαγή κωδικού πρόσβασης:</value>
+  </data>
+  <data name="MDPasswordGenerated" xml:space="preserve">
+    <value>Θα λάβετε ένα email στα επόμενα 5-10 λεπτά με έναν προσωρινό κωδικό πρόσβασης.</value>
+  </data>
+  <data name="MDResetFailed" xml:space="preserve">
+    <value>Η επαναφορά του κωδικού πρόσβασης στον καθορισμένο χρήστη απέτυχε. Επικοινωνήστε με την τεχνική μας υπηρεσία.</value>
+  </data>
+  <data name="MDUserNameNotValid" xml:space="preserve">
+    <value>Το όνομα χρήστη δεν είναι έγκυρο.</value>
+  </data>
+  <data name="MerchantControlPanel" xml:space="preserve">
+    <value>Πίνακας ελέγχου εμπόρων</value>
+  </data>
+  <data name="Mobile" xml:space="preserve">
+    <value>Κινητό</value>
+  </data>
+  <data name="MonthlyAmount" xml:space="preserve">
+    <value>Αναμενόμενος μηνιαίος όγκος</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>Περισσότερα...</value>
+  </data>
+  <data name="NewPassConfirmMissing" xml:space="preserve">
+    <value>Εισαγάγετε ξανά τον νέο κωδικό πρόσβασης</value>
+  </data>
+  <data name="NewPassMissing" xml:space="preserve">
+    <value>Εισαγάγετε έναν νέο κωδικό πρόσβασης</value>
+  </data>
+  <data name="NewPassMissmatch" xml:space="preserve">
+    <value>Η νέα επιβεβαίωση κωδικού πρόσβασης δεν ταιριάζει</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Νέος Κωδικός</value>
+  </data>
+  <data name="NewPasswordConfirm" xml:space="preserve">
+    <value>Επιβεβαίωση νέου κωδικού πρόσβασης</value>
+  </data>
+  <data name="NextValid" xml:space="preserve">
+    <value>Επόμενο</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Οχι</value>
+  </data>
+  <data name="NonProfitOrg" xml:space="preserve">
+    <value>Μη κερδοσκοπικός οργανισμός</value>
+  </data>
+  <data name="OldPassMissing" xml:space="preserve">
+    <value>Εισαγάγετε τον παλιό κωδικό πρόσβασής σας</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>Παλίος Κωδικός</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Ή</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Αλλά</value>
+  </data>
+  <data name="Padress" xml:space="preserve">
+    <value>Διεύθυνση</value>
+  </data>
+  <data name="PartnerShip" xml:space="preserve">
+    <value>Συνεταιρισμός</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Κωδικός πρόσβασης</value>
+  </data>
+  <data name="PasswordChangedSuccessfully" xml:space="preserve">
+    <value>Ο κωδικός πρόσβασής σας άλλαξε με επιτυχία.</value>
+  </data>
+  <data name="PasswordExpired" xml:space="preserve">
+    <value>     Ο κωδικός πρόσβασής σας έχει λήξει (90 ημέρες).          Ενημερώστε τον κωδικό πρόσβασής σας.</value>
+  </data>
+  <data name="PasswordIsMissing" xml:space="preserve">
+    <value>Εισαγάγετε έναν κωδικό πρόσβασης</value>
+  </data>
+  <data name="PasswordResetSuccessfully" xml:space="preserve">
+    <value>Ο κωδικός πρόσβασής σας επαναφέρθηκε με επιτυχία και στάλθηκε στο email σας.</value>
+  </data>
+  <data name="PersonalInfo" xml:space="preserve">
+    <value>Προσωπικές πληροφορίες</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Αριθμός τηλεφώνου</value>
+  </data>
+  <data name="PolicyPrivacy" xml:space="preserve">
+    <value>Πολιτική απορρήτου</value>
+  </data>
+  <data name="PrivateCorporation" xml:space="preserve">
+    <value>Ιδιωτική Εταιρεία</value>
+  </data>
+  <data name="PublicCorporation" xml:space="preserve">
+    <value>Δημόσια επιχείρηση</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Εγγραφή</value>
+  </data>
+  <data name="RegistrationFailure" xml:space="preserve">
+    <value>Αποτυχία εγγραφής</value>
+  </data>
+  <data name="RequiredField" xml:space="preserve">
+    <value>Απαιτείται</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Επαναφέρετε τον κωδικό πρόσβασης</value>
+  </data>
+  <data name="School" xml:space="preserve">
+    <value>Σχολείο</value>
+  </data>
+  <data name="SecurityCheck" xml:space="preserve">
+    <value>Ελεγχος ασφαλείας</value>
+  </data>
+  <data name="SignUp" xml:space="preserve">
+    <value>Εγγραφείτε</value>
+  </data>
+  <data name="SignUpHere" xml:space="preserve">
+    <value>Εγγραφείτε</value>
+  </data>
+  <data name="SignUpNow" xml:space="preserve">
+    <value>Εγγραφείτε τώρα</value>
+  </data>
+  <data name="Skype" xml:space="preserve">
+    <value>Skype</value>
+  </data>
+  <data name="Slogan" xml:space="preserve">
+    <value>Συνεχής τελειοποίηση</value>
+  </data>
+  <data name="SoleProprietor" xml:space="preserve">
+    <value>Μοναδικός ιδιοκτήτης</value>
+  </data>
+  <data name="Subslogan" xml:space="preserve">
+    <value>η μελλοντική σας πληρωμή</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Επιτυχία</value>
+  </data>
+  <data name="SuccessMsg" xml:space="preserve">
+    <value>Η εγγραφή ολοκληρώθηκε με επιτυχία</value>
+  </data>
+  <data name="TaxExempt" xml:space="preserve">
+    <value>Απαλλαγή φόρου</value>
+  </data>
+  <data name="TechnicalSupport" xml:space="preserve">
+    <value>Τεχνική υποστήριξη</value>
+  </data>
+  <data name="TitleLogin" xml:space="preserve">
+    <value>Σελίδα σύνδεσης</value>
+  </data>
+  <data name="TitleMCP" xml:space="preserve">
+    <value>Πίνακας ελέγχου εμπόρων</value>
+  </data>
+  <data name="TitleRegistration" xml:space="preserve">
+    <value>Σελίδα εγγραφής</value>
+  </data>
+  <data name="TypeOfBusiness" xml:space="preserve">
+    <value>Είδος επιχείρησης</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Ενημέρωση</value>
+  </data>
+  <data name="Url" xml:space="preserve">
+    <value>Διεύθυνση Ιστοσελίδας</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Όνομα χρήστη</value>
+  </data>
+  <data name="UsernameIsMissing" xml:space="preserve">
+    <value>Παρακαλώ εισάγετε όνομα χρήστη</value>
+  </data>
+  <data name="UserNameOnlyEnglish" xml:space="preserve">
+    <value>Οι χαρακτήρες πρέπει να είναι στα αγγλικά</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>Ο χρήστης που καταχωρήθηκε δεν βρέθηκε.</value>
+  </data>
+  <data name="ValidCaptcha" xml:space="preserve">
+    <value>Το Captcha δεν ταιριάζει με την εικόνα</value>
+  </data>
+  <data name="ValidChar" xml:space="preserve">
+    <value>Μόνο χαρακτήρες</value>
+  </data>
+  <data name="ValidEmail" xml:space="preserve">
+    <value>Μη έγκυρη διεύθυνση e-mail</value>
+  </data>
+  <data name="ValidNum" xml:space="preserve">
+    <value>Μόνο αριθμοί</value>
+  </data>
+  <data name="ValidRequired" xml:space="preserve">
+    <value>υποχρεωτικό πεδίο</value>
+  </data>
+  <data name="ValidWebsite" xml:space="preserve">
+    <value>Μη έγκυρη διεύθυνση URL</value>
+  </data>
+  <data name="WrongEmailUsernamePassword" xml:space="preserve">
+    <value>Λάθος email, όνομα χρήστη ή κωδικός πρόσβασης.</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ναί</value>
+  </data>
+  <data name="ZipCode" xml:space="preserve">
+    <value>Ταχυδρομικός κώδικας</value>
+  </data>
+</root>

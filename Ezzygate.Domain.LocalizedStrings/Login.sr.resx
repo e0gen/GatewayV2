@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutIdentity" xml:space="preserve">
+    <value>O nama</value>
+  </data>
+  <data name="AccountHeadAfterLogin" xml:space="preserve">
+    <value>Control Panel</value>
+  </data>
+  <data name="AcrobatReader" xml:space="preserve">
+    <value>Adobe Acrobat Reader</value>
+  </data>
+  <data name="AcrobatReaderDesc" xml:space="preserve">
+    <value>Da biste pročitali ili odštampali fajlu u PDF formatu, morate na svoj računar instalirati &lt;a href="https://get.adobe.com/reader/"&gt; Adobe Acrobat Reader DC &lt;/a&gt; program.</value>
+  </data>
+  <data name="BackToLogin" xml:space="preserve">
+    <value>Nazad na prijavu</value>
+  </data>
+  <data name="ButtonLogin" xml:space="preserve">
+    <value>Prijavi se</value>
+  </data>
+  <data name="ChangePasswordResult.PasswordAlreadyExists" xml:space="preserve">
+    <value>Lozinka je već korišćenja ranije.</value>
+  </data>
+  <data name="ChangePasswordResult.PasswordConfirmationMissmatch" xml:space="preserve">
+    <value>Potvrda lozinke se ne podudara sa lozinknom</value>
+  </data>
+  <data name="ChangePasswordResult.PasswordUsedInThePast" xml:space="preserve">
+    <value>Ova lozinka je već korišćena</value>
+  </data>
+  <data name="ChangePasswordResult.UserNotFound" xml:space="preserve">
+    <value>Korisnik nije pronađen</value>
+  </data>
+  <data name="ChangePasswordResult.WeakPassword" xml:space="preserve">
+    <value>Lozinka mora da sadrži najmanje 8 karaktera od kojih najmanje 2 slova i 2 brojevi.</value>
+  </data>
+  <data name="ChangePasswordResult.WrongCurrentPassword" xml:space="preserve">
+    <value>Pogrešna stara lozinka</value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>© Sva prava %BRAND%</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Zemlja</value>
+  </data>
+  <data name="CustomerService" xml:space="preserve">
+    <value>Korisnički servis</value>
+  </data>
+  <data name="EmailAddressIsInvalid" xml:space="preserve">
+    <value>Nevažeća email adresa navedena</value>
+  </data>
+  <data name="EmailAddressIsMissing" xml:space="preserve">
+    <value>Molimo unesite email adresu</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>Kreni</value>
+  </data>
+  <data name="HaveAccount" xml:space="preserve">
+    <value>Da li imate nalog?</value>
+  </data>
+  <data name="HaveNoAccount" xml:space="preserve">
+    <value>Još nemate nalog?</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Učitavanje</value>
+  </data>
+  <data name="LoginHere" xml:space="preserve">
+    <value>Prijavi se ovde</value>
+  </data>
+  <data name="LoginResult.AbsenceBlocked" xml:space="preserve">
+    <value>Korisnik je blokiran zbog perioda neaktivnosti, Molimo kontaktirajte svog menadžera naloga.</value>
+  </data>
+  <data name="LoginResult.AdminBlocked" xml:space="preserve">
+    <value>Korisnik je blokiran. Molimo kontaktirajte svog menadžera naloga.</value>
+  </data>
+  <data name="LoginResult.AdminClosed" xml:space="preserve">
+    <value>Korisnik je blokiran. Molimo kontaktirajte svog menadžera naloga.</value>
+  </data>
+  <data name="LoginResult.FailedAttemptsBlocked" xml:space="preserve">
+    <value>Korisnik je blokiran zbog previše neuspelih pokušaja prijavljivanja. Molimo kontaktirajte svog menadžera naloga.</value>
+  </data>
+  <data name="LoginResult.PasswordExpired" xml:space="preserve">
+    <value>Ova korisnička lozinka je istekla. Morate postaviti novu lozinku.</value>
+  </data>
+  <data name="LoginResult.PasswordExpired.SwitchUser" xml:space="preserve">
+    <value>Lozinka korisnika "{0}" je istekla (90 days).&lt;br/&gt;
+Da biste postavili novu lozinku morate:&lt;br/&gt;
+-Odjava od trenutnog naloga &lt;br/&gt;
+- Prijavite se ponovo sa poverljivim korisničkim ovlašćenjima na login stranici.</value>
+  </data>
+  <data name="LoginResult.GeneralFailure" xml:space="preserve">
+    <value>Neuspela prijava. Molimo kontaktirajte svog menadžera naloga.</value>
+  </data>
+  <data name="LoginResult.MultiFactorFailed" xml:space="preserve">
+    <value>Više faktorni proces prijavljivanja nije uspeo, molimo kontaktirajte svog menadžera naloga.</value>
+  </data>
+  <data name="LoginResult.UserNotFound" xml:space="preserve">
+    <value>Pogrešan email, korisničko ime ili lozinka.</value>
+  </data>
+  <data name="LoginResult.WrongPassword" xml:space="preserve">
+    <value>Pogrešan email, korisničko ime ili lozinka.</value>
+  </data>
+  <data name="LogOut" xml:space="preserve">
+    <value>Odjaviti se</value>
+  </data>
+  <data name="Mail" xml:space="preserve">
+    <value>Email adresa</value>
+  </data>
+  <data name="MDcancel" xml:space="preserve">
+    <value>Otkaži</value>
+  </data>
+  <data name="MDconfirm" xml:space="preserve">
+    <value>Potvrdi</value>
+  </data>
+  <data name="MDEmailNotValid" xml:space="preserve">
+    <value>Email adresa nije validna</value>
+  </data>
+  <data name="MDForgotPassword" xml:space="preserve">
+    <value>Zaboravili lozinku?</value>
+  </data>
+  <data name="MDgenerate" xml:space="preserve">
+    <value>Da li želite da resetujete novu lozinku? &lt;br/&gt; Kada se potvrdi, trenutna lozinka će biti izbrisana i privremena lozinka će biti poslata na vašu Email</value>
+  </data>
+  <data name="MDPasswordError" xml:space="preserve">
+    <value>Nije moguće promeniti lozinku:</value>
+  </data>
+  <data name="MDPasswordGenerated" xml:space="preserve">
+    <value>Dobićete email u narednih 5-10 minuta sa privremenom lozinkom.</value>
+  </data>
+  <data name="MDResetFailed" xml:space="preserve">
+    <value>Poništavanje lozinke navedenom korisniku nije uspjelo. Molimo kontaktirajte našu tehničku službu.</value>
+  </data>
+  <data name="MDUserNameNotValid" xml:space="preserve">
+    <value>Korisničko ime nije validno</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>Više...</value>
+  </data>
+  <data name="NewPassConfirmMissing" xml:space="preserve">
+    <value>Ponovo unesite novu lozinku</value>
+  </data>
+  <data name="NewPassMissing" xml:space="preserve">
+    <value>Molimo unesite novu lozinku</value>
+  </data>
+  <data name="NewPassMissmatch" xml:space="preserve">
+    <value>Potvrda nove lozinke ne odgovara</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Nova lozinka</value>
+  </data>
+  <data name="NewPasswordConfirm" xml:space="preserve">
+    <value>Potvrdite novu lozinku</value>
+  </data>
+  <data name="OldPassMissing" xml:space="preserve">
+    <value>Molimo unesite svoju staru lozinku</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>Stara šifra</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Lozinka</value>
+  </data>
+  <data name="PasswordExpired" xml:space="preserve">
+    <value>
+          Vaša lozinka je istekla (90 dana).
+          &lt;br/&gt;
+          Ažurirajte svoju lozinku.</value>
+  </data>
+  <data name="PasswordIsMissing" xml:space="preserve">
+    <value>Molimo unesite lozinku</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Resetuj lozinku</value>
+  </data>
+  <data name="SignUpHere" xml:space="preserve">
+    <value>Prijavi se</value>
+  </data>
+  <data name="Skype" xml:space="preserve">
+    <value>Skype</value>
+  </data>
+  <data name="TechnicalSupport" xml:space="preserve">
+    <value>Tehnička podrška</value>
+  </data>
+  <data name="ContactUs" xml:space="preserve">
+    <value>Kontaktiraj nas</value>
+  </data>
+  <data name="PolicyPrivacy" xml:space="preserve">
+    <value>Polisa o privatnosti</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Ažuriranje</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Korisničko ime</value>
+  </data>
+  <data name="UsernameIsMissing" xml:space="preserve">
+    <value>Molimo unesite korisničko ime</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>Korisnik nije pronađen</value>
+  </data>
+  <data name="ValidEmail" xml:space="preserve">
+    <value>Nevažeća email adresa</value>
+  </data>
+  <data name="WrongEmailUsernamePassword" xml:space="preserve">
+    <value>Pogrešan email, korisničko ime ili lozinka.</value>
+  </data>
+  <data name="IdentityDesc" xml:space="preserve">
+    <value>je premijer provajder usluga plaćanja, radeći sa online industriom koristeći vlasničku uslugu kliringa kreditne kartice na mreži.</value>
+  </data>
+  <data name="LoginDetails" xml:space="preserve">
+    <value>Podaci za prijavu</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Zaboravili lozinku?</value>
+  </data>
+  <data name="SignUpNow" xml:space="preserve">
+    <value>Registruj se sada</value>
+  </data>
+  <data name="DontHaveAccount" xml:space="preserve">
+    <value>Nemate nalog?</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Nazad</value>
+  </data>
+  <data name="PasswordResetSuccessfully" xml:space="preserve">
+    <value>Vaša lozinka je uspešno resetovana</value>
+  </data>
+  <data name="ActivityBusiness" xml:space="preserve">
+    <value>Istorija obrade poslednjih 3 meseca</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Adresa</value>
+  </data>
+  <data name="Association" xml:space="preserve">
+    <value>Udruženje</value>
+  </data>
+  <data name="BackButton" xml:space="preserve">
+    <value>Nazad</value>
+  </data>
+  <data name="BankDetails" xml:space="preserve">
+    <value>Podaci banke</value>
+  </data>
+  <data name="BusinessDescription" xml:space="preserve">
+    <value>Poslovni opis</value>
+  </data>
+  <data name="BusinessInfo" xml:space="preserve">
+    <value>Poslovne informacije</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>Grad</value>
+  </data>
+  <data name="CompanyInfo" xml:space="preserve">
+    <value>Podaci &lt;br/&gt; firme</value>
+  </data>
+  <data name="Corporation" xml:space="preserve">
+    <value>Korporacija</value>
+  </data>
+  <data name="CurrencyType" xml:space="preserve">
+    <value>Vrsta valute</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email adresa</value>
+  </data>
+  <data name="EmailMsg" xml:space="preserve">
+    <value>Email nije poslat</value>
+  </data>
+  <data name="EstateTrust" xml:space="preserve">
+    <value>Estate / Trust</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Ime</value>
+  </data>
+  <data name="Government" xml:space="preserve">
+    <value>Vlada</value>
+  </data>
+  <data name="IncoprationLocation" xml:space="preserve">
+    <value>Mesto osnivanja</value>
+  </data>
+  <data name="Industry" xml:space="preserve">
+    <value>Industrija</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Prezime</value>
+  </data>
+  <data name="LegalBusinessName" xml:space="preserve">
+    <value>Pravni poslovni naziv</value>
+  </data>
+  <data name="LLC" xml:space="preserve">
+    <value>LLC</value>
+  </data>
+  <data name="LP" xml:space="preserve">
+    <value>LP</value>
+  </data>
+  <data name="Mobile" xml:space="preserve">
+    <value>Mobilni</value>
+  </data>
+  <data name="MonthlyAmount" xml:space="preserve">
+    <value>Predviđena mesečna količina</value>
+  </data>
+  <data name="NextValid" xml:space="preserve">
+    <value>Sledeće</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Ne</value>
+  </data>
+  <data name="NonProfitOrg" xml:space="preserve">
+    <value>Neprofitna orhganizacija</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Ostalo</value>
+  </data>
+  <data name="Padress" xml:space="preserve">
+    <value>Adresa</value>
+  </data>
+  <data name="PartnerShip" xml:space="preserve">
+    <value>Partnerstvo</value>
+  </data>
+  <data name="PersonalInfo" xml:space="preserve">
+    <value>Lične informacije</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Broj telefona:</value>
+  </data>
+  <data name="PrivateCorporation" xml:space="preserve">
+    <value>Privatna korporacija</value>
+  </data>
+  <data name="PublicCorporation" xml:space="preserve">
+    <value>Javna korporacija</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Registruj</value>
+  </data>
+  <data name="RegistrationFailure" xml:space="preserve">
+    <value>Neuspela registracija</value>
+  </data>
+  <data name="RequiredField" xml:space="preserve">
+    <value>Obavezno</value>
+  </data>
+  <data name="School" xml:space="preserve">
+    <value>Škola</value>
+  </data>
+  <data name="SecurityCheck" xml:space="preserve">
+    <value>Bezbednosna provera</value>
+  </data>
+  <data name="SignUp" xml:space="preserve">
+    <value>Prijavi se</value>
+  </data>
+  <data name="SoleProprietor" xml:space="preserve">
+    <value>Jedini vlasnik</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Uspešno</value>
+  </data>
+  <data name="SuccessMsg" xml:space="preserve">
+    <value>Registracija je uspešno završena</value>
+  </data>
+  <data name="TaxExempt" xml:space="preserve">
+    <value>Oslobođenje poreza</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>strana za registraciju</value>
+  </data>
+  <data name="TypeOfBusiness" xml:space="preserve">
+    <value>Vrsta poslovanja</value>
+  </data>
+  <data name="Url" xml:space="preserve">
+    <value>Website URL</value>
+  </data>
+  <data name="ValidCaptcha" xml:space="preserve">
+    <value>Captcha se ne uklapa u sliku</value>
+  </data>
+  <data name="ValidChar" xml:space="preserve">
+    <value>Samo karatkteri</value>
+  </data>
+  <data name="ValidNum" xml:space="preserve">
+    <value>Samo brojevi</value>
+  </data>
+  <data name="ValidRequired" xml:space="preserve">
+    <value>Obavezno polje</value>
+  </data>
+  <data name="ValidWebsite" xml:space="preserve">
+    <value>Nevažeća veb stranica</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Da</value>
+  </data>
+  <data name="ZipCode" xml:space="preserve">
+    <value>Poštanski broj</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>или</value>
+  </data>
+  <data name="ForgetPassword" xml:space="preserve">
+    <value>Molim vas unesite vašu email adresu i username da bi ste izvršili reset lozinke.</value>
+  </data>
+  <data name="CopyrightTo" xml:space="preserve">
+    <value>© Sva prava </value>
+  </data>
+  <data name="TitleMCP" xml:space="preserve">
+    <value>Kontrolni panel trgovca</value>
+  </data>
+  <data name="Slogan" xml:space="preserve">
+    <value>Konstantno unapređujemo</value>
+  </data>
+  <data name="Subslogan" xml:space="preserve">
+    <value>vaša buduća plaćanja!</value>
+  </data>
+  <data name="UserNameOnlyEnglish" xml:space="preserve">
+    <value>Slova moraju biti Engleska</value>
+  </data>
+  <data name="Loginbtn" xml:space="preserve">
+    <value>Мерцхант Логин</value>
+  </data>
+</root>

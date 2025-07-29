@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutIdentity" xml:space="preserve">
+    <value>Около</value>
+  </data>
+  <data name="AccountHeadAfterLogin" xml:space="preserve">
+    <value>Панель управления</value>
+  </data>
+  <data name="AcrobatReader" xml:space="preserve">
+    <value>Adobe Acrobat Reader</value>
+  </data>
+  <data name="AcrobatReaderDesc" xml:space="preserve">
+    <value>Чтобы прочитать или распечатать файл в формате PDF, вы должны установить на свой компьютер программу &lt;a href="https://get.adobe.com/reader/"&gt; Adobe Acrobat Reader DC &lt;/a&gt;.</value>
+  </data>
+  <data name="ActivityBusiness" xml:space="preserve">
+    <value>История обработки за последние 3 месяца</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Адрес</value>
+  </data>
+  <data name="Association" xml:space="preserve">
+    <value>Ассоциация</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="BackButton" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="BackToLogin" xml:space="preserve">
+    <value>Вернуться на страницу авторизации</value>
+  </data>
+  <data name="BankDetails" xml:space="preserve">
+    <value>Банковские реквизиты</value>
+  </data>
+  <data name="BusinessDescription" xml:space="preserve">
+    <value>Описание деятельности</value>
+  </data>
+  <data name="BusinessInfo" xml:space="preserve">
+    <value>Информация о бизнесе</value>
+  </data>
+  <data name="ButtonLogin" xml:space="preserve">
+    <value>Авторизоваться</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Сменить пароль</value>
+  </data>
+  <data name="ChangePasswordResult.PasswordAlreadyExists" xml:space="preserve">
+    <value>Пароль использовался в прошлом.</value>
+  </data>
+  <data name="ChangePasswordResult.PasswordConfirmationMissmatch" xml:space="preserve">
+    <value>Подтверждение пароля не соответствует паролю.</value>
+  </data>
+  <data name="ChangePasswordResult.PasswordUsedInThePast" xml:space="preserve">
+    <value>Этот пароль использовался в прошлом.</value>
+  </data>
+  <data name="ChangePasswordResult.UserNotFound" xml:space="preserve">
+    <value>Пользователь не найден.</value>
+  </data>
+  <data name="ChangePasswordResult.WeakPassword" xml:space="preserve">
+    <value>Пароль должен содержать не менее 8 символов, из которых не менее 2 букв и 2 цифр.</value>
+  </data>
+  <data name="ChangePasswordResult.WrongCurrentPassword" xml:space="preserve">
+    <value>Неверный старый пароль</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>Город</value>
+  </data>
+  <data name="CompanyInfo" xml:space="preserve">
+    <value>Информация о компании</value>
+  </data>
+  <data name="ContactUs" xml:space="preserve">
+    <value>Связаться с нами</value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>© Все права принадлежат% BRAND%</value>
+  </data>
+  <data name="CopyrightTo" xml:space="preserve">
+    <value>© Все права защищены</value>
+  </data>
+  <data name="Corporation" xml:space="preserve">
+    <value>Корпорация</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Страна</value>
+  </data>
+  <data name="CurrencyType" xml:space="preserve">
+    <value>Тип валюты</value>
+  </data>
+  <data name="CustomerService" xml:space="preserve">
+    <value>Обслуживание клиентов</value>
+  </data>
+  <data name="DeveloperCenter" xml:space="preserve">
+    <value>Центр разработчиков</value>
+  </data>
+  <data name="DontHaveAccount" xml:space="preserve">
+    <value>У вас нет аккаунта?</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Эл. адрес</value>
+  </data>
+  <data name="EmailAddressIsInvalid" xml:space="preserve">
+    <value>Указан неверный адрес электронной почты</value>
+  </data>
+  <data name="EmailAddressIsMissing" xml:space="preserve">
+    <value>Пожалуйста введите адрес электронной почты</value>
+  </data>
+  <data name="EmailMsg" xml:space="preserve">
+    <value>, но письмо не было отправлено. Ошибка была отправлена в службу поддержки. Нет необходимости регистрироваться повторно.</value>
+  </data>
+  <data name="ErrorResetFailed" xml:space="preserve">
+    <value>Не удалось сбросить пароль для указанного пользователя. Обратитесь в нашу техническую службу.</value>
+  </data>
+  <data name="ErrorUserNotFound" xml:space="preserve">
+    <value>Введенный пользователь не найден.</value>
+  </data>
+  <data name="EstateTrust" xml:space="preserve">
+    <value>Имущество / Доверие</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="ForgetPassword" xml:space="preserve">
+    <value>Пожалуйста, введите свой адрес электронной почты и имя пользователя, чтобы запросить сброс пароля.</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Забыли пароль?</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>Вперед</value>
+  </data>
+  <data name="Government" xml:space="preserve">
+    <value>Правительство</value>
+  </data>
+  <data name="HaveAccount" xml:space="preserve">
+    <value>У Вас есть аккаунт?</value>
+  </data>
+  <data name="HaveNoAccount" xml:space="preserve">
+    <value>Еще нет учетной записи?</value>
+  </data>
+  <data name="IdentityDesc" xml:space="preserve">
+    <value>является ведущим поставщиком платежных услуг, работающим с онлайн-индустрией с использованием собственной онлайн-службы клиринга кредитных карт.</value>
+  </data>
+  <data name="IncoprationLocation" xml:space="preserve">
+    <value>Место регистрации</value>
+  </data>
+  <data name="Industry" xml:space="preserve">
+    <value>Промышленность</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="LegalBusinessName" xml:space="preserve">
+    <value>Юридическое название компании</value>
+  </data>
+  <data name="LLC" xml:space="preserve">
+    <value>ООО</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>ЗАГРУЗКА ...</value>
+  </data>
+  <data name="Loginbtn" xml:space="preserve">
+    <value>Вход для торговца</value>
+  </data>
+  <data name="LoginDetails" xml:space="preserve">
+    <value>Данные для входа</value>
+  </data>
+  <data name="LoginHere" xml:space="preserve">
+    <value>Войти здесь</value>
+  </data>
+  <data name="LoginResult.AbsenceBlocked" xml:space="preserve">
+    <value>Пользователь заблокирован из-за периода бездействия, обратитесь к менеджеру своего аккаунта.</value>
+  </data>
+  <data name="LoginResult.AdminBlocked" xml:space="preserve">
+    <value>Пользователь заблокирован. Свяжитесь с менеджером вашего аккаунта.</value>
+  </data>
+  <data name="LoginResult.AdminClosed" xml:space="preserve">
+    <value>Пользователь заблокирован. Свяжитесь с менеджером вашего аккаунта.</value>
+  </data>
+  <data name="LoginResult.FailedAttemptsBlocked" xml:space="preserve">
+    <value>Пользователь заблокирован из-за слишком большого количества неудачных попыток входа в систему. Обратитесь к менеджеру своего аккаунта.</value>
+  </data>
+  <data name="LoginResult.GeneralFailure" xml:space="preserve">
+    <value>Ошибка входа. Свяжитесь с менеджером вашего аккаунта.</value>
+  </data>
+  <data name="LoginResult.MultiFactorFailed" xml:space="preserve">
+    <value>Не удалось выполнить многофакторный вход, обратитесь к менеджеру своего аккаунта.</value>
+  </data>
+  <data name="LoginResult.PasswordExpired" xml:space="preserve">
+    <value>Срок действия этого пароля пользователя истек. Вы должны установить новый пароль.</value>
+  </data>
+  <data name="LoginResult.PasswordExpired.SwitchUser" xml:space="preserve">
+    <value>Срок действия пароля пользователя "{0}" истек (90 дней). &lt;br/&gt; </value>
+  </data>
+  <data name="LoginResult.TemporaryPassword" xml:space="preserve">
+    <value>У этого пользователя есть временный пароль. Вы должны установить новый пароль.</value>
+  </data>
+  <data name="LoginResult.TemporayPassword.SwitchUser" xml:space="preserve">
+    <value> У пользователя "{0}" "временный пароль. &lt;br/&gt;
+Чтобы установить новый пароль, вы должны: &lt;br/&gt;
+- Выйти из системы текущего пользователя &lt;br/&gt;
+- Войдите снова с желаемыми учетными данными пользователя на странице входа ».</value>
+  </data>
+  <data name="LoginResult.UserNotFound" xml:space="preserve">
+    <value>Неверный адрес электронной почты, имя пользователя или пароль.</value>
+  </data>
+  <data name="LoginResult.WrongPassword" xml:space="preserve">
+    <value>Неверный адрес электронной почты, имя пользователя или пароль.</value>
+  </data>
+  <data name="LogOut" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
+  <data name="LP" xml:space="preserve">
+    <value>Целевая страница</value>
+  </data>
+  <data name="Mail" xml:space="preserve">
+    <value>Эл. адрес</value>
+  </data>
+  <data name="MDcancel" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="MDconfirm" xml:space="preserve">
+    <value>Потвердить</value>
+  </data>
+  <data name="MDEmailNotValid" xml:space="preserve">
+    <value>Эл. Адрес не действительный</value>
+  </data>
+  <data name="MDForgotPassword" xml:space="preserve">
+    <value>Забыли пароль?</value>
+  </data>
+  <data name="MDgenerate" xml:space="preserve">
+    <value> "Хотите сбросить новый пароль? &lt;br/&gt;
+      После подтверждения текущий пароль будет удален, и на ваш адрес электронной почты для входа будет отправлен временный пароль »</value>
+  </data>
+  <data name="MDPasswordError" xml:space="preserve">
+    <value>Невозможно изменить пароль:</value>
+  </data>
+  <data name="MDPasswordGenerated" xml:space="preserve">
+    <value>В следующие 5-10 минут вы получите электронное письмо с временным паролем.
+</value>
+  </data>
+  <data name="MDResetFailed" xml:space="preserve">
+    <value>Не удалось сбросить пароль для указанного пользователя. Обратитесь в нашу техническую службу.</value>
+  </data>
+  <data name="MDUserNameNotValid" xml:space="preserve">
+    <value>Имя пользователя недействительно.</value>
+  </data>
+  <data name="MerchantControlPanel" xml:space="preserve">
+    <value>Панель управления продавца</value>
+  </data>
+  <data name="Mobile" xml:space="preserve">
+    <value>Мобильный</value>
+  </data>
+  <data name="MonthlyAmount" xml:space="preserve">
+    <value>Ожидаемый ежемесячный объем</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>Больше...</value>
+  </data>
+  <data name="NewPassConfirmMissing" xml:space="preserve">
+    <value>Пожалуйста, введите новый пароль еще раз</value>
+  </data>
+  <data name="NewPassMissing" xml:space="preserve">
+    <value>Пожалуйста, введите новый пароль</value>
+  </data>
+  <data name="NewPassMissmatch" xml:space="preserve">
+    <value>Подтверждение нового пароля не совпадает</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Новый пароль</value>
+  </data>
+  <data name="NewPasswordConfirm" xml:space="preserve">
+    <value>Подтвердите новый пароль</value>
+  </data>
+  <data name="NextValid" xml:space="preserve">
+    <value>Следующий</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="NonProfitOrg" xml:space="preserve">
+    <value>Некоммерческая организация</value>
+  </data>
+  <data name="OldPassMissing" xml:space="preserve">
+    <value>Пожалуйста, введите ваш старый пароль</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>Прежний пароль</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Или</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Другой</value>
+  </data>
+  <data name="Padress" xml:space="preserve">
+    <value>Адрес</value>
+  </data>
+  <data name="PartnerShip" xml:space="preserve">
+    <value>Партнерство</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="PasswordChangedSuccessfully" xml:space="preserve">
+    <value>Ваш пароль был успешно изменен.</value>
+  </data>
+  <data name="PasswordExpired" xml:space="preserve">
+    <value>" Срок действия вашего пароля истек (90 дней).
+ &lt;br/&gt;
+
+Пожалуйста, обновите свой пароль.
+ " </value>
+  </data>
+  <data name="PasswordIsMissing" xml:space="preserve">
+    <value>Пожалуйста, введите пароль</value>
+  </data>
+  <data name="PasswordResetSuccessfully" xml:space="preserve">
+    <value>Ваш пароль был успешно сброшен и отправлен на вашу электронную почту.</value>
+  </data>
+  <data name="PersonalInfo" xml:space="preserve">
+    <value>Личная информация</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Телефонный номер.</value>
+  </data>
+  <data name="PolicyPrivacy" xml:space="preserve">
+    <value>Политика конфиденциальности</value>
+  </data>
+  <data name="PrivateCorporation" xml:space="preserve">
+    <value>Частная корпорация</value>
+  </data>
+  <data name="PublicCorporation" xml:space="preserve">
+    <value>Открытое акционерное общество</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
+  <data name="RegistrationFailure" xml:space="preserve">
+    <value>Ошибка регистрации</value>
+  </data>
+  <data name="RequiredField" xml:space="preserve">
+    <value>Необходимые</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Сброс пароля</value>
+  </data>
+  <data name="School" xml:space="preserve">
+    <value>Школа</value>
+  </data>
+  <data name="SecurityCheck" xml:space="preserve">
+    <value>Проверка безопасности</value>
+  </data>
+  <data name="SignUp" xml:space="preserve">
+    <value>Зарегистрироваться</value>
+  </data>
+  <data name="SignUpHere" xml:space="preserve">
+    <value>Зарегистрироваться</value>
+  </data>
+  <data name="SignUpNow" xml:space="preserve">
+    <value>Зарегистрироваться сейчас</value>
+  </data>
+  <data name="Skype" xml:space="preserve">
+    <value>Skype</value>
+  </data>
+  <data name="Slogan" xml:space="preserve">
+    <value>Постоянно совершенствуется</value>
+  </data>
+  <data name="SoleProprietor" xml:space="preserve">
+    <value>ИП</value>
+  </data>
+  <data name="Subslogan" xml:space="preserve">
+    <value>Ваш будущий платеж!</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Успех</value>
+  </data>
+  <data name="SuccessMsg" xml:space="preserve">
+    <value>Регистрация успешно завершена</value>
+  </data>
+  <data name="TaxExempt" xml:space="preserve">
+    <value>Освобождение от налогов</value>
+  </data>
+  <data name="TechnicalSupport" xml:space="preserve">
+    <value>Техническая поддержка</value>
+  </data>
+  <data name="TitleLogin" xml:space="preserve">
+    <value>Страница авторизации</value>
+  </data>
+  <data name="TitleMCP" xml:space="preserve">
+    <value>Панель управления продавца</value>
+  </data>
+  <data name="TitleRegistration" xml:space="preserve">
+    <value>Страница регистрации</value>
+  </data>
+  <data name="TypeOfBusiness" xml:space="preserve">
+    <value>Тип бизнеса</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="Url" xml:space="preserve">
+    <value>URL веб-сайта</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Имя пользователя</value>
+  </data>
+  <data name="UsernameIsMissing" xml:space="preserve">
+    <value>Пожалуйста введите имя пользователя</value>
+  </data>
+  <data name="UserNameOnlyEnglish" xml:space="preserve">
+    <value>Знаки должны быть на английском языке</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>Введенный пользователь не найден.</value>
+  </data>
+  <data name="ValidCaptcha" xml:space="preserve">
+    <value>Captcha не соответствует изображению</value>
+  </data>
+  <data name="ValidChar" xml:space="preserve">
+    <value>Только знаки</value>
+  </data>
+  <data name="ValidEmail" xml:space="preserve">
+    <value>Неверный адрес электронной почты</value>
+  </data>
+  <data name="ValidNum" xml:space="preserve">
+    <value>Только числа</value>
+  </data>
+  <data name="ValidRequired" xml:space="preserve">
+    <value>Обязательное поле</value>
+  </data>
+  <data name="ValidWebsite" xml:space="preserve">
+    <value>Недействительный URL-адрес</value>
+  </data>
+  <data name="WrongEmailUsernamePassword" xml:space="preserve">
+    <value>Неверный адрес электронной почты, имя пользователя или пароль.</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>да</value>
+  </data>
+  <data name="ZipCode" xml:space="preserve">
+    <value>Почтовый индекс</value>
+  </data>
+</root>
