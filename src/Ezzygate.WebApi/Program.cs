@@ -3,6 +3,7 @@ using Ezzygate.Application;
 using Ezzygate.Infrastructure;
 using Ezzygate.Infrastructure.Repositories;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
+using Ezzygate.WebApi.Middleware;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,6 +63,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors();
+
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+app.UseMiddleware<RequestBodyBufferingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
