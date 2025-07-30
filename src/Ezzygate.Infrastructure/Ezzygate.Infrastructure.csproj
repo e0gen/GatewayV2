@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Ezzygate.Domain\Ezzygate.Domain.csproj" />
       <ProjectReference Include="..\Ezzygate.Infrastructure.Ef\Ezzygate.Infrastructure.Ef.csproj" />
     </ItemGroup>
 

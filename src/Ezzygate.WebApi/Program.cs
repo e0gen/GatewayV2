@@ -1,5 +1,4 @@
 using Asp.Versioning;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Ezzygate.Application;
 using Ezzygate.Infrastructure;
 using Serilog;
@@ -16,12 +15,9 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddHealthChecks()
-    .AddCheck("self", () => HealthCheckResult.Healthy());
-
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -64,10 +60,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.MapHealthChecks("/health");
-app.MapHealthChecks("/health/ready");
-app.MapHealthChecks("/health/live");
 
 app.MapGet("/", () => new
 {
