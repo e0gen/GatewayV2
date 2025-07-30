@@ -14,7 +14,7 @@ public class MerchantRepository : IMerchantRepository
         _context = context;
     }
 
-    public async Task<Merchant?> GetByCustomerNumberAsync(string customerNumber)
+    public async Task<Merchant?> GetByMerchantNumberAsync(string customerNumber)
     {
         var entity = await _context.TblCompanies
             .Include(c => c.Account)
