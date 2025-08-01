@@ -1,8 +1,6 @@
 using Asp.Versioning;
 using Ezzygate.Application;
-using Ezzygate.Infrastructure;
-using Ezzygate.Infrastructure.Repositories;
-using Ezzygate.Infrastructure.Repositories.Interfaces;
+using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.WebApi.Middleware;
 using Serilog;
 
@@ -45,13 +43,13 @@ builder.Services.AddApiVersioning(options =>
     setup.SubstituteApiVersionInUrl = true;
 });
 
-builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddApplication();
+builder.Configuration
+    .AddInfrastructureConfigurationSource();
 
-builder.Services.AddScoped<IMerchantRepository, MerchantRepository>();
-builder.Services.AddScoped<IMobileDeviceRepository, MobileDeviceRepository>();
-builder.Services.AddScoped<IRequestIdRepository, RequestIdRepository>();
-builder.Services.AddMemoryCache();
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInfrastructureConfiguration(builder.Configuration);
+
+builder.Services.AddApplication();
 
 var app = builder.Build();
 

@@ -1,0 +1,247 @@
+{
+  "Application": {
+    "IsProduction": false,
+    "NumericFormat": "#,#",
+    "AmountFormat": "#,0.00",
+    "EnableTaskScheduler": false,
+    "EnableQueuedTasks": false,
+    "EnableEmail": true,
+    "SmtpHost": "localhost",
+    "SmtpPort": 25,
+    "SmtpUserName": "",
+    "SmtpPassword": "",
+    "MailAddressFrom": "lavi@netpay-intl.com",
+    "MaxImmediateReportSize": 10,
+    "MaxFiledReportSize": 10000,
+    "ErrorNetConnectionString": "Data Source=40.30.0.10\\OBLDEVSQL2017;Initial Catalog=GW_OBLDEV_Errors;Persist Security Info=False;User ID=IUSR_GWOBLDEV;Password=IUSR#GW",
+    "IsErrorNetConnectionStringEncrypted": false,
+    "LogsPhysicalBasePath": "C:\\Dev\\Ezzygate\\Files\\Logs\\",
+    "SftpExecutablePath": "C:\\Program Files (x86)\\WinSCP\\WinSCP.com",
+    "PgpExecutablePath": "C:\\Program Files (x86)\\GNU\\GnuPG\\gpg2.exe",
+    "CommonApplicationFiles": "~\\..\\Nas\\FilesAppCommon\\"
+  },
+  "Domains": [
+    {
+      "Host": "OBL",
+      "LegalName": "OBL",
+      "ThemeFolder": "Tmp_OBL",
+      "DataPath": "\\FilesOBL\\",
+      "PublicDataVirtualPath": "Data/",
+      "MultiFactorAdmin": true,
+      "FraudDetectionAlertRecipients": "sharontk@gmail.com",
+      "FraudDetectionOperationMode": "NoActions",
+      "ActiveMerchantReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "BnsTransactionsWithoutEpaReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "IrregularityReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "DetectPhotocopyWithRefundRecipients": "adam@netpay-intl.com,elena@netpay-intl.com"
+    },
+    {
+      "Host": "Servicenet",
+      "LegalName": "Servicenet",
+      "ThemeFolder": "Tmp_Servicenet",
+      "DataPath": "\\FilesServicenet\\",
+      "PublicDataVirtualPath": "Data/",
+      "MultiFactorAdmin": true,
+      "FraudDetectionAlertRecipients": "sharontk@gmail.com",
+      "FraudDetectionOperationMode": "NoActions",
+      "ActiveMerchantReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "BnsTransactionsWithoutEpaReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "IrregularityReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "DetectPhotocopyWithRefundRecipients": "adam@netpay-intl.com,elena@netpay-intl.com"
+    },
+    {
+      "Host": "default",
+      "LegalName": "Ezzygate International",
+      "ThemeFolder": "Tmp_Ezzygateintl",
+      "DataPath": "\\FilesEzzygate\\",
+      "PublicDataVirtualPath": "Data/",
+      "MultiFactorAdmin": true,
+      "FraudDetectionAlertRecipients": "sharontk@gmail.com",
+      "FraudDetectionOperationMode": "NoActions",
+      "ActiveMerchantReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "BnsTransactionsWithoutEpaReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "IrregularityReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "DetectPhotocopyWithRefundRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "FreshdeskApiKey": "0e2fdc92-684d-48ce-9d6f-93b051b16741"
+    },
+    {
+      "Host": "Alfia",
+      "LegalName": "Alfia",
+      "ThemeFolder": "Tmp_Alfia",
+      "DataPath": "\\FilesAlfia\\",
+      "PublicDataVirtualPath": "Data/",
+      "MultiFactorAdmin": true,
+      "FraudDetectionAlertRecipients": "sharontk@gmail.com",
+      "FraudDetectionOperationMode": "NoActions",
+      "ActiveMerchantReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "BnsTransactionsWithoutEpaReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "IrregularityReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "DetectPhotocopyWithRefundRecipients": "adam@netpay-intl.com,elena@netpay-intl.com"
+    },
+    {
+      "Host": "EzzygateBrasil",
+      "LegalName": "Ezzygate Brasil",
+      "ThemeFolder": "Tmp_EzzygateBrasil",
+      "DataPath": "\\FilesEzzygateBrasil\\",
+      "PublicDataVirtualPath": "Data/",
+      "MultiFactorAdmin": true,
+      "FraudDetectionAlertRecipients": "sharontk@gmail.com",
+      "FraudDetectionOperationMode": "NoActions",
+      "ActiveMerchantReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "BnsTransactionsWithoutEpaReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "IrregularityReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "DetectPhotocopyWithRefundRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "IsHebrewVisible": false
+    },
+    {
+      "Host": "PBTPay",
+      "LegalName": "PBTPay",
+      "ThemeFolder": "Tmp_PBTPay",
+      "DataPath": "\\FilesPBTPay\\",
+      "PublicDataVirtualPath": "Data/",
+      "MultiFactorAdmin": true,
+      "FraudDetectionAlertRecipients": "sharontk@gmail.com",
+      "FraudDetectionOperationMode": "NoActions",
+      "ActiveMerchantReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "BnsTransactionsWithoutEpaReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "IrregularityReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "DetectPhotocopyWithRefundRecipients": "adam@netpay-intl.com,elena@netpay-intl.com"
+    },
+    {
+      "Host": "Tenfore",
+      "LegalName": "Tenfore",
+      "ThemeFolder": "Tmp_Tenfore",
+      "DataPath": "\\FilesTenfore\\",
+      "PublicDataVirtualPath": "Data/",
+      "MultiFactorAdmin": true,
+      "FraudDetectionAlertRecipients": "sharontk@gmail.com",
+      "FraudDetectionOperationMode": "NoActions",
+      "ActiveMerchantReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "BnsTransactionsWithoutEpaReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "IrregularityReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "DetectPhotocopyWithRefundRecipients": "adam@netpay-intl.com,elena@netpay-intl.com"
+    },
+    {
+      "Host": "Platinum",
+      "LegalName": "Platinum",
+      "ThemeFolder": "Tmp_Platinum",
+      "DataPath": "\\FilesPlatinum\\",
+      "PublicDataVirtualPath": "Data/",
+      "MultiFactorAdmin": true,
+      "FraudDetectionAlertRecipients": "sharontk@gmail.com",
+      "FraudDetectionOperationMode": "NoActions",
+      "ActiveMerchantReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "BnsTransactionsWithoutEpaReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "IrregularityReportRecipients": "adam@netpay-intl.com,elena@netpay-intl.com",
+      "DetectPhotocopyWithRefundRecipients": "adam@netpay-intl.com,elena@netpay-intl.com"
+    }
+  ],
+  "ScheduledTasks": [
+    {
+      "GroupId": "epa",
+      "Description": "fetch epa files",
+      "Tag": "Epa",
+      "AssemblyName": "Ezzygate.Bll",
+      "TypeName": "Ezzygate.Bll.BankHandler.EpaHandlerManager",
+      "MethodName": "ExecFetch",
+      "Args": "",
+      "Schedule": {
+        "Interval": "Hour",
+        "Every": 4
+      }
+    },
+    {
+      "GroupId": "CHB",
+      "Description": "fetch chb files",
+      "Tag": "Epa",
+      "AssemblyName": "Ezzygate.Bll",
+      "TypeName": "Ezzygate.Bll.BankHandler.ChbHandlerManager",
+      "MethodName": "ExecFetch",
+      "Args": "",
+      "Schedule": {
+        "Interval": "Hour",
+        "Every": 4
+      }
+    },
+    {
+      "GroupId": "reports",
+      "Description": "creates risk daily reports",
+      "Tag": "Reports",
+      "AssemblyName": "Ezzygate.Bll",
+      "TypeName": "Ezzygate.Bll.Reports.FiledReports",
+      "MethodName": "CreateDailyReports",
+      "Args": "",
+      "Schedule": {
+        "Interval": "Day",
+        "Hour": 14,
+        "Minute": 55
+      }
+    },
+    {
+      "GroupId": "update",
+      "Description": "updates currencies",
+      "Tag": "Updates",
+      "AssemblyName": "Ezzygate.Bll",
+      "TypeName": "Ezzygate.Bll.Updates",
+      "MethodName": "UpdateCurrencies",
+      "Args": "",
+      "Schedule": {
+        "Interval": "Day",
+        "Hour": 19,
+        "Minute": 10
+      }
+    },
+    {
+      "GroupId": "Emails",
+      "Description": "Fetch pop emails",
+      "Tag": "Updates",
+      "AssemblyName": "Ezzygate.Emails",
+      "TypeName": "Ezzygate.Emails.Execute",
+      "MethodName": "FetchAll",
+      "Args": "",
+      "Schedule": {
+        "Interval": "Minute",
+        "Every": 10
+      }
+    },
+    {
+      "GroupId": "Orange",
+      "Description": "Sync Orange Data",
+      "Tag": "Updates",
+      "AssemblyName": "Ezzygate.Bll",
+      "TypeName": "Ezzygate.Bll.ThirdParty.Orange",
+      "MethodName": "executePending",
+      "Args": "localhost",
+      "Schedule": {
+        "Interval": "Minute",
+        "Every": 2
+      }
+    },
+    {
+      "GroupId": "update",
+      "Description": "Auto Debit Refund",
+      "Tag": "Updates",
+      "AssemblyName": "Ezzygate.Bll",
+      "TypeName": "Ezzygate.Bll.Updates",
+      "MethodName": "ExecDebitRefund",
+      "Args": "localhost",
+      "Schedule": {
+        "Interval": "Hour",
+        "Every": 2
+      }
+    },
+    {
+      "GroupId": "update",
+      "Description": "Auto Settlement create",
+      "Tag": "Updates",
+      "AssemblyName": "Ezzygate.Bll",
+      "TypeName": "Ezzygate.Bll.Settlements.MerchantSettings",
+      "MethodName": "ExecCreateAllDomains",
+      "Args": "",
+      "Schedule": {
+        "Interval": "Day",
+        "Every": 1
+      }
+    }
+  ]
+}
