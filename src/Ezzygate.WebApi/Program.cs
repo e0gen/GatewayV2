@@ -43,8 +43,7 @@ builder.Services.AddApiVersioning(options =>
     setup.SubstituteApiVersionInUrl = true;
 });
 
-builder.Configuration
-    .AddInfrastructureConfigurationSource();
+builder.Configuration.AddInfrastructureConfigurationSource();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddInfrastructureConfiguration(builder.Configuration);
