@@ -30,9 +30,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ezzygate.Infrastructure.Ef"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ezzygate.Legacy.Crypt", "src\Ezzygate.Legacy.Crypt\Ezzygate.Legacy.Crypt.csproj", "{203274B3-CDDE-418B-8F58-0B65151F9DAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ezzygate.Domain.LocalizedStrings", "Ezzygate.Domain.LocalizedStrings\Ezzygate.Domain.LocalizedStrings.csproj", "{C7F47A32-16D6-4E69-BB9E-0E164660FDD4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ezzygate.Domain.LocalizedStrings", "src\Ezzygate.Domain.LocalizedStrings\Ezzygate.Domain.LocalizedStrings.csproj", "{C7F47A32-16D6-4E69-BB9E-0E164660FDD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ezzygate.Integrations", "Ezzygate.Integrations\Ezzygate.Integrations.csproj", "{DDB0CE20-A4EA-4875-BB76-D1ADAF7F1FF0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ezzygate.Integrations", "src\Ezzygate.Integrations\Ezzygate.Integrations.csproj", "{DDB0CE20-A4EA-4875-BB76-D1ADAF7F1FF0}"
 EndProject
 
 Global
