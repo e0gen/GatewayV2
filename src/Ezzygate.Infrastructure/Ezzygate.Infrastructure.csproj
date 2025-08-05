@@ -19,4 +19,10 @@
       <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.7" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Ezzygate.Infrastructure.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

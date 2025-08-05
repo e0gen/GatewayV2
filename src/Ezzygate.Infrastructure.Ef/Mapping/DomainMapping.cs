@@ -34,7 +34,7 @@ public static class DomainMapping
             IsActive = entity.DcIsActive
         };
     }
-    
+
     public static Domain.Models.PaymentMethod ToDomain(this Entities.PaymentMethod entity)
     {
         return new Domain.Models.PaymentMethod
