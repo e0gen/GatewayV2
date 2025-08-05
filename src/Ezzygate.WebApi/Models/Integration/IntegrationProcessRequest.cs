@@ -31,7 +31,7 @@ public class IntegrationProcessRequest
     public int TransType { get; set; }
     public int CreditType { get; set; }
     public string? Comment { get; set; }
-    public int? PaymentMethodId { get; set; }
+    public short? PaymentMethodId { get; set; }
     public string? RoutingNumber { get; set; }
     public string? AccountNumber { get; set; }
     public string? AccountName { get; set; }

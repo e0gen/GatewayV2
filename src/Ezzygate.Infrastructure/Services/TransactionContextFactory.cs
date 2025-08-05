@@ -11,15 +11,18 @@ public class TransactionContextFactory : ITransactionContextFactory
     private readonly EzzygateDbContext _context;
     private readonly ITerminalRepository _terminalRepository;
     private readonly IChargeAttemptRepository _chargeAttemptRepository;
+    private readonly IPaymentMethodRepository _paymentMethodRepository;
 
     public TransactionContextFactory(
         EzzygateDbContext context,
         ITerminalRepository terminalRepository,
-        IChargeAttemptRepository chargeAttemptRepository)
+        IChargeAttemptRepository chargeAttemptRepository,
+        IPaymentMethodRepository paymentMethodRepository)
     {
         _context = context;
         _terminalRepository = terminalRepository;
         _chargeAttemptRepository = chargeAttemptRepository;
+        _paymentMethodRepository = paymentMethodRepository;
     }
 
     public async Task<TransactionContext> CreateAsync(string referenceCode, int logChargeAttemptId)
@@ -35,11 +38,11 @@ public class TransactionContextFactory : ITransactionContextFactory
         var terminal = await _terminalRepository.GetByTerminalNumberAsync(locatedTrx.TerminalNumber);
         if (terminal == null)
             throw new Exception($"Terminal with number {locatedTrx.TerminalNumber} not found");
-        
+
         var debitCompany = await _terminalRepository.GetDebitCompanyByIdAsync(terminal.DebitCompanyId);
         if (debitCompany == null)
             throw new Exception($"Bank with id {terminal.DebitCompanyId} not found");
-        
+
         var context = new TransactionContext
         {
             LocatedTrx = locatedTrx,
@@ -64,6 +67,31 @@ public class TransactionContextFactory : ITransactionContextFactory
         {
             Terminal = terminal,
             DebitCompany = debitCompany
+        };
+    }
+
+    public async Task<TransactionContext> CreateAsync(int terminalId, short? paymentMethodId)
+    {
+        if (!paymentMethodId.HasValue)
+            return await CreateAsync(terminalId);
+
+        var terminal = await _terminalRepository.GetByIdAsync(terminalId);
+        if (terminal == null)
+            throw new Exception($"Terminal with id {terminalId} not found");
+
+        var debitCompany = await _terminalRepository.GetDebitCompanyByIdAsync(terminal.DebitCompanyId);
+        if (debitCompany == null)
+            throw new Exception($"Bank with id {terminal.DebitCompanyId} not found");
+
+        var paymentMethod = await _paymentMethodRepository.GetByIdAsync(paymentMethodId.Value);
+        if (paymentMethod == null)
+            throw new Exception($"Payment method with id {paymentMethodId} not found");
+
+        return new TransactionContext
+        {
+            Terminal = terminal,
+            DebitCompany = debitCompany,
+            PaymentMethod = paymentMethod
         };
     }
 
@@ -103,7 +131,9 @@ public class TransactionContextFactory : ITransactionContextFactory
     private async Task<TransactionContext> CreateFromFailAsync(Ef.Entities.TblCompanyTransFail trx)
     {
         var terminal = await _terminalRepository.GetByTerminalNumberAsync(trx.TerminalNumber);
-        var debitCompany = terminal != null ? await _terminalRepository.GetDebitCompanyByIdAsync(terminal.DebitCompanyId) : null;
+        var debitCompany = terminal != null
+            ? await _terminalRepository.GetDebitCompanyByIdAsync(terminal.DebitCompanyId)
+            : null;
 
         var context = new TransactionContext
         {
@@ -132,7 +162,9 @@ public class TransactionContextFactory : ITransactionContextFactory
     private async Task<TransactionContext> CreateFromPassAsync(Ef.Entities.TblCompanyTransPass trx)
     {
         var terminal = await _terminalRepository.GetByTerminalNumberAsync(trx.TerminalNumber);
-        var debitCompany = terminal != null ? await _terminalRepository.GetDebitCompanyByIdAsync(terminal.DebitCompanyId) : null;
+        var debitCompany = terminal != null
+            ? await _terminalRepository.GetDebitCompanyByIdAsync(terminal.DebitCompanyId)
+            : null;
 
         var context = new TransactionContext
         {
@@ -149,7 +181,6 @@ public class TransactionContextFactory : ITransactionContextFactory
             Payments = trx.Payments,
             OrderId = trx.OrderNumber,
             ClientIp = trx.Ipaddress,
-            TransType = trx.TransType,
             CreditType = trx.CreditType
         };
 
@@ -160,7 +191,9 @@ public class TransactionContextFactory : ITransactionContextFactory
     private async Task<TransactionContext> CreateFromApprovalAsync(Ef.Entities.TblCompanyTransApproval trx)
     {
         var terminal = await _terminalRepository.GetByTerminalNumberAsync(trx.TerminalNumber);
-        var debitCompany = terminal != null ? await _terminalRepository.GetDebitCompanyByIdAsync(terminal.DebitCompanyId) : null;
+        var debitCompany = terminal != null
+            ? await _terminalRepository.GetDebitCompanyByIdAsync(terminal.DebitCompanyId)
+            : null;
 
         var context = new TransactionContext
         {
@@ -177,7 +210,6 @@ public class TransactionContextFactory : ITransactionContextFactory
             Payments = trx.Payments,
             OrderId = trx.OrderNumber,
             ClientIp = trx.Ipaddress,
-            TransType = trx.TransType,
             CreditType = trx.CreditType,
             PendingParams = trx.TextValue ?? string.Empty
         };
@@ -189,7 +221,9 @@ public class TransactionContextFactory : ITransactionContextFactory
     private async Task<TransactionContext> CreateFromPendingAsync(Ef.Entities.TblCompanyTransPending trx)
     {
         var terminal = await _terminalRepository.GetByTerminalNumberAsync(trx.TerminalNumber);
-        var debitCompany = terminal != null ? await _terminalRepository.GetDebitCompanyByIdAsync(terminal.DebitCompanyId) : null;
+        var debitCompany = terminal != null
+            ? await _terminalRepository.GetDebitCompanyByIdAsync(terminal.DebitCompanyId)
+            : null;
 
         var context = new TransactionContext
         {
@@ -238,14 +272,14 @@ public class TransactionContextFactory : ITransactionContextFactory
         var paramSplit = param.Split('|');
         string? requestSource = null;
         string? recurring1 = null;
-        
+
         foreach (var currentParam in paramSplit)
         {
             var currentParamSplit = currentParam.Split(['='], 2);
             if (currentParamSplit.Length < 2) continue;
-            
+
             var currentKey = currentParamSplit[0].Trim().ToLower();
-            
+
             switch (currentKey)
             {
                 case "requestsource":
@@ -263,16 +297,16 @@ public class TransactionContextFactory : ITransactionContextFactory
             }
         }
 
-        var is3DSecure = (locatedTrx.Terminal?.Enable3DSecure ?? false) || 
-                         (!string.IsNullOrEmpty(attemptLog.QueryString) && 
+        var is3DSecure = (locatedTrx.Terminal?.Enable3DSecure ?? false) ||
+                         (!string.IsNullOrEmpty(attemptLog.QueryString) &&
                           attemptLog.QueryString.Contains("paymentMethodVar=GPY"));
 
         var isRecurring = requestSource == "20" || !string.IsNullOrEmpty(recurring1);
         if (isRecurring)
         {
-            if (string.IsNullOrEmpty(recurring1)) 
+            if (string.IsNullOrEmpty(recurring1))
                 return OperationType.RecurringSale;
-            
+
             return is3DSecure ? OperationType.RecurringInit3Ds : OperationType.RecurringInit;
         }
 

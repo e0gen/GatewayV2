@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Infrastructure.Services;
 using Ezzygate.WebApi.Extensions;
+using Ezzygate.WebApi.Filters;
 using Ezzygate.WebApi.Models.Integration;
 
 namespace Ezzygate.WebApi.Controllers
@@ -38,7 +39,7 @@ namespace Ezzygate.WebApi.Controllers
         {
             try
             {
-                var ctx = await _transactionContextFactory.CreateAsync(request.TerminalId);
+                var ctx = await _transactionContextFactory.CreateAsync(request.TerminalId, request.PaymentMethodId);
                 
                 ctx.OpType = request.OperationType;
                 ctx.RequestContent = request.RequestContent;
@@ -76,7 +77,6 @@ namespace Ezzygate.WebApi.Controllers
                 ctx.RoutingNumber = request.RoutingNumber;
                 ctx.AccountNumber = request.AccountNumber;
                 ctx.AccountName = request.AccountName;
-                //ctx.PaymentMethodId = request.PaymentMethodId;
                 var queryParams = QueryHelpers.ParseQuery(ctx.QueryString);
                 if (queryParams.TryGetValue("l3d_arrival_date", out var l3dArrivalDate))
                 {

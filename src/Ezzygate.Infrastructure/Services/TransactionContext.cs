@@ -11,15 +11,16 @@ public class TransactionContext
                          OpType == OperationType.Sale3Ds ||
                          OpType == OperationType.RecurringInit3Ds;
 
-    public TransactionContext? LocatedTrx { get; init; } //private set
-    public Terminal? Terminal { get; init; } //private set
-    public DebitCompany? DebitCompany { get; init; } //private set
+    public TransactionContext? LocatedTrx { get; init; }
+    public Terminal? Terminal { get; init; }
+    public DebitCompany? DebitCompany { get; init; }
+    public PaymentMethod? PaymentMethod { get; init; }
     public int ChargeAttemptLogId { get; set; }
-    public bool IsTestTerminal => Terminal?.IsTestTerminal ?? false;
     public string DebitRefCode { get; set; } = string.Empty;
     public string? SentDebitRefCode { get; set; } = string.Empty;
     public string? ApprovalNumber { get; set; } = string.Empty;
     public string? DebitRefNum { get; set; } = string.Empty;
+    public bool IsTestTerminal => Terminal?.IsTestTerminal ?? false;
     public string TerminalNumber => Terminal?.TerminalNumber ?? string.Empty;
     public string TerminalAccount => Terminal?.AccountId ?? string.Empty;
     public string TerminalAccount3D => Terminal?.AccountId3D ?? string.Empty;
@@ -69,6 +70,5 @@ public class TransactionContext
     public string? RoutingNumber { get; set; } = string.Empty;
     public string? AccountNumber { get; set; } = string.Empty;
     public string? AccountName { get; set; } = string.Empty;
-    public int PaymentMethodId { get; set; }
     public bool IsMobileMoto { get; set; }
 }
