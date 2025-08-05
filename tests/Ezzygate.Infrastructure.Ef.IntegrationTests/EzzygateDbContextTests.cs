@@ -25,7 +25,6 @@ public class EzzygateDbContextTests : IDisposable
             .Options;
 
         Context = new EzzygateDbContext(options);
-        Context.Database.EnsureCreated();
     }
 
     [SetUp]
@@ -55,12 +54,7 @@ public class EzzygateDbContextTests : IDisposable
     {
         if (!_disposed)
         {
-            if (disposing)
-            {
-                await Context.Database.EnsureDeletedAsync();
-                await Context.DisposeAsync();
-            }
-
+            if (disposing) await Context.DisposeAsync();
             _disposed = true;
         }
     }
