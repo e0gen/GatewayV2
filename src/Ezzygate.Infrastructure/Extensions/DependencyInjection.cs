@@ -4,6 +4,7 @@ using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Ef;
 using Ezzygate.Infrastructure.Repositories;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
+using Ezzygate.Infrastructure.Services;
 
 namespace Ezzygate.Infrastructure.Extensions;
 
@@ -51,6 +52,9 @@ public static class DependencyInjection
         services.AddScoped<IMerchantRepository, MerchantRepository>();
         services.AddScoped<IMobileDeviceRepository, MobileDeviceRepository>();
         services.AddScoped<IRequestIdRepository, RequestIdRepository>();
+        services.AddScoped<ITerminalRepository, TerminalRepository>();
+        services.AddScoped<IChargeAttemptRepository, ChargeAttemptRepository>();
+        services.AddScoped<ITransactionContextFactory, TransactionContextFactory>();
         services.AddMemoryCache();
 
         return services;

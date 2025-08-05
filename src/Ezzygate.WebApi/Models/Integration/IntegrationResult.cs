@@ -1,4 +1,4 @@
-namespace Ezzygate.WebApi.Models;
+namespace Ezzygate.WebApi.Models.Integration;
 
 public class IntegrationResult
 {
@@ -20,4 +20,4 @@ public class IntegrationResult
     public string? StatusApiUrl { get; set; }
     public string? StatusApiSignature { get; set; }
     public dynamic? CustomParams { get; set; }
-} 
+}

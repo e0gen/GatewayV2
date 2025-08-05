@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text.Json;
 using Ezzygate.WebApi.Models;
+using Ezzygate.WebApi.Models.Integration;
 using Serilog;
 
 namespace Ezzygate.WebApi.Middleware;
