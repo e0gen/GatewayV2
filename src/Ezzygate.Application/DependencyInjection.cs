@@ -1,6 +1,7 @@
 using System.Reflection;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Ezzygate.Integrations.Extensions;
 
 namespace Ezzygate.Application;
 
@@ -15,10 +16,7 @@ public static class DependencyInjection
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-        // Add application services (to be implemented)
-        // services.AddScoped<IMerchantService, MerchantService>();
-        // services.AddScoped<ITransactionService, TransactionService>();
-        // services.AddScoped<IAccountService, AccountService>();
+        services.AddIntegrations();
 
         return services;
     }

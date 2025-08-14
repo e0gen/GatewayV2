@@ -17,6 +17,7 @@ public static class DomainMapping
             AccountId3D = entity.AccountId3D,
             AccountSubId3D = entity.AccountSubId3D,
             IsTestTerminal = entity.DtIsTestTerminal,
+            IsActive = entity.IsActive,
             Enable3DSecure = entity.DtEnable3dsecure,
             DebitCompanyId = entity.DebitCompany,
             AuthenticationCode1 = entity.AuthenticationCode1,
@@ -30,8 +31,9 @@ public static class DomainMapping
         return new DebitCompany
         {
             Id = entity.DebitCompanyId,
-            CompanyName = entity.DcName,
-            IsActive = entity.DcIsActive
+            Name = entity.DcName,
+            IsActive = entity.DcIsActive,
+            IntegrationTag = entity.IntegrationTag,
         };
     }
 

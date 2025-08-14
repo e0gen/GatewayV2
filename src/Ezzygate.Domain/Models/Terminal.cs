@@ -10,6 +10,7 @@ public class Terminal
     public string AccountId3D { get; set; } = string.Empty;
     public string AccountSubId3D { get; set; } = string.Empty;
     public bool IsTestTerminal { get; set; }
+    public bool IsActive { get; set; }
     public bool Enable3DSecure { get; set; }
     public byte DebitCompanyId { get; set; }
     public string? AuthenticationCode1 { get; set; } = string.Empty;

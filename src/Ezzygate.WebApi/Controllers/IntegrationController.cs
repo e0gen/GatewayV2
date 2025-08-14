@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Infrastructure.Services;
+using Ezzygate.Integrations.Abstractions;
 using Ezzygate.WebApi.Extensions;
 using Ezzygate.WebApi.Filters;
 using Ezzygate.WebApi.Models.Integration;
@@ -14,11 +15,16 @@ namespace Ezzygate.WebApi.Controllers
     {
         private readonly ILogger<IntegrationController> _logger;
         private readonly ITransactionContextFactory _transactionContextFactory;
+        private readonly ICreditCardIntegrationProcessor _creditCardIntegrationProcessor;
 
-        public IntegrationController(ILogger<IntegrationController> logger, ITransactionContextFactory transactionContextFactory)
+        public IntegrationController(
+            ILogger<IntegrationController> logger,
+            ITransactionContextFactory transactionContextFactory,
+            ICreditCardIntegrationProcessor creditCardIntegrationProcessor)
         {
             _logger = logger;
             _transactionContextFactory = transactionContextFactory;
+            _creditCardIntegrationProcessor = creditCardIntegrationProcessor;
         }
 
         [HttpGet, HttpPost]
@@ -26,21 +32,24 @@ namespace Ezzygate.WebApi.Controllers
         {
             var query = Request.QueryString.HasValue ? Request.QueryString.Value : string.Empty;
             var post = Request.GetRequestContent();
-            
+
             _logger.LogInformation($"Notification loopback - Query: {query}, Post: {post}");
-            
+
             return Ok("NotificationLoopback OK");
         }
 
         [HttpPost]
         [Route("Process")]
-        //[ServiceFilter(typeof(IntegrationSecurityFilter))]
+        [IntegrationSecurityFilter]
         public async Task<IActionResult> Process([FromBody] IntegrationProcessRequest request)
         {
             try
             {
+                _logger.LogInformation("Processing integration request for DebitRefCode: {DebitRefCode}",
+                    request.DebitRefCode);
+
                 var ctx = await _transactionContextFactory.CreateAsync(request.TerminalId, request.PaymentMethodId);
-                
+
                 ctx.OpType = request.OperationType;
                 ctx.RequestContent = request.RequestContent;
                 ctx.FormData = request.FormData;
@@ -82,31 +91,67 @@ namespace Ezzygate.WebApi.Controllers
                 {
                     ctx.Level3DataArrivalDate = l3dArrivalDate.ToString();
                 }
-                ctx.IsMobileMoto = !string.IsNullOrEmpty(request.Comment) && 
-                                 request.Comment.StartsWith("fcm") && 
-                                 ctx.RequestSource == TransactionSource.WebApi;
 
+                ctx.IsMobileMoto = !string.IsNullOrEmpty(request.Comment) &&
+                                   request.Comment.StartsWith("fcm") &&
+                                   ctx.RequestSource == TransactionSource.WebApi;
 
-                _logger.LogInformation("Processing integration request for DebitRefCode: {DebitRefCode}", ctx.DebitRefCode);
-
-                // TODO: Replace with actual service call
-                // var result = await _creditCardIntegration.ProcessAsync(ctx);
-                var result = new IntegrationResult
-                {
-                    Code = "000",
-                    Message = "Success",
-                    DebitRefCode = ctx.DebitRefCode
-                };
+                var result = await _creditCardIntegrationProcessor.ProcessTransactionAsync(ctx);
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error processing integration request");
+                _logger.LogError(ex, "Process request exception: OpType: {OperationType}", request.OperationType);
                 return StatusCode(520, new IntegrationResult
                 {
                     Code = "520",
                     Message = "[002] Internal server error, see logs",
+                    DebitRefCode = request.DebitRefCode
+                });
+            }
+        }
+
+        [HttpPost]
+        [Route("Finalize")]
+        [IntegrationSecurityFilter]
+        public async Task<IActionResult> Finalize([FromBody] IntegrationFinalizeRequest request)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(request.DebitRefCode))
+                    return BadRequest(new IntegrationResult
+                    {
+                        Code = "520", Message = "Invalid transaction reference id", DebitRefCode = request.DebitRefCode
+                    });
+
+                _logger.LogInformation("Processing finalize request for DebitRefCode: {DebitRefCode}",
+                    request.DebitRefCode);
+
+                var ctx = await _transactionContextFactory.CreateAsync(request.DebitRefCode,
+                    request.ChargeAttemptLogId);
+
+                ctx.OpType = request.OperationType;
+                ctx.DebitRefCode = request.DebitRefCode;
+                ctx.RequestContent = request.RequestContent;
+                ctx.FormData = request.FormData;
+                ctx.QueryString = request.QueryString;
+                ctx.IsAutomatedRequest = request.IsAutomatedRequest;
+                ctx.AutomatedStatus = request.AutomatedStatus;
+                ctx.AutomatedErrorMessage = request.AutomatedErrorMessage;
+                ctx.AutomatedPayload = request.AutomatedPayload;
+
+                var result = await _creditCardIntegrationProcessor.ProcessTransactionAsync(ctx);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Finalize exception: OpType: {OperationType}", request.OperationType);
+                return StatusCode(520, new IntegrationResult
+                {
+                    Code = "520",
+                    Message = "[003] Internal server error, see logs",
                     DebitRefCode = request.DebitRefCode
                 });
             }

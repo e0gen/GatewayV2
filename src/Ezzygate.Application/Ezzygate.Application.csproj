@@ -18,6 +18,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Ezzygate.Domain\Ezzygate.Domain.csproj" />
         <ProjectReference Include="..\Ezzygate.Shared\Ezzygate.Shared.csproj" />
+        <ProjectReference Include="..\Ezzygate.Integrations\Ezzygate.Integrations.csproj" />
     </ItemGroup>
 
 </Project> 

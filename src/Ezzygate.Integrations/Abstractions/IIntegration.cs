@@ -1,0 +1,14 @@
+using System.Threading;
+using System.Threading.Tasks;
+using Ezzygate.Infrastructure.Services;
+using Ezzygate.WebApi.Models.Integration;
+
+namespace Ezzygate.Integrations.Abstractions;
+
+public interface IIntegration
+{
+    string Tag { get; }
+    Task<IntegrationResult> ProcessTransactionAsync(TransactionContext context, CancellationToken cancellationToken = default);
+    Task<string> GetNotificationResponseAsync(TransactionContext context, CancellationToken cancellationToken = default);
+    Task MaintainAsync(CancellationToken cancellationToken = default);
+}
