@@ -1,6 +1,7 @@
+// ReSharper disable InconsistentNaming
 namespace Ezzygate.Domain.Enums;
 
-public enum Currency
+public enum CurrencyEnum
 {
     UnsignedUnknown = 255,
     Unknown = -1,
