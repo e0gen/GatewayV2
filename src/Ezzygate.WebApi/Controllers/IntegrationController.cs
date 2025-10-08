@@ -33,7 +33,7 @@ namespace Ezzygate.WebApi.Controllers
             var query = Request.QueryString.HasValue ? Request.QueryString.Value : string.Empty;
             var post = Request.GetRequestContent();
 
-            _logger.LogInformation($"Notification loopback - Query: {query}, Post: {post}");
+            _logger.LogInformation("Notification loopback - Query: {Query}, Post: {Post}", query, post);
 
             return Ok("NotificationLoopback OK");
         }
@@ -87,16 +87,15 @@ namespace Ezzygate.WebApi.Controllers
                 ctx.AccountNumber = request.AccountNumber;
                 ctx.AccountName = request.AccountName;
                 var queryParams = QueryHelpers.ParseQuery(ctx.QueryString);
-                if (queryParams.TryGetValue("l3d_arrival_date", out var l3dArrivalDate))
-                {
+                if (queryParams.TryGetValue("l3d_arrival_date", out var l3dArrivalDate)) 
                     ctx.Level3DataArrivalDate = l3dArrivalDate.ToString();
-                }
-
                 ctx.IsMobileMoto = !string.IsNullOrEmpty(request.Comment) &&
                                    request.Comment.StartsWith("fcm") &&
                                    ctx.RequestSource == TransactionSource.WebApi;
 
                 var result = await _creditCardIntegrationProcessor.ProcessTransactionAsync(ctx);
+
+                //TODO Disable PostRedirectUrl for Domain if configured
 
                 return Ok(result);
             }
@@ -125,8 +124,7 @@ namespace Ezzygate.WebApi.Controllers
                         Code = "520", Message = "Invalid transaction reference id", DebitRefCode = request.DebitRefCode
                     });
 
-                _logger.LogInformation("Processing finalize request for DebitRefCode: {DebitRefCode}",
-                    request.DebitRefCode);
+                //TODO Support red lock sync
 
                 var ctx = await _transactionContextFactory.CreateAsync(request.DebitRefCode,
                     request.ChargeAttemptLogId);
@@ -142,6 +140,8 @@ namespace Ezzygate.WebApi.Controllers
                 ctx.AutomatedPayload = request.AutomatedPayload;
 
                 var result = await _creditCardIntegrationProcessor.ProcessTransactionAsync(ctx);
+
+                //TODO Disable PostRedirectUrl for Domain if configured
 
                 return Ok(result);
             }
