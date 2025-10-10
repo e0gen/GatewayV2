@@ -1,3 +1,5 @@
+using Ezzygate.Application.Models;
+
 namespace Ezzygate.Infrastructure.Services;
 
 public interface ITransactionContextFactory

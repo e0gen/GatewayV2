@@ -12,13 +12,12 @@
         <PackageReference Include="FluentValidation" Version="11.10.0" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.7" />
-        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.7" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\Ezzygate.Domain\Ezzygate.Domain.csproj" />
         <ProjectReference Include="..\Ezzygate.Shared\Ezzygate.Shared.csproj" />
-        <ProjectReference Include="..\Ezzygate.Integrations\Ezzygate.Integrations.csproj" />
     </ItemGroup>
 
 </Project> 

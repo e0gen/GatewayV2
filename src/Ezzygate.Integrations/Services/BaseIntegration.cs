@@ -1,10 +1,9 @@
 using System;
 using Microsoft.Extensions.Logging;
-using Ezzygate.Infrastructure.Services;
 using Ezzygate.Integrations.Abstractions;
-using Ezzygate.WebApi.Models.Integration;
 using System.Threading;
 using System.Threading.Tasks;
+using Ezzygate.Application.Models;
 
 namespace Ezzygate.Integrations.Services;
 

@@ -1,5 +1,5 @@
-using Ezzygate.Domain.Models;
 using Ezzygate.Domain.Enums;
+using Ezzygate.Domain.Models;
 
 namespace Ezzygate.Infrastructure.Repositories.Interfaces;
 

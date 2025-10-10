@@ -1,7 +1,7 @@
 using Ezzygate.Domain.Enums;
 using Ezzygate.Domain.Models;
 
-namespace Ezzygate.Infrastructure.Services;
+namespace Ezzygate.Application.Models;
 
 public class TransactionContext
 {

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Ezzygate.Application.Models;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Domain.Models;
 using Ezzygate.Infrastructure.Ef.Context;

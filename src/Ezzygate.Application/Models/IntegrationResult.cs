@@ -1,6 +1,4 @@
-using Ezzygate.Infrastructure.Services;
-
-namespace Ezzygate.WebApi.Models.Integration;
+namespace Ezzygate.Application.Models;
 
 public class IntegrationResult
 {

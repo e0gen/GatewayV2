@@ -1,7 +1,9 @@
 using Microsoft.Extensions.Logging;
+using Ezzygate.Application.Models;
 using Ezzygate.Infrastructure.Ef.Context;
 using Ezzygate.Infrastructure.Ef.Entities;
 using Ezzygate.Infrastructure.Extensions;
+using Ezzygate.Infrastructure.Mappings;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 
 namespace Ezzygate.Infrastructure.Repositories;
@@ -119,7 +121,7 @@ public class TransactionRepository : ITransactionRepository
             }
         }
 
-        return new MoveTransactionResult(trxId.Value, pendingTrx);
+        return new MoveTransactionResult(trxId.Value, pendingTrx.ToDomain());
     }
 
     private async Task<int> InsertPassedTrxAsync(TblCompanyTransPending pendingTrx, string replyCode,

@@ -1,3 +1,5 @@
+using Ezzygate.Application.Models;
+
 namespace Ezzygate.Infrastructure.Repositories.Interfaces;
 
 public interface ITransactionRepository

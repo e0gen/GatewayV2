@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using Ezzygate.Application;
 using Ezzygate.Infrastructure.Extensions;
+using Ezzygate.Integrations.Extensions;
 using Ezzygate.WebApi.Middleware;
 using Serilog;
 
@@ -46,6 +47,8 @@ builder.Configuration.AddInfrastructureConfigurationSource();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddInfrastructureConfiguration(builder.Configuration);
+
+builder.Services.AddIntegrations();
 
 builder.Services.AddApplication();
 

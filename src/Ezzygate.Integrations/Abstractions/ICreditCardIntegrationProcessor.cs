@@ -1,7 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Ezzygate.Infrastructure.Services;
-using Ezzygate.WebApi.Models.Integration;
+using Ezzygate.Application.Models;
 
 namespace Ezzygate.Integrations.Abstractions;
 

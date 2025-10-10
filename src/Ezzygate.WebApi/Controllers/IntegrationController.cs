@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Ezzygate.Application.Models;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Infrastructure.Services;
 using Ezzygate.Integrations.Abstractions;

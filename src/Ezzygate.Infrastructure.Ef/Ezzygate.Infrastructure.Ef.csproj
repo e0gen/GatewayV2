@@ -19,8 +19,4 @@
       </PackageReference>
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Ezzygate.Domain\Ezzygate.Domain.csproj" />
-    </ItemGroup>
-
 </Project>
