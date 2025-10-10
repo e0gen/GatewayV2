@@ -27,17 +27,6 @@ public class EzzygateDbContextTests : IDisposable
         Context = new EzzygateDbContext(options);
     }
 
-    [SetUp]
-    public async Task SetUp()
-    {
-        await ClearDatabaseAsync();
-    }
-
-    private static Task ClearDatabaseAsync()
-    {
-        return Task.CompletedTask;
-    }
-
     [OneTimeTearDown]
     public async Task OneTimeTearDown()
     {
