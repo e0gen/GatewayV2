@@ -47,7 +47,8 @@ public static class DependencyInjection
 
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDataContextInfrastructure(configuration);
+        services.AddEzzygateDbContext(configuration);
+        services.AddErrorsDbContext(configuration);
 
         services.AddScoped<IMerchantRepository, MerchantRepository>();
         services.AddScoped<IMobileDeviceRepository, MobileDeviceRepository>();
