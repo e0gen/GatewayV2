@@ -1,4 +1,4 @@
-namespace Ezzygate.Domain.Enums;
+namespace Ezzygate.Infrastructure.Logging;
 
 public enum LogTag
 {

@@ -1,6 +1,4 @@
 using Microsoft.Extensions.Logging;
-using Ezzygate.Domain.Enums;
-using System.Collections.Generic;
 using JetBrains.Annotations;
 
 namespace Ezzygate.Infrastructure.Logging;
