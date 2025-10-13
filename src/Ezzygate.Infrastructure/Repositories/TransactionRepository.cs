@@ -3,6 +3,7 @@ using Ezzygate.Application.Models;
 using Ezzygate.Infrastructure.Ef.Context;
 using Ezzygate.Infrastructure.Ef.Entities;
 using Ezzygate.Infrastructure.Extensions;
+using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Infrastructure.Mappings;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 
@@ -116,8 +117,7 @@ public class TransactionRepository : ITransactionRepository
             }
             catch (Exception ex)
             {
-                //TODO Support LogTag logging to db
-                //_logger.LogError($"Can't remove pending trx {pendingTrx.Id}", ex.ToString());
+                _logger.Error(LogTag.WebApi, ex, "Can't remove pending trx {pendingTrx.Id}", pendingTrx.Id);
             }
         }
 

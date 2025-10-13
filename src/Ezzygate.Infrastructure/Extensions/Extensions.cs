@@ -51,4 +51,12 @@ public static class Extensions
     {
         return value.Equals(source) ? null : source;
     }
+
+    public static string Truncate(this string? input, int maxLength)
+    {
+        if (string.IsNullOrEmpty(input))
+            return string.Empty;
+
+        return input.Length <= maxLength ? input : input[..maxLength];
+    }
 }

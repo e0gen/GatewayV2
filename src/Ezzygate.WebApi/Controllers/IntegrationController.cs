@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Ezzygate.Application.Models;
 using Ezzygate.Domain.Enums;
+using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Infrastructure.Services;
 using Ezzygate.Integrations.Abstractions;
 using Ezzygate.WebApi.Extensions;
@@ -34,7 +35,7 @@ namespace Ezzygate.WebApi.Controllers
             var query = Request.QueryString.HasValue ? Request.QueryString.Value : string.Empty;
             var post = Request.GetRequestContent();
 
-            _logger.LogInformation("Notification loopback - Query: {Query}, Post: {Post}", query, post);
+            _logger.Info(LogTag.WebApi, "Notification loopback - Query: {query}, Post: {post}", query, post);
 
             return Ok("NotificationLoopback OK");
         }
@@ -46,7 +47,7 @@ namespace Ezzygate.WebApi.Controllers
         {
             try
             {
-                _logger.LogInformation("Processing integration request for DebitRefCode: {DebitRefCode}",
+                _logger.Info(LogTag.WebApi, "Processing integration request for DebitRefCode: {DebitRefCode}",
                     request.DebitRefCode);
 
                 var ctx = await _transactionContextFactory.CreateAsync(request.TerminalId, request.PaymentMethodId);
@@ -88,7 +89,7 @@ namespace Ezzygate.WebApi.Controllers
                 ctx.AccountNumber = request.AccountNumber;
                 ctx.AccountName = request.AccountName;
                 var queryParams = QueryHelpers.ParseQuery(ctx.QueryString);
-                if (queryParams.TryGetValue("l3d_arrival_date", out var l3dArrivalDate)) 
+                if (queryParams.TryGetValue("l3d_arrival_date", out var l3dArrivalDate))
                     ctx.Level3DataArrivalDate = l3dArrivalDate.ToString();
                 ctx.IsMobileMoto = !string.IsNullOrEmpty(request.Comment) &&
                                    request.Comment.StartsWith("fcm") &&
@@ -102,7 +103,7 @@ namespace Ezzygate.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Process request exception: OpType: {OperationType}", request.OperationType);
+                _logger.Error(LogTag.WebApi, ex, "Process exception: OpType: {OperationType}", request.OperationType);
                 return StatusCode(520, new IntegrationResult
                 {
                     Code = "520",
@@ -148,7 +149,7 @@ namespace Ezzygate.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Finalize exception: OpType: {OperationType}", request.OperationType);
+                _logger.Error(LogTag.WebApi, ex, "Finalize exception: OpType: {OperationType}", request.OperationType);
                 return StatusCode(520, new IntegrationResult
                 {
                     Code = "520",

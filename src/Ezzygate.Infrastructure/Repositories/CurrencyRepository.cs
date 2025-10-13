@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Domain.Models;
 using Ezzygate.Infrastructure.Ef.Context;
@@ -13,18 +12,15 @@ public class CurrencyRepository : ICurrencyRepository
 {
     private readonly EzzygateDbContext _context;
     private readonly IMemoryCache _cache;
-    private readonly ILogger<CurrencyRepository> _logger;
     private const string CacheKey = "Currencies_Cache";
     private static readonly SemaphoreSlim CacheLock = new(1, 1);
 
     public CurrencyRepository(
         EzzygateDbContext context,
-        IMemoryCache cache,
-        ILogger<CurrencyRepository> logger)
+        IMemoryCache cache)
     {
         _context = context;
         _cache = cache;
-        _logger = logger;
     }
 
     public Currency Get(string isoCode)
@@ -97,8 +93,6 @@ public class CurrencyRepository : ICurrencyRepository
             {
                 if (!_cache.TryGetValue(CacheKey, out cachedCurrencies))
                 {
-                    _logger.LogInformation("Refreshing currency cache");
-
                     var entities = _context.CurrencyLists
                         .AsNoTracking()
                         .ToList();
