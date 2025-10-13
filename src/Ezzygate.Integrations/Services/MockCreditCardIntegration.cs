@@ -3,14 +3,18 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Ezzygate.Application.Models;
+using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Integrations.Abstractions;
 
 namespace Ezzygate.Integrations.Services;
 
 public class MockCreditCardIntegration : BaseIntegration, ICreditCardIntegration
 {
+    private readonly ILogger<MockCreditCardIntegration> _logger;
+
     public MockCreditCardIntegration(ILogger<MockCreditCardIntegration> logger) : base(logger)
     {
+        _logger = logger;
     }
 
     public override string Tag => "Mock";
@@ -18,7 +22,7 @@ public class MockCreditCardIntegration : BaseIntegration, ICreditCardIntegration
     public override async Task<IntegrationResult> ProcessTransactionAsync(TransactionContext context,
         CancellationToken cancellationToken = default)
     {
-        Logger.LogInformation(
+        _logger.Info(LogTag.WebApi,
             "Processing mock credit card transaction. OpType: {OpType}, Amount: {Amount}, DebitRefCode: {DebitRefCode}",
             context.OpType, context.Amount, context.DebitRefCode);
 
@@ -39,7 +43,7 @@ public class MockCreditCardIntegration : BaseIntegration, ICreditCardIntegration
             IsFinalized = true
         };
 
-        Logger.LogInformation("Mock credit card transaction completed. Code: {Code}, Message: {Message}",
+        Logger.Info(LogTag.WebApi, "Mock credit card transaction completed. Code: {Code}, Message: {Message}",
             result.Code, result.Message);
 
         return result;
@@ -48,13 +52,13 @@ public class MockCreditCardIntegration : BaseIntegration, ICreditCardIntegration
     public override Task<string> GetNotificationResponseAsync(TransactionContext context,
         CancellationToken cancellationToken = default)
     {
-        Logger.LogDebug("Returning mock notification response for DebitRefCode: {DebitRefCode}", context.DebitRefCode);
+        Logger.Debug("Returning mock notification response for DebitRefCode: {DebitRefCode}", context.DebitRefCode);
         return Task.FromResult("mock_notification_ok");
     }
 
     public override Task MaintainAsync(CancellationToken cancellationToken = default)
     {
-        Logger.LogDebug("Performing mock maintenance for {Tag} integration", Tag);
+        Logger.Debug("Performing mock maintenance for {Tag} integration", Tag);
         return Task.CompletedTask;
     }
 }

@@ -1,17 +1,12 @@
 using Asp.Versioning;
 using Ezzygate.Application;
 using Ezzygate.Infrastructure.Extensions;
+using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Integrations.Extensions;
 using Ezzygate.WebApi.Middleware;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-
-Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
-    .Enrich.FromLogContext()
-    .WriteTo.File("logs/netpay-.txt", rollingInterval: RollingInterval.Day)
-    .CreateLogger();
 
 builder.Host.UseSerilog();
 
@@ -19,6 +14,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -47,12 +43,17 @@ builder.Configuration.AddInfrastructureConfigurationSource();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddInfrastructureConfiguration(builder.Configuration);
-
 builder.Services.AddIntegrations();
-
 builder.Services.AddApplication();
 
 var app = builder.Build();
+
+var loggerConfig = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .WriteTo.BllLogDatabase(app.Services);
+
+Log.Logger = loggerConfig.CreateLogger();
 
 if (app.Environment.IsDevelopment())
 {
