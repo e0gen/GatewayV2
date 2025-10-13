@@ -11,18 +11,18 @@ namespace Ezzygate.Infrastructure.Ef.IntegrationTests
     [Parallelizable(ParallelScope.Children)]
     public class ErrorsDbContextTests
     {
-        private static string? GetConnectionString()
+        private static string GetConnectionString()
         {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", false)
                 .Build();
-            return configuration.GetConnectionString("ErrorConnection");
+            return configuration.GetConnectionString("ErrorConnection") ?? string.Empty;
         }
 
         private static ErrorsDbContext CreateContext()
         {
             var options = new DbContextOptionsBuilder<ErrorsDbContext>()
-                .UseSqlServer(GetConnectionString())
+                .UseMySql(GetConnectionString(), new MySqlServerVersion(new Version(9, 4, 00)))
                 .Options;
 
             return new ErrorsDbContext(options);
