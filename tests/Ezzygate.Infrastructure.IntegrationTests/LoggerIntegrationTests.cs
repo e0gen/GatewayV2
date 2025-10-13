@@ -49,31 +49,71 @@ public class LoggerIntegrationTests : IDisposable
     }
 
     [Test]
-    public void BllInfo()
+    public void Bll_Trace()
     {
-        var testMessage = "Test info log}";
+        var testMessage = "Test trace log {value}";
 
-        _logger.Info(LogTag.WebApi, testMessage, "Additional info for info log");
+        _logger.Trace(testMessage, 123);
     }
 
     [Test]
-    public void BllWarning()
+    public void Bll_Debug()
     {
-        var testMessage = "Test warning log}";
+        var testMessage = "Test debug log {value}";
 
-        _logger.Warn(LogTag.Security, testMessage, "Additional info for warning log");
+        _logger.Debug(testMessage, 123);
     }
 
     [Test]
-    public void BllError_WithMessage()
+    public void Bll_Info()
     {
-        var testMessage = "Test error log";
+        var testMessage = "Test info log {value}";
 
-        _logger.Error(LogTag.Exception, testMessage, "Additional info for error log");
+        _logger.Info(LogTag.WebApi, testMessage, 123);
     }
 
     [Test]
-    public void BllError_WithException()
+    public void Bll_InfoExtra()
+    {
+        var testMessage = "Test info log {value}";
+
+        _logger.InfoExtra(LogTag.WebApi, "Additional info", testMessage, 123);
+    }
+
+    [Test]
+    public void Bll_Warning()
+    {
+        var testMessage = "Test warning log {value}";
+
+        _logger.Warn(LogTag.Security, testMessage, 123);
+    }
+
+    [Test]
+    public void Bll_WarningExtra()
+    {
+        var testMessage = "Test warning log {value}";
+
+        _logger.WarnExtra(LogTag.Security, "Additional warning info", testMessage, 123);
+    }
+
+    [Test]
+    public void Bll_Error_WithMessage()
+    {
+        var testMessage = "Test error log {value}";
+
+        _logger.Error(LogTag.Exception, testMessage, 123);
+    }
+
+    [Test]
+    public void Bll_ErrorExtra_WithMessage()
+    {
+        var testMessage = "Test error log {value}";
+
+        _logger.ErrorExtra(LogTag.Exception, "Additional error info", testMessage, 123);
+    }
+
+    [Test]
+    public void Bll_Error_WithException()
     {
         var exception = new InvalidOperationException("Test exception message");
 
@@ -83,12 +123,27 @@ public class LoggerIntegrationTests : IDisposable
         }
         catch (Exception ex)
         {
-            _logger.Error(LogTag.Exception, ex, "Additional info for exception");
+            _logger.Error(LogTag.Exception, ex);
         }
     }
 
     [Test]
-    public void BllError_WithHttpException()
+    public void Bll_ErrorExtra_WithException()
+    {
+        var exception = new InvalidOperationException("Test exception message");
+
+        try
+        {
+            throw exception;
+        }
+        catch (Exception ex)
+        {
+            _logger.ErrorExtra(LogTag.Exception, "Additional info for exception", ex);
+        }
+    }
+
+    [Test]
+    public void Bll_Error_WithHttpException()
     {
         var exception = new HttpRequestException("Http exception message", null,
             HttpStatusCode.NotFound);
@@ -99,7 +154,7 @@ public class LoggerIntegrationTests : IDisposable
         }
         catch (Exception ex)
         {
-            _logger.Error(LogTag.Exception, ex, "Additional info for http exception");
+            _logger.Error(LogTag.Exception, ex);
         }
     }
 
