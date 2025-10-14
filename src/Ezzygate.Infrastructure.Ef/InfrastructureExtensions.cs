@@ -9,7 +9,7 @@ public static class InfrastructureExtensions
 {
     public static IServiceCollection AddEzzygateDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<EzzygateDbContext>(options =>
+        services.AddDbContextFactory<EzzygateDbContext>(options =>
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             if (string.IsNullOrEmpty(connectionString))

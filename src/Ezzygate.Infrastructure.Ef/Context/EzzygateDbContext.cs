@@ -639,10 +639,6 @@ public partial class EzzygateDbContext : DbContext
 
     public virtual DbSet<WorldRegion> WorldRegions { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=VM-DEVSERVER\\SQLSERVER_DEV;Initial Catalog=GW-Ezzygate;Integrated Security=true;Trusted_Connection=true;TrustServerCertificate=true;");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("Hebrew_CI_AS");

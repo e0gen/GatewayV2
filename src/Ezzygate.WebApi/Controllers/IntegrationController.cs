@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Ezzygate.Application.Models;
 using Ezzygate.Domain.Enums;
+using Ezzygate.Infrastructure.Locking;
 using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Infrastructure.Services;
 using Ezzygate.Integrations.Abstractions;
@@ -18,15 +19,18 @@ namespace Ezzygate.WebApi.Controllers
         private readonly ILogger<IntegrationController> _logger;
         private readonly ITransactionContextFactory _transactionContextFactory;
         private readonly ICreditCardIntegrationProcessor _creditCardIntegrationProcessor;
+        private readonly IDistributedLockService _distributedLockService;
 
         public IntegrationController(
             ILogger<IntegrationController> logger,
             ITransactionContextFactory transactionContextFactory,
-            ICreditCardIntegrationProcessor creditCardIntegrationProcessor)
+            ICreditCardIntegrationProcessor creditCardIntegrationProcessor,
+            IDistributedLockService distributedLockService)
         {
             _logger = logger;
             _transactionContextFactory = transactionContextFactory;
             _creditCardIntegrationProcessor = creditCardIntegrationProcessor;
+            _distributedLockService = distributedLockService;
         }
 
         [HttpGet, HttpPost]
@@ -36,7 +40,8 @@ namespace Ezzygate.WebApi.Controllers
             var post = await Request.GetRequestContentAsync();
 
             _logger.Info(LogTag.Integration, "Notification loopback - Query: {query}, Post: {post}", query, post);
-
+            await using var distributedLock = await _distributedLockService.AcquireLockAsync("test", 5, 10);
+            await Task.Delay(50000);
             return Ok("NotificationLoopback OK");
         }
 
@@ -118,15 +123,19 @@ namespace Ezzygate.WebApi.Controllers
         [IntegrationSecurityFilter]
         public async Task<IActionResult> Finalize([FromBody] IntegrationFinalizeRequest request)
         {
+            if (string.IsNullOrWhiteSpace(request.DebitRefCode))
+                return BadRequest(new IntegrationResult
+                {
+                    Code = "520", Message = "Invalid transaction reference id", DebitRefCode = request.DebitRefCode
+                });
+
+            var lockKey = $"process_finalize_{request.DebitRefCode}";
+
+            await using var distributedLock = await _distributedLockService.AcquireLockAsync(lockKey, 5, 10);
+
             try
             {
-                if (string.IsNullOrWhiteSpace(request.DebitRefCode))
-                    return BadRequest(new IntegrationResult
-                    {
-                        Code = "520", Message = "Invalid transaction reference id", DebitRefCode = request.DebitRefCode
-                    });
-
-                //TODO Support red lock sync
+                _logger.Info(LogTag.Integration, "Finalize request for DebitRefCode: {DebitRefCode}", request.DebitRefCode);
 
                 var ctx = await _transactionContextFactory.CreateAsync(request.DebitRefCode,
                     request.ChargeAttemptLogId);
@@ -146,6 +155,17 @@ namespace Ezzygate.WebApi.Controllers
                 //TODO Disable PostRedirectUrl for Domain if configured
 
                 return Ok(result);
+            }
+            catch (DistributedLockException ex)
+            {
+                _logger.Error(LogTag.Integration, ex, "Failed to acquire lock for Finalize: DebitRefCode: {DebitRefCode}", 
+                    request.DebitRefCode);
+                return StatusCode(520, new IntegrationResult
+                {
+                    Code = "520",
+                    Message = "[003] Transaction is being processed, please retry",
+                    DebitRefCode = request.DebitRefCode
+                });
             }
             catch (Exception ex)
             {

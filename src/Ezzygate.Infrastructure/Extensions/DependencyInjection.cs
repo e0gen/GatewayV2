@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Ef;
+using Ezzygate.Infrastructure.Locking;
 using Ezzygate.Infrastructure.Repositories;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 using Ezzygate.Infrastructure.Services;
@@ -49,6 +50,8 @@ public static class DependencyInjection
     {
         services.AddEzzygateDbContext(configuration);
         services.AddErrorsDbContext(configuration);
+
+        services.AddSingleton<IDistributedLockService, MySqlDistributedLockService>();
 
         services.AddScoped<IMerchantRepository, MerchantRepository>();
         services.AddScoped<IMobileDeviceRepository, MobileDeviceRepository>();
