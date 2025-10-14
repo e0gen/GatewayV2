@@ -30,12 +30,12 @@ namespace Ezzygate.WebApi.Controllers
         }
 
         [HttpGet, HttpPost]
-        public IActionResult NotificationLoopback()
+        public async Task<IActionResult> NotificationLoopback()
         {
             var query = Request.QueryString.HasValue ? Request.QueryString.Value : string.Empty;
-            var post = Request.GetRequestContent();
+            var post = await Request.GetRequestContentAsync();
 
-            _logger.Info(LogTag.WebApi, "Notification loopback - Query: {query}, Post: {post}", query, post);
+            _logger.Info(LogTag.Integration, "Notification loopback - Query: {query}, Post: {post}", query, post);
 
             return Ok("NotificationLoopback OK");
         }
@@ -47,7 +47,7 @@ namespace Ezzygate.WebApi.Controllers
         {
             try
             {
-                _logger.Info(LogTag.WebApi, "Processing integration request for DebitRefCode: {DebitRefCode}",
+                _logger.Info(LogTag.Integration, "Processing integration request for DebitRefCode: {DebitRefCode}",
                     request.DebitRefCode);
 
                 var ctx = await _transactionContextFactory.CreateAsync(request.TerminalId, request.PaymentMethodId);
@@ -149,7 +149,7 @@ namespace Ezzygate.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(LogTag.WebApi, ex, "Finalize exception: OpType: {OperationType}", request.OperationType);
+                _logger.Error(LogTag.Integration, ex, "Finalize exception: OpType: {OperationType}", request.OperationType);
                 return StatusCode(520, new IntegrationResult
                 {
                     Code = "520",
