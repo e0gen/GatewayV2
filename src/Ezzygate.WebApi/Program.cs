@@ -41,7 +41,7 @@ builder.Services.AddApiVersioning(options =>
 
 builder.Configuration.AddInfrastructureConfigurationSource();
 
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration, builder.Environment);
 builder.Services.AddInfrastructureConfiguration(builder.Configuration);
 builder.Services.AddIntegrations();
 builder.Services.AddApplication();
