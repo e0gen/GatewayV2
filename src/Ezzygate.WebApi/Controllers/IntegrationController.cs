@@ -40,8 +40,6 @@ namespace Ezzygate.WebApi.Controllers
             var post = await Request.GetRequestContentAsync();
 
             _logger.Info(LogTag.Integration, "Notification loopback - Query: {query}, Post: {post}", query, post);
-            await using var distributedLock = await _distributedLockService.AcquireLockAsync("test", 5, 10);
-            await Task.Delay(50000);
             return Ok("NotificationLoopback OK");
         }
 
@@ -131,7 +129,7 @@ namespace Ezzygate.WebApi.Controllers
 
             var lockKey = $"process_finalize_{request.DebitRefCode}";
 
-            await using var distributedLock = await _distributedLockService.AcquireLockAsync(lockKey, 5, 10);
+            await using var distributedLock = await _distributedLockService.AcquireLockAsync(lockKey);
 
             try
             {
