@@ -55,8 +55,10 @@ public static class DependencyInjection
         services.AddScoped<IRequestIdRepository, RequestIdRepository>();
         services.AddScoped<ITerminalRepository, TerminalRepository>();
         services.AddScoped<IChargeAttemptRepository, ChargeAttemptRepository>();
+        services.AddScoped<ICurrencyRepository, CurrencyRepository>();
         services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
         services.AddScoped<ITransactionContextFactory, TransactionContextFactory>();
+        services.AddScoped<ITransactionRepository, TransactionRepository>();
         services.AddMemoryCache();
 
         return services;

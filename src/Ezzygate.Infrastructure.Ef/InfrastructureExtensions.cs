@@ -14,7 +14,7 @@ public static class InfrastructureExtensions
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             if (string.IsNullOrEmpty(connectionString))
                 throw new InvalidOperationException("Connection string 'DefaultConnection' not found in configuration.");
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            options.UseMySql(connectionString, new MySqlServerVersion(new Version(9, 4, 00)));
         });
 
         return services;
@@ -27,7 +27,7 @@ public static class InfrastructureExtensions
             var connectionString = configuration.GetConnectionString("ErrorsConnection");
             if (string.IsNullOrEmpty(connectionString))
                 throw new InvalidOperationException("Connection string 'ErrorsConnection' not found in configuration.");
-            options.UseSqlServer(connectionString);
+            options.UseMySql(connectionString, new MySqlServerVersion(new Version(9, 4, 00)));
         });
 
         return services;

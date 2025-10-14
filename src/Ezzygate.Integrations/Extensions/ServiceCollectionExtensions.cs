@@ -10,10 +10,9 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<IIntegrationProvider, IntegrationProvider>();
         services.AddScoped<ICreditCardIntegrationProcessor, CreditCardIntegrationProcessor>();
-        
-        // Register specific integration providers
+
         services.AddScoped<ICreditCardIntegration, MockCreditCardIntegration>();
-        
+
         return services;
     }
 
