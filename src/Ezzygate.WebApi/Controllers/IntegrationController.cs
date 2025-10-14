@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Options;
 using Ezzygate.Application.Models;
 using Ezzygate.Domain.Enums;
+using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Locking;
 using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Infrastructure.Services;
@@ -20,17 +22,20 @@ namespace Ezzygate.WebApi.Controllers
         private readonly ITransactionContextFactory _transactionContextFactory;
         private readonly ICreditCardIntegrationProcessor _creditCardIntegrationProcessor;
         private readonly IDistributedLockService _distributedLockService;
+        private readonly IOptions<IntegrationSettings> _integrationSettings;
 
         public IntegrationController(
             ILogger<IntegrationController> logger,
             ITransactionContextFactory transactionContextFactory,
             ICreditCardIntegrationProcessor creditCardIntegrationProcessor,
-            IDistributedLockService distributedLockService)
+            IDistributedLockService distributedLockService,
+            IOptions<IntegrationSettings> integrationSettings)
         {
             _logger = logger;
             _transactionContextFactory = transactionContextFactory;
             _creditCardIntegrationProcessor = creditCardIntegrationProcessor;
             _distributedLockService = distributedLockService;
+            _integrationSettings = integrationSettings;
         }
 
         [HttpGet, HttpPost]
@@ -100,7 +105,8 @@ namespace Ezzygate.WebApi.Controllers
 
                 var result = await _creditCardIntegrationProcessor.ProcessTransactionAsync(ctx);
 
-                //TODO Disable PostRedirectUrl for Domain if configured
+                if (_integrationSettings.Value.DisablePostRedirectUrl)
+                    result.RedirectUrl = null;
 
                 return Ok(result);
             }
@@ -150,7 +156,8 @@ namespace Ezzygate.WebApi.Controllers
 
                 var result = await _creditCardIntegrationProcessor.ProcessTransactionAsync(ctx);
 
-                //TODO Disable PostRedirectUrl for Domain if configured
+                if (_integrationSettings.Value.DisablePostRedirectUrl)
+                    result.RedirectUrl = null;
 
                 return Ok(result);
             }

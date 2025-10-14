@@ -43,6 +43,7 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.Configure<ApplicationConfiguration>(configuration.GetSection(ApplicationConfiguration.SectionName));
+        services.Configure<IntegrationSettings>(configuration.GetSection(IntegrationSettings.SectionName));
 
         return services;
     }
