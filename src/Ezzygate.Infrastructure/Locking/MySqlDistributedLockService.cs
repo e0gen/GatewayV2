@@ -1,0 +1,44 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Ezzygate.Infrastructure.Ef.Context;
+
+namespace Ezzygate.Infrastructure.Locking;
+
+public class MySqlDistributedLockService : DatabaseDistributedLockService
+{
+    public MySqlDistributedLockService(
+        IDbContextFactory<EzzygateDbContext> contextFactory,
+        ILogger<MySqlDistributedLockService> logger)
+        : base(contextFactory, logger)
+    {
+    }
+
+    protected override string GetUpdateLockSql()
+    {
+        return @"
+            UPDATE `System`.`TaskLock` 
+            SET IsTaksRunning = 1, 
+                LastRunDate = UTC_TIMESTAMP(), 
+                MachineName = {1}
+            WHERE TaskName = {0} 
+            AND (IsTaksRunning = 0 OR LastRunDate < {2})";
+    }
+
+    protected override string GetInsertLockSql()
+    {
+        return @"
+            INSERT INTO `System`.`TaskLock` (TaskName, IsTaksRunning, LastRunDate, MachineName)
+            SELECT {0}, 1, UTC_TIMESTAMP(), {1}
+            WHERE NOT EXISTS (SELECT 1 FROM `System`.`TaskLock` WHERE TaskName = {0})";
+    }
+
+    protected override string GetReleaseLockSql()
+    {
+        return @"
+            UPDATE `System`.`TaskLock` 
+            SET IsTaksRunning = 0 
+            WHERE TaskName = {0} 
+            AND IsTaksRunning = 1 
+            AND MachineName = {1}";
+    }
+}
