@@ -1,7 +1,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Ef;
+using Ezzygate.Infrastructure.Locking;
 using Ezzygate.Infrastructure.Repositories;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 using Ezzygate.Infrastructure.Services;
@@ -45,10 +47,16 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration,
+        IHostEnvironment environment)
     {
-        services.AddEzzygateDbContext(configuration);
-        services.AddErrorsDbContext(configuration);
+        services.AddEzzygateDbContext(configuration, environment);
+        services.AddErrorsDbContext(configuration, environment);
+
+        if (environment.IsDevelopment())
+            services.AddSingleton<IDistributedLockService, MySqlDistributedLockService>();
+        else
+            services.AddSingleton<IDistributedLockService, SqlServerDistributedLockService>();
 
         services.AddScoped<IMerchantRepository, MerchantRepository>();
         services.AddScoped<IMobileDeviceRepository, MobileDeviceRepository>();
