@@ -1,5 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Ezzygate.Integrations.Abstractions;
+using Ezzygate.Integrations.Ph3a;
+using Ezzygate.Integrations.Ph3a.Api;
 using Ezzygate.Integrations.Services;
 
 namespace Ezzygate.Integrations.Extensions;
@@ -12,6 +14,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ICreditCardIntegrationProcessor, CreditCardIntegrationProcessor>();
 
         services.AddScoped<ICreditCardIntegration, MockCreditCardIntegration>();
+
+        services.AddScoped<IPh3AService, Ph3AService>();
+        services.AddScoped<Ph3AApiClient>();
 
         return services;
     }
