@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
-using Ezzygate.Application.Models;
+using Ezzygate.Application.Integrations;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Locking;
 using Ezzygate.Infrastructure.Logging;
-using Ezzygate.Infrastructure.Services;
+using Ezzygate.Infrastructure.Transactions;
 using Ezzygate.Integrations.Abstractions;
 using Ezzygate.WebApi.Extensions;
 using Ezzygate.WebApi.Filters;

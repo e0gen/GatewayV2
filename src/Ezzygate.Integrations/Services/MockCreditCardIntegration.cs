@@ -2,8 +2,9 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Ezzygate.Application.Models;
+using Ezzygate.Application.Integrations;
 using Ezzygate.Infrastructure.Logging;
+using Ezzygate.Infrastructure.Transactions;
 using Ezzygate.Integrations.Abstractions;
 
 namespace Ezzygate.Integrations.Services;

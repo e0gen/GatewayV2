@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Ezzygate.Application.Models;
+using Ezzygate.Application.Integrations;
+using Ezzygate.Infrastructure.Transactions;
 
 namespace Ezzygate.Integrations.Abstractions;
 

@@ -1,4 +1,4 @@
-using Ezzygate.Application.Models;
+using Ezzygate.Application.Transactions;
 using Ezzygate.Infrastructure.Ef.Entities;
 
 namespace Ezzygate.Infrastructure.Mappings;

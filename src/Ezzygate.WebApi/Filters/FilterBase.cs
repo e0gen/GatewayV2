@@ -1,7 +1,7 @@
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Ezzygate.Application.Models;
+using Ezzygate.Application.Integrations;
 using Ezzygate.WebApi.Models;
 using Serilog;
 

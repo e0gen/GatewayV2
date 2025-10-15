@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Logging;
-using Ezzygate.Application.Models;
+using Ezzygate.Application.Transactions;
 using Ezzygate.Infrastructure.Ef.Context;
 using Ezzygate.Infrastructure.Ef.Entities;
 using Ezzygate.Infrastructure.Extensions;

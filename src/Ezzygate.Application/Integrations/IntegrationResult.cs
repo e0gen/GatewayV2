@@ -1,25 +1,7 @@
-namespace Ezzygate.Application.Models;
+namespace Ezzygate.Application.Integrations;
 
 public class IntegrationResult
 {
-    public IntegrationResult()
-    {
-    }
-
-    public IntegrationResult(TransactionContext trx)
-    {
-        Code = trx.ReplyCode;
-        Message = trx.ErrorMessage;
-        ApprovalNumber = trx.ApprovalNumber;
-        DebitRefCode = trx.DebitRefCode;
-        DebitRefNum = trx.DebitRefNum;
-        TerminalNumber = trx.TerminalNumber;
-        TrxId = trx.TrxId;
-        DebitCompanyId = trx.DebitCompany?.Id;
-        IsFinalized = trx.IsFinalized;
-        TrxType = trx.TransType;
-        RedirectUrl = trx.RedirectUrl;
-    }
     public string? Code { get; set; }
     public string? Message { get; set; }
     public string? RedirectUrl { get; set; }

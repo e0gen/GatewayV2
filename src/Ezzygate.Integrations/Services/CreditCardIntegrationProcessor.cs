@@ -2,9 +2,11 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Ezzygate.Application.Models;
+using Ezzygate.Application.Integrations;
 using Ezzygate.Domain.Enums;
+using Ezzygate.Infrastructure.Mappings;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
+using Ezzygate.Infrastructure.Transactions;
 using Ezzygate.Integrations.Abstractions;
 
 namespace Ezzygate.Integrations.Services;
@@ -49,7 +51,7 @@ public class CreditCardIntegrationProcessor : ICreditCardIntegrationProcessor
     {
         if (context.LocatedTrx.IsFinalized)
         {
-            var result = new IntegrationResult(context.LocatedTrx);
+            var result = context.LocatedTrx.ToIntegrationResult();
             result.NotificationResponse = await integration.GetNotificationResponseAsync(context, cancellationToken);
             return result;
         }

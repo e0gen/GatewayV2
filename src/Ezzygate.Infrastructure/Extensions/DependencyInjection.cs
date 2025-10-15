@@ -6,7 +6,7 @@ using Ezzygate.Infrastructure.Ef;
 using Ezzygate.Infrastructure.Locking;
 using Ezzygate.Infrastructure.Repositories;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
-using Ezzygate.Infrastructure.Services;
+using Ezzygate.Infrastructure.Transactions;
 
 namespace Ezzygate.Infrastructure.Extensions;
 

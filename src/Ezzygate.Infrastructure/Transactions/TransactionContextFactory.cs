@@ -1,11 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using Ezzygate.Application.Models;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Domain.Models;
 using Ezzygate.Infrastructure.Ef.Context;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 
-namespace Ezzygate.Infrastructure.Services;
+namespace Ezzygate.Infrastructure.Transactions;
 
 public class TransactionContextFactory : ITransactionContextFactory
 {

@@ -1,4 +1,4 @@
-namespace Ezzygate.Application.Models;
+namespace Ezzygate.Application.Transactions;
 
 public class PendingTransaction
 {
