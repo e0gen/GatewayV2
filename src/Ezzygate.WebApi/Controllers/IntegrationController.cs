@@ -8,8 +8,10 @@ using Ezzygate.Infrastructure.Locking;
 using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Infrastructure.Transactions;
 using Ezzygate.Integrations.Abstractions;
+using Ezzygate.Integrations.Ph3a;
 using Ezzygate.WebApi.Extensions;
 using Ezzygate.WebApi.Filters;
+using Ezzygate.WebApi.Models;
 using Ezzygate.WebApi.Models.Integration;
 
 namespace Ezzygate.WebApi.Controllers
@@ -22,6 +24,7 @@ namespace Ezzygate.WebApi.Controllers
         private readonly ITransactionContextFactory _transactionContextFactory;
         private readonly ICreditCardIntegrationProcessor _creditCardIntegrationProcessor;
         private readonly IDistributedLockService _distributedLockService;
+        private readonly IPh3AService _ph3AService;
         private readonly IOptions<IntegrationSettings> _integrationSettings;
 
         public IntegrationController(
@@ -29,12 +32,14 @@ namespace Ezzygate.WebApi.Controllers
             ITransactionContextFactory transactionContextFactory,
             ICreditCardIntegrationProcessor creditCardIntegrationProcessor,
             IDistributedLockService distributedLockService,
+            IPh3AService ph3AService,
             IOptions<IntegrationSettings> integrationSettings)
         {
             _logger = logger;
             _transactionContextFactory = transactionContextFactory;
             _creditCardIntegrationProcessor = creditCardIntegrationProcessor;
             _distributedLockService = distributedLockService;
+            _ph3AService = ph3AService;
             _integrationSettings = integrationSettings;
         }
 
@@ -181,6 +186,23 @@ namespace Ezzygate.WebApi.Controllers
                     Message = "[003] Internal server error, see logs",
                     DebitRefCode = request.DebitRefCode
                 });
+            }
+        }
+
+        [HttpPost]
+        [IntegrationSecurityFilter]
+        public async Task<Response> Ph3ARequest(Ph3ARequestDto request)
+        {
+            try
+            {
+                var resultCode = await _ph3AService.CheckScore(request, request.MerchantId);
+                var result = new Response(ResultEnum.Success, new { code = resultCode });
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(LogTag.WebApi, ex, $"{nameof(Ph3ARequest)} exception");
+                return new Response(ResultEnum.Success, new { code = "000" });
             }
         }
     }
