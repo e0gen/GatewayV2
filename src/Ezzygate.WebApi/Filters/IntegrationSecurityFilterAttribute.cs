@@ -27,7 +27,7 @@ public class IntegrationSecurityFilterAttribute : FilterBase
         var clientSignature = request.Headers.FirstOrDefault(SignatureKey);
         if (string.IsNullOrEmpty(clientSignature))
         {
-            var result = new IntegrationResult { Code = "520", Message = nameof(Result.SignatureRequired) };
+            var result = new IntegrationResult { Code = "520", Message = nameof(ResultEnum.SignatureRequired) };
             context.Result = new OkObjectResult(result);
             return;
         }
@@ -37,7 +37,7 @@ public class IntegrationSecurityFilterAttribute : FilterBase
 
         if (clientSignature != serverSignature)
         {
-            var result = new IntegrationResult { Code = "520", Message = nameof(Result.SignatureMismatch) };
+            var result = new IntegrationResult { Code = "520", Message = nameof(ResultEnum.SignatureMismatch) };
             context.Result = new OkObjectResult(result);
             return;
         }
@@ -46,7 +46,7 @@ public class IntegrationSecurityFilterAttribute : FilterBase
         if (!httpContext.Connection.RemoteIpAddress?.IsIPv4MappedToIPv6 == true &&
             !httpContext.Request.IsHttps)
         {
-            var result = new IntegrationResult { Code = "520", Message = nameof(Result.SslRequired) };
+            var result = new IntegrationResult { Code = "520", Message = nameof(ResultEnum.SslRequired) };
             context.Result = new OkObjectResult(result);
             return;
         }

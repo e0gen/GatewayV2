@@ -51,7 +51,7 @@ public class GlobalExceptionHandlingMiddleware
         }
         else
         {
-            result = new Response(Result.GeneralError, error);
+            result = new Response(ResultEnum.GeneralError, error);
         }
 
         var jsonResponse = JsonSerializer.Serialize(result, _jsonSerializerOptions);

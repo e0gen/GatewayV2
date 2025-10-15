@@ -36,21 +36,21 @@ public class MerchantSecurityFilterAttribute : FilterBase
             var clientSignature = context.HttpContext.Request.Headers.FirstOrDefault(SignatureKey);
             if (string.IsNullOrEmpty(clientSignature))
             {
-                context.Result = new BadRequestObjectResult(new Response(Result.SignatureRequired));
+                context.Result = new BadRequestObjectResult(new Response(ResultEnum.SignatureRequired));
                 return;
             }
 
             var clientRequestId = context.HttpContext.Request.Headers.FirstOrDefault(RequestIdKey);
             if (string.IsNullOrEmpty(clientRequestId))
             {
-                context.Result = new BadRequestObjectResult(new Response(Result.RequestIdRequired));
+                context.Result = new BadRequestObjectResult(new Response(ResultEnum.RequestIdRequired));
                 return;
             }
 
             var merchantNumber = context.HttpContext.Request.Headers.FirstOrDefault(MerchantNumberKey);
             if (string.IsNullOrEmpty(merchantNumber))
             {
-                context.Result = new BadRequestObjectResult(new Response(Result.MerchantNumberRequired));
+                context.Result = new BadRequestObjectResult(new Response(ResultEnum.MerchantNumberRequired));
                 return;
             }
 
@@ -63,20 +63,20 @@ public class MerchantSecurityFilterAttribute : FilterBase
             // merchant check
             if (merchant == null)
             {
-                context.Result = new BadRequestObjectResult(new Response(Result.MerchantNotFound));
+                context.Result = new BadRequestObjectResult(new Response(ResultEnum.MerchantNotFound));
                 return;
             }
 
             // request id check
             if (!Guid.TryParse(clientRequestId, out _))
             {
-                context.Result = new BadRequestObjectResult(new Response(Result.InvalidRequestId));
+                context.Result = new BadRequestObjectResult(new Response(ResultEnum.InvalidRequestId));
                 return;
             }
 
             if (await requestIdRepository.IsRequestIdUsedAsync(clientRequestId))
             {
-                context.Result = new BadRequestObjectResult(new Response(Result.DuplicateRequestId));
+                context.Result = new BadRequestObjectResult(new Response(ResultEnum.DuplicateRequestId));
                 return;
             }
 
@@ -88,7 +88,7 @@ public class MerchantSecurityFilterAttribute : FilterBase
             var serverSignature = HashUtils.ComputeSha256Hash(content + clientRequestId + hashKey);
             if (clientSignature != serverSignature)
             {
-                context.Result = new BadRequestObjectResult(new Response(Result.SignatureMismatch));
+                context.Result = new BadRequestObjectResult(new Response(ResultEnum.SignatureMismatch));
                 return;
             }
         }
@@ -96,7 +96,7 @@ public class MerchantSecurityFilterAttribute : FilterBase
         // ssl check
         if (!context.HttpContext.Connection.IsLocal() && !context.HttpContext.Request.IsHttps)
         {
-            context.Result = new BadRequestObjectResult(new Response(Result.SslRequired));
+            context.Result = new BadRequestObjectResult(new Response(ResultEnum.SslRequired));
             return;
         }
 

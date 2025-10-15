@@ -39,7 +39,7 @@ public abstract class FilterBase : ActionFilterAttribute
         }
         else 
         {
-            context.Result = new ObjectResult(new Response(Result.InvalidRequest, "General error, see logs"))
+            context.Result = new ObjectResult(new Response(ResultEnum.InvalidRequest, "General error, see logs"))
             {
                 StatusCode = 500
             };
