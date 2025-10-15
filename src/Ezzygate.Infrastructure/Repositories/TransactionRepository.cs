@@ -1,5 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Ezzygate.Application.Transactions;
+using Ezzygate.Domain.Enums;
 using Ezzygate.Infrastructure.Ef.Context;
 using Ezzygate.Infrastructure.Ef.Entities;
 using Ezzygate.Infrastructure.Extensions;
@@ -332,5 +334,24 @@ public class TransactionRepository : ITransactionRepository
         await _context.SaveChangesAsync();
 
         return trx.Id;
+    }
+
+    public async Task<ApprovalTransaction?> GetApprovalTrxAsync(int approvalId)
+    {
+        var entity = await _context.TblCompanyTransApprovals
+            .FirstOrDefaultAsync(e => e.Id == approvalId);
+
+        return entity?.ToDomain();
+    }
+
+    public async Task UpdateApprovalTrxAuthStatusAsync(int approvalTrxId, OperationType opType)
+    {
+        var entity = await _context.TblCompanyTransApprovals
+            .FirstOrDefaultAsync(e => e.Id == approvalTrxId);
+        if (entity == null)
+            throw new Exception($"Approval trx not found '{approvalTrxId}'");
+
+        entity.AuthStatus = (byte)opType;
+        await _context.SaveChangesAsync();
     }
 }
