@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.WebUtilities;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Domain.Models;
 
@@ -45,6 +46,42 @@ public class TransactionContext
     public string? RequestContent { get; set; } = string.Empty;
     public string? FormData { get; set; } = string.Empty;
     public string? QueryString { get; set; } = string.Empty;
+
+    private Dictionary<string, string?>? _queryStringParsed;
+    private Dictionary<string, string?>? _formDataParsed;
+
+    public Dictionary<string, string?> QueryStringParsed
+    {
+        get
+        {
+            if (_queryStringParsed != null) return _queryStringParsed;
+            _queryStringParsed = new Dictionary<string, string?>();
+            if (string.IsNullOrEmpty(QueryString)) return _queryStringParsed;
+
+            var parsed = QueryHelpers.ParseQuery(QueryString);
+            foreach (var kvp in parsed)
+                _queryStringParsed[kvp.Key] = kvp.Value.ToString();
+
+            return _queryStringParsed;
+        }
+    }
+
+    public Dictionary<string, string?> FormDataParsed
+    {
+        get
+        {
+            if (_formDataParsed != null) return _formDataParsed;
+            _formDataParsed = new Dictionary<string, string?>();
+            if (string.IsNullOrEmpty(FormData)) return _formDataParsed;
+
+            var parsed = QueryHelpers.ParseQuery(FormData);
+            foreach (var kvp in parsed)
+                _formDataParsed[kvp.Key] = kvp.Value.ToString();
+
+            return _formDataParsed;
+        }
+    }
+
     public decimal Amount { get; set; }
     public string CurrencyIso { get; set; } = string.Empty;
     public byte Payments { get; set; }
