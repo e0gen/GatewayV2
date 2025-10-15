@@ -99,12 +99,19 @@ public class CreditCardIntegrationProcessor : ICreditCardIntegrationProcessor
         result.DebitRefCode = context.DebitRefCode;
         result.DebitRefNum = context.DebitRefNum;
 
-        if ((context.OpType == OperationType.AuthorizationCapture ||
-             context.OpType == OperationType.AuthorizationRelease) && result.Code == "000")
+        if (context.OpType is OperationType.AuthorizationCapture or OperationType.AuthorizationRelease
+            && result.Code == "000")
         {
-            // TODO: Implement pre-auth transaction status update
-            // This would require access to the data context to update tblCompanyTransApprovals
-            // For now, we'll log the successful operation
+            var preAuthId = context.QueryStringParsed["TransApprovalID"] ?? context.FormDataParsed["TransApprovalID"];
+            if (preAuthId == null)
+                throw new Exception("No pre-auth id");
+
+            var preAuthIdInt = int.Parse(preAuthId);
+            var trx = await _transactionRepository.GetApprovalTrxAsync(preAuthIdInt);
+            if (trx == null)
+                throw new Exception($"Pre-auth trx not found '{preAuthIdInt}'");
+            
+            await _transactionRepository.UpdateApprovalTrxAuthStatusAsync(preAuthIdInt, context.OpType);
         }
 
         return result;
