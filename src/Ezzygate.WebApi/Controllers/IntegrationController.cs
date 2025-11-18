@@ -195,8 +195,10 @@ namespace Ezzygate.WebApi.Controllers
         {
             try
             {
-                var resultCode = await _ph3AService.CheckScore(request, request.MerchantId);
-                var result = new Response(ResultEnum.Success, new { code = resultCode });
+                var isValidScore = await _ph3AService.ValidateScore(request, request.MerchantId);
+                var result = isValidScore
+                    ? new Response(ResultEnum.Success, new { code = "000" })
+                    : new Response(ResultEnum.Success, new { code = "580" });
                 return result;
             }
             catch (Exception ex)

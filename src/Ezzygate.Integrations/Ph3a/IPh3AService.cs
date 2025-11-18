@@ -5,5 +5,5 @@ namespace Ezzygate.Integrations.Ph3a;
 
 public interface IPh3AService
 {
-    Task<string> CheckScore(Ph3ARequest request, int merchantId);
+    Task<bool> ValidateScore(Ph3ARequest request, int merchantId);
 }
