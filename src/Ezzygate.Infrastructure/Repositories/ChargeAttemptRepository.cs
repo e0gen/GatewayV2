@@ -1,3 +1,4 @@
+using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using Ezzygate.Domain.Models;
 using Ezzygate.Infrastructure.Ef.Context;
@@ -20,6 +21,19 @@ public class ChargeAttemptRepository : IChargeAttemptRepository
             .FirstOrDefaultAsync(l => l.LogChargeAttemptsId == logChargeAttemptId);
 
         return entity != null ? MapToChargeAttempt(entity) : null;
+    }
+
+    public async Task<bool> UpdateRedirectFlagAsync(int logChargeAttemptId, bool redirectFlag,
+        CancellationToken cancellationToken = default)
+    {
+        var entity = await _context.TblLogChargeAttempts
+            .FirstOrDefaultAsync(l => l.LogChargeAttemptsId == logChargeAttemptId, cancellationToken);
+
+        if (entity == null) return false;
+
+        entity.IsRedirectApplied = redirectFlag;
+        var rowsAffected = await _context.SaveChangesAsync(cancellationToken);
+        return rowsAffected > 0;
     }
 
     private ChargeAttempt MapToChargeAttempt(Ef.Entities.TblLogChargeAttempt entity)

@@ -16,15 +16,18 @@ public class CreditCardIntegrationProcessor : ICreditCardIntegrationProcessor
     private readonly ILogger<CreditCardIntegrationProcessor> _logger;
     private readonly IIntegrationProvider _integrationProvider;
     private readonly ITransactionRepository _transactionRepository;
+    private readonly IChargeAttemptRepository _chargeAttemptRepository;
 
     public CreditCardIntegrationProcessor(
         ILogger<CreditCardIntegrationProcessor> logger,
         IIntegrationProvider integrationProvider,
-        ITransactionRepository transactionRepository)
+        ITransactionRepository transactionRepository,
+        IChargeAttemptRepository chargeAttemptRepository)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _integrationProvider = integrationProvider ?? throw new ArgumentNullException(nameof(integrationProvider));
         _transactionRepository = transactionRepository;
+        _chargeAttemptRepository = chargeAttemptRepository;
     }
 
     public async Task<IntegrationResult> ProcessTransactionAsync(TransactionContext context,
@@ -86,6 +89,15 @@ public class CreditCardIntegrationProcessor : ICreditCardIntegrationProcessor
         processResult.DebitRefNum = context.DebitRefNum;
         if (string.IsNullOrWhiteSpace(processResult.NotificationResponse))
             processResult.NotificationResponse = "ok";
+
+        if (processResult.Code == "553")
+        {
+            var updated = await _chargeAttemptRepository.UpdateRedirectFlagAsync(context.ChargeAttemptLogId, true,
+                    cancellationToken);
+            if (!updated)
+                _logger.LogWarning("Failed to update Redirect flag. ChargeAttemptLogId: '{ChargeAttemptLogId}'",
+                    context.ChargeAttemptLogId);
+        }
 
         return processResult;
     }

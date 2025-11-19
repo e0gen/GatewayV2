@@ -107,6 +107,9 @@ public partial class TblLogChargeAttempt
     [StringLength(50)]
     public string? _3dsTrxId { get; set; }
 
+    [Column("isRedirectApplied")]
+    public bool? IsRedirectApplied { get; set; }
+
     [ForeignKey("LcaDebitCompanyId")]
     [InverseProperty("TblLogChargeAttempts")]
     public virtual TblDebitCompany? LcaDebitCompany { get; set; }
