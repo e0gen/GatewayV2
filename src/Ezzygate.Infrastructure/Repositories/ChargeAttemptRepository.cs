@@ -36,6 +36,20 @@ public class ChargeAttemptRepository : IChargeAttemptRepository
         return rowsAffected > 0;
     }
 
+    public async Task UpdateChargeAttemptAsync(int pendingTrxId, int movedTrxId, string replyCode,
+        string errorMessage, CancellationToken cancellationToken = default)
+    {
+        var chargeLog = await _context.TblLogChargeAttempts
+            .SingleOrDefaultAsync(e => e.LcaTransNum == pendingTrxId && e.LcaReplyCode == "553", cancellationToken);
+        if (chargeLog == null) return;
+
+        chargeLog.LcaTransNum = movedTrxId;
+        chargeLog.LcaReplyCode = replyCode;
+        chargeLog.LcaReplyDesc = errorMessage;
+
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
     private ChargeAttempt MapToChargeAttempt(Ef.Entities.TblLogChargeAttempt entity)
     {
         return new ChargeAttempt

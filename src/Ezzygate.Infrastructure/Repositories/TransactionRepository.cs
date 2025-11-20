@@ -25,18 +25,6 @@ public class TransactionRepository : ITransactionRepository
         _logger = logger;
     }
 
-    public async Task UpdateChargeAttemptAsync(int pendingTrxId, int movedTrxId, string replyCode,
-        string errorMessage)
-    {
-        var chargeLog = _context.TblLogChargeAttempts
-            .SingleOrDefault(e => e.LcaTransNum == pendingTrxId && e.LcaReplyCode == "553");
-        if (chargeLog == null) return;
-        chargeLog.LcaTransNum = movedTrxId;
-        chargeLog.LcaReplyCode = replyCode;
-        chargeLog.LcaReplyDesc = errorMessage;
-        await _context.SaveChangesAsync();
-    }
-
     public async Task<MoveTransactionResult> MoveTrxAsync(
         int pendingId, string replyCode, string message, string? binCountryIso)
     {

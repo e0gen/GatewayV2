@@ -74,8 +74,12 @@ public class CreditCardIntegrationProcessor : ICreditCardIntegrationProcessor
             result.TrxId = moveResult.TrxId;
             result.TrxType = moveResult.PendingTrx.TransType;
 
-            await _transactionRepository.UpdateChargeAttemptAsync(context.LocatedTrx.TrxId, moveResult.TrxId,
-                result.Code, result.Message);
+            await _chargeAttemptRepository.UpdateChargeAttemptAsync(
+                context.LocatedTrx.TrxId,
+                moveResult.TrxId,
+                result.Code,
+                result.Message,
+                cancellationToken);
 
             return result;
         }
