@@ -11,7 +11,15 @@ public static class PendingTransactionProfile
 
         return new PendingTransaction
         {
-            TransType = entity.TransType
+            CompanyId = entity.CompanyId.Value,
+            TransType = entity.TransType,
+            TransAmount = entity.TransAmount,
+            Currency = entity.Currency,
+            OrderNumber = entity.OrderNumber,
+            TransPayments = entity.TransPayments,
+            Comment = entity.Comment,
+            CompanyTransPendingId = entity.CompanyTransPendingId,
+            DebitApprovalNumber = entity.DebitApprovalNumber,
         };
     }
 }

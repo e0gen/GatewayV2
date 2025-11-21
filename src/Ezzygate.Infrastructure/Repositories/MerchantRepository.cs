@@ -27,6 +27,7 @@ public class MerchantRepository : IMerchantRepository
             Id = entity.Id,
             CustomerNumber = entity.CustomerNumber,
             CompanyName = entity.CompanyName,
+            HashKey = entity.HashKey,
             AccountId = entity.AccountId,
             IsActive = entity.ActiveStatus == 1, // Assuming 1 means active
             Account = entity.Account != null ? new Account
@@ -52,6 +53,7 @@ public class MerchantRepository : IMerchantRepository
             Id = entity.Id,
             CustomerNumber = entity.CustomerNumber,
             CompanyName = entity.CompanyName,
+            HashKey = entity.HashKey,
             AccountId = entity.AccountId,
             IsActive = entity.ActiveStatus == 1, // Assuming 1 means active
             Account = entity.Account != null ? new Account

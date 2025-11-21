@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Ezzygate.Application.Integrations;
 using Ezzygate.Infrastructure.Logging;
+using Ezzygate.Infrastructure.Notifications;
+using Ezzygate.Infrastructure.Repositories.Interfaces;
 using Ezzygate.Infrastructure.Transactions;
 using Ezzygate.Integrations.Abstractions;
 
@@ -13,7 +15,11 @@ public class MockCreditCardIntegration : BaseIntegration, ICreditCardIntegration
 {
     private readonly ILogger<MockCreditCardIntegration> _logger;
 
-    public MockCreditCardIntegration(ILogger<MockCreditCardIntegration> logger) : base(logger)
+    public MockCreditCardIntegration(
+        ILogger<MockCreditCardIntegration> logger,
+        IIntegrationDataService dataService,
+        NotificationClient notificationClient)
+        : base(logger, dataService, notificationClient)
     {
         _logger = logger;
     }
