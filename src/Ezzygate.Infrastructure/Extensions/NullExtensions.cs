@@ -1,6 +1,6 @@
 namespace Ezzygate.Infrastructure.Extensions;
 
-public static class Extensions
+public static class NullExtensions
 {
     public static T NotNull<T>(this T? value, string? paramName = null) where T : class
     {
