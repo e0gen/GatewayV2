@@ -69,6 +69,7 @@ public static class DependencyInjection
         services.AddScoped<IRiskSettingsRepository, RiskSettingsRepository>();
         services.AddScoped<ITransactionContextFactory, TransactionContextFactory>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
+        services.AddScoped<IHistoryRepository, HistoryRepository>();
         services.AddMemoryCache();
 
         return services;
