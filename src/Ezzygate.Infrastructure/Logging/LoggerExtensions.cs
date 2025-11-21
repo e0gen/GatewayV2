@@ -92,4 +92,15 @@ public static class LoggerExtensions
             logger.LogError(exception, messageTemplate, args);
         }
     }
+
+    public static ScopedLogger GetScoped(this ILogger logger, LogTag logTag, string message)
+    {
+        return new ScopedLogger(logger, logTag, message);
+    }
+
+    public static ScopedLogger GetScopedForIntegration(this ILogger logger, string tag, string method)
+    {
+        return new ScopedLogger(logger, LogTag.Integration,
+            getShortMessage => $"[{tag}] {method} completed. {getShortMessage}");
+    }
 }
