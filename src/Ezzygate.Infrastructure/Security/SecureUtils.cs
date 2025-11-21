@@ -2,7 +2,7 @@ namespace Ezzygate.Infrastructure.Security;
 
 public static class SecureUtils
 {
-    public static string? ObfuscateNumber(string? cardNumber)
+    public static string? MaskNumber(string? cardNumber)
     {
         if (string.IsNullOrEmpty(cardNumber) || cardNumber.Length <= 4)
             return cardNumber;
@@ -12,16 +12,13 @@ public static class SecureUtils
         return string.Create(cardNumber.Length, (cardNumber, maskLength), static (span, state) =>
         {
             var (number, maskLen) = state;
-            
-            // Fill with asterisks for masked portion
+
             span[..maskLen].Fill('*');
-            
-            // Copy last 4 digits
             number.AsSpan(maskLen).CopyTo(span[maskLen..]);
         });
     }
     
-    public static string? ObfuscateCvv(string? cvv)
+    public static string? MaskCvv(string? cvv)
     {
         if (string.IsNullOrEmpty(cvv))
             return cvv;
@@ -32,35 +29,30 @@ public static class SecureUtils
         });
     }
     
-    public static string? ObfuscateEmail(string? email)
+    public static string? MaskEmail(string? email)
     {
         if (string.IsNullOrEmpty(email))
             return email;
             
         var atIndex = email.IndexOf('@');
         if (atIndex <= 0)
-            return email; // Invalid email format
+            return email;
             
         if (atIndex <= 1)
-            return email; // Username too short to obfuscate
+            return email;
             
         return string.Create(email.Length, (email, atIndex), static (span, state) =>
         {
             var (emailStr, atIdx) = state;
             var emailSpan = emailStr.AsSpan();
             
-            // Copy first character of username
             span[0] = emailSpan[0];
-            
-            // Fill username (except first char) with asterisks
             span[1..atIdx].Fill('*');
-            
-            // Copy domain part (@ and everything after)
             emailSpan[atIdx..].CopyTo(span[atIdx..]);
         });
     }
     
-    public static string? ObfuscatePhone(string? phone)
+    public static string? MaskPhone(string? phone)
     {
         if (string.IsNullOrEmpty(phone) || phone.Length <= 4)
             return phone;
@@ -73,19 +65,14 @@ public static class SecureUtils
         {
             var (phoneStr, prefixLen, suffixLen, maskLen) = state;
             var phoneSpan = phoneStr.AsSpan();
-            
-            // Copy prefix (area code)
+
             phoneSpan[..prefixLen].CopyTo(span);
-            
-            // Fill middle with asterisks
             span[prefixLen..(prefixLen + maskLen)].Fill('*');
-            
-            // Copy suffix (last digits)
             phoneSpan[^suffixLen..].CopyTo(span[^suffixLen..]);
         });
     }
     
-    public static string? ObfuscateName(string? name)
+    public static string? MaskName(string? name)
     {
         if (string.IsNullOrEmpty(name) || name.Length <= 2)
             return name;
@@ -93,19 +80,14 @@ public static class SecureUtils
         return string.Create(name.Length, name, static (span, nameStr) =>
         {
             var nameSpan = nameStr.AsSpan();
-            
-            // Copy first character
+
             span[0] = nameSpan[0];
-            
-            // Fill middle with asterisks
             span[1..^1].Fill('*');
-            
-            // Copy last character
             span[^1] = nameSpan[^1];
         });
     }
     
-    public static string? ObfuscateAddress(string? address)
+    public static string? MaskAddress(string? address)
     {
         if (string.IsNullOrEmpty(address) || address.Length <= 4)
             return address;
@@ -113,11 +95,8 @@ public static class SecureUtils
         return string.Create(address.Length, address, static (span, addressStr) =>
         {
             var addressSpan = addressStr.AsSpan();
-            
-            // Copy first 2 characters
+
             addressSpan[..2].CopyTo(span);
-            
-            // Fill rest with asterisks
             span[2..].Fill('*');
         });
     }
