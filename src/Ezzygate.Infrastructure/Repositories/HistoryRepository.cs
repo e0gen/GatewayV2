@@ -17,7 +17,7 @@ public class HistoryRepository : IHistoryRepository
         byte historyTypeId,
         int? merchantId,
         int? sourceIdentity,
-        XElement variableXml,
+        string variableXml,
         CancellationToken cancellationToken = default)
     {
         var history = new Ef.Entities.History
@@ -26,7 +26,7 @@ public class HistoryRepository : IHistoryRepository
             MerchantId = merchantId,
             SourceIdentity = sourceIdentity,
             InsertDate = DateTime.UtcNow,
-            VariableXml = variableXml.ToString(SaveOptions.DisableFormatting)
+            VariableXml = variableXml
         };
 
         _context.Histories.Add(history);

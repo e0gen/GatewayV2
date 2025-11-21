@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Ef;
 using Ezzygate.Infrastructure.Locking;
+using Ezzygate.Infrastructure.Notifications;
 using Ezzygate.Infrastructure.Repositories;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 using Ezzygate.Infrastructure.Transactions;
@@ -70,6 +71,7 @@ public static class DependencyInjection
         services.AddScoped<ITransactionContextFactory, TransactionContextFactory>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
         services.AddScoped<IHistoryRepository, HistoryRepository>();
+        services.AddScoped<INotificationClient, NotificationClient>();
         services.AddMemoryCache();
 
         return services;
