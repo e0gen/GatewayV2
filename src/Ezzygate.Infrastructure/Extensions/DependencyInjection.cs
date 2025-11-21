@@ -67,6 +67,7 @@ public static class DependencyInjection
         services.AddScoped<IChargeAttemptRepository, ChargeAttemptRepository>();
         services.AddScoped<ICurrencyRepository, CurrencyRepository>();
         services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
+        services.AddScoped<ICompanyChargeAdminRepository, CompanyChargeAdminRepository>();
         services.AddScoped<IRiskSettingsRepository, RiskSettingsRepository>();
         services.AddScoped<ITransactionContextFactory, TransactionContextFactory>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
