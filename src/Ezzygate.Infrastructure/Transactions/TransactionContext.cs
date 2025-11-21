@@ -8,9 +8,9 @@ public class TransactionContext
 {
     public OperationType OpType { get; set; }
 
-    public bool Is3ds => OpType == OperationType.Authorization3Ds ||
-                         OpType == OperationType.Sale3Ds ||
-                         OpType == OperationType.RecurringInit3Ds;
+    public bool Is3ds => OpType == OperationType.Authorization3DS ||
+                         OpType == OperationType.Sale3DS ||
+                         OpType == OperationType.RecurringInit3DS;
 
     public TransactionContext? LocatedTrx { get; init; }
     public Terminal? Terminal { get; init; }

@@ -307,13 +307,13 @@ public class TransactionContextFactory : ITransactionContextFactory
             if (string.IsNullOrEmpty(recurring1))
                 return OperationType.RecurringSale;
 
-            return is3DSecure ? OperationType.RecurringInit3Ds : OperationType.RecurringInit;
+            return is3DSecure ? OperationType.RecurringInit3DS : OperationType.RecurringInit;
         }
 
         if (locatedTrx.CreditType == 1 || locatedTrx.CreditType == 8)
         {
             if (locatedTrx.TransType == 0 || locatedTrx.TransType == 3)
-                return is3DSecure ? OperationType.Sale3Ds : OperationType.Sale;
+                return is3DSecure ? OperationType.Sale3DS : OperationType.Sale;
             else if (locatedTrx.TransType == 1)
                 return is3DSecure ? OperationType.Authorization3Ds : OperationType.Authorization;
             else if (locatedTrx.TransType == 2)
