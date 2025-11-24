@@ -72,6 +72,7 @@ public static class DependencyInjection
         services.AddScoped<ITransactionContextFactory, TransactionContextFactory>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
         services.AddScoped<IHistoryRepository, HistoryRepository>();
+        services.AddScoped<IEventPendingRepository, EventPendingRepository>();
         services.AddScoped<IIntegrationDataService, IntegrationDataService>();
         services.AddScoped<INotificationClient, NotificationClient>();
         services.AddMemoryCache();

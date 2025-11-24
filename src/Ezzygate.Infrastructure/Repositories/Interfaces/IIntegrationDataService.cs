@@ -8,4 +8,5 @@ public interface IIntegrationDataService
     ITransactionRepository Transactions { get; }
     IChargeAttemptRepository ChargeAttempts { get; }
     IHistoryRepository History { get; }
+    IEventPendingRepository EventPendings { get; }
 }

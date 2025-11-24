@@ -29,7 +29,10 @@ public class MerchantRepository : IMerchantRepository
             CompanyName = entity.CompanyName,
             HashKey = entity.HashKey,
             AccountId = entity.AccountId,
-            IsActive = entity.ActiveStatus == 1, // Assuming 1 means active
+            IsActive = entity.ActiveStatus == 1,
+            IsSendUserConfirmationEmail = entity.IsSendUserConfirmationEmail,
+            IsMerchantNotifiedOnPass = entity.IsMerchantNotifiedOnPass == true,
+            IsMerchantNotifiedOnFail = entity.IsMerchantNotifiedOnFail,
             Account = entity.Account != null ? new Account
             {
                 AccountId = entity.Account.AccountId,
@@ -55,7 +58,10 @@ public class MerchantRepository : IMerchantRepository
             CompanyName = entity.CompanyName,
             HashKey = entity.HashKey,
             AccountId = entity.AccountId,
-            IsActive = entity.ActiveStatus == 1, // Assuming 1 means active
+            IsActive = entity.ActiveStatus == 1,
+            IsSendUserConfirmationEmail = entity.IsSendUserConfirmationEmail,
+            IsMerchantNotifiedOnPass = entity.IsMerchantNotifiedOnPass == true,
+            IsMerchantNotifiedOnFail = entity.IsMerchantNotifiedOnFail,
             Account = entity.Account != null ? new Account
             {
                 AccountId = entity.Account.AccountId,

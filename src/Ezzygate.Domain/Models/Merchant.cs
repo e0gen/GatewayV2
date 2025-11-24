@@ -8,7 +8,9 @@ public class Merchant
     public string? HashKey { get; set; }
     public int? AccountId { get; set; }
     public bool IsActive { get; set; }
-    
-    // Navigation properties
+    public bool IsSendUserConfirmationEmail { get; set; }
+    public bool IsMerchantNotifiedOnPass { get; set; }
+    public bool IsMerchantNotifiedOnFail { get; set; }
+
     public Account? Account { get; set; }
 }
