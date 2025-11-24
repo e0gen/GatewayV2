@@ -5,4 +5,6 @@ public class ChargeAttempt
     public int Id { get; set; }
     public string QueryString { get; set; } = string.Empty;
     public string RequestForm { get; set; } = string.Empty;
+    public string? InnerRequest { get; set; }
+    public string? InnerResponse { get; set; }
 }

@@ -1,7 +1,7 @@
-using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using Ezzygate.Domain.Models;
 using Ezzygate.Infrastructure.Ef.Context;
+using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 
 namespace Ezzygate.Infrastructure.Repositories;
@@ -36,8 +36,8 @@ public class ChargeAttemptRepository : IChargeAttemptRepository
         return rowsAffected > 0;
     }
 
-    public async Task UpdateChargeAttemptAsync(int pendingTrxId, int movedTrxId, string replyCode,
-        string errorMessage, CancellationToken cancellationToken = default)
+    public async Task UpdatePendingChargeAttemptAsync(int pendingTrxId, int movedTrxId, string replyCode,
+        string replyDescription, CancellationToken cancellationToken = default)
     {
         var chargeLog = await _context.TblLogChargeAttempts
             .SingleOrDefaultAsync(e => e.LcaTransNum == pendingTrxId && e.LcaReplyCode == "553", cancellationToken);
@@ -45,7 +45,22 @@ public class ChargeAttemptRepository : IChargeAttemptRepository
 
         chargeLog.LcaTransNum = movedTrxId;
         chargeLog.LcaReplyCode = replyCode;
-        chargeLog.LcaReplyDesc = errorMessage;
+        chargeLog.LcaReplyDesc = replyDescription;
+
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task UpdateInnerLogsAsync(int logChargeAttemptId, string? innerRequest, string? innerResponse,
+        CancellationToken cancellationToken = default)
+    {
+        var entity = await _context.TblLogChargeAttempts
+            .SingleOrDefaultAsync(l => l.LogChargeAttemptsId == logChargeAttemptId, cancellationToken);
+
+        if (entity == null)
+            throw new InvalidOperationException($"Charge attempt log with Id {logChargeAttemptId} not found");
+
+        entity.LcaInnerRequest = innerRequest.Truncate(4000);
+        entity.LcaInnerResponse = innerResponse.Truncate(4000);
 
         await _context.SaveChangesAsync(cancellationToken);
     }
@@ -57,6 +72,8 @@ public class ChargeAttemptRepository : IChargeAttemptRepository
             Id = entity.LogChargeAttemptsId,
             QueryString = entity.LcaQueryString ?? string.Empty,
             RequestForm = entity.LcaRequestForm ?? string.Empty,
+            InnerRequest = entity.LcaInnerRequest,
+            InnerResponse = entity.LcaInnerResponse
         };
     }
 }
