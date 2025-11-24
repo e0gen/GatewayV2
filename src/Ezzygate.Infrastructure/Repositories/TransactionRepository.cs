@@ -331,6 +331,14 @@ public class TransactionRepository : ITransactionRepository
 
         return entity?.ToDomain();
     }
+    
+    public async Task<PendingTransaction?> GetPendingTrxAsync(int approvalId)
+    {
+        var entity = await _context.TblCompanyTransPendings
+            .FirstOrDefaultAsync(e => e.Id == approvalId);
+
+        return entity?.ToDomain();
+    }
 
     public async Task UpdateApprovalTrxAuthStatusAsync(int approvalTrxId, OperationType opType)
     {
