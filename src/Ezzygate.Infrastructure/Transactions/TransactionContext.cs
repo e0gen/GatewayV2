@@ -108,4 +108,24 @@ public class TransactionContext
     public string? AccountNumber { get; set; } = string.Empty;
     public string? AccountName { get; set; } = string.Empty;
     public bool IsMobileMoto { get; set; }
+    private ExpirationFormatter? _expiration;
+    public ExpirationFormatter Expiration => _expiration ??= new ExpirationFormatter(this);
+
+    public class ExpirationFormatter
+    {
+        private readonly TransactionContext _card;
+
+        internal ExpirationFormatter(TransactionContext card) => _card = card;
+
+        public string MM => _card.ExpirationMonth.ToString("D2");
+        public string M => _card.ExpirationMonth.ToString();
+        
+        public string YY => (_card.ExpirationYear % 100).ToString("D2");
+        public string YYYY => _card.ExpirationYear.ToString("D4");
+        
+        public string MMYY => $"{MM}{YY}";
+        public string MMYYYY => $"{MM}{YYYY}";
+        public string YYMM => $"{YY}{MM}";
+        public string SlashMMYY => $"{MM}/{YY}";
+    }
 }
