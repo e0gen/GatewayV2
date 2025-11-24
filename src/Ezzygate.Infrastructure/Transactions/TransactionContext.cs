@@ -1,11 +1,22 @@
 using Microsoft.AspNetCore.WebUtilities;
+using Ezzygate.Application.Integrations;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Domain.Models;
+using Ezzygate.Infrastructure.Configuration;
+using Ezzygate.Infrastructure.Extensions;
 
 namespace Ezzygate.Infrastructure.Transactions;
 
 public class TransactionContext
 {
+    private readonly DomainConfiguration _domainConfiguration;
+    private const string SignatureKey = "cf396375-5eaa-494f-a783-1ba1e05be7af";
+
+    public TransactionContext(DomainConfiguration domainConfiguration)
+    {
+        _domainConfiguration = domainConfiguration;
+    }
+
     public OperationType OpType { get; set; }
 
     public bool Is3ds => OpType == OperationType.Authorization3DS ||
@@ -119,13 +130,52 @@ public class TransactionContext
 
         public string MM => _card.ExpirationMonth.ToString("D2");
         public string M => _card.ExpirationMonth.ToString();
-        
+
         public string YY => (_card.ExpirationYear % 100).ToString("D2");
         public string YYYY => _card.ExpirationYear.ToString("D4");
-        
+
         public string MMYY => $"{MM}{YY}";
         public string MMYYYY => $"{MM}{YYYY}";
         public string YYMM => $"{YY}{MM}";
         public string SlashMMYY => $"{MM}/{YY}";
+    }
+
+    public string GetCollectUrl(string actionUrl, string? integrationTag = null)
+    {
+        var baseUrl = _domainConfiguration.ProcessUrl;
+        const string fileName = "remoteCharge_ccDebitGenericCollect.asp";
+        integrationTag ??= "direct";
+        var finalizeUrl = $"{baseUrl}{fileName}?action={actionUrl.ToEncodedUrl()}&integration={integrationTag}";
+        return finalizeUrl;
+    }
+
+    public string GetFinalizeUrl(FinalizeUrlType urlType, string? baseUrl = null, string? fileName = null)
+    {
+        baseUrl ??= _domainConfiguration.ProcessUrl;
+        fileName ??= "remoteCharge_ccDebitGenericFinalize.asp";
+        var signature = (urlType + DebitRefCode + ChargeAttemptLogId + SignatureKey).ToSha256();
+        var finalizeUrl =
+            $"{baseUrl}{fileName}?transactionReferenceCode={DebitRefCode}&type={urlType.ToString()}&transactionLogId={ChargeAttemptLogId}&signature={signature.ToEncodedUrl()}";
+        return finalizeUrl;
+    }
+
+    public bool CheckFinalizeUrl()
+    {
+        var referenceCode = QueryStringParsed["transactionReferenceCode"];
+        var logId = QueryStringParsed["transactionLogId"];
+        var type = QueryStringParsed["type"];
+        var signature = QueryStringParsed["signature"];
+
+        var calculatedSignature = string.Concat(type, referenceCode, logId, SignatureKey).ToSha256();
+        return string.Equals(calculatedSignature, signature, StringComparison.OrdinalIgnoreCase);
+    }
+
+    public FinalizeUrlType FinalizeType
+    {
+        get
+        {
+            var type = QueryStringParsed["type"];
+            return type != null ? Enum.Parse<FinalizeUrlType>(type) : FinalizeUrlType.Unknown;
+        }
     }
 }

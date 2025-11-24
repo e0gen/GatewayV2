@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Domain.Models;
+using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Ef.Context;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 
@@ -9,17 +10,20 @@ namespace Ezzygate.Infrastructure.Transactions;
 public class TransactionContextFactory : ITransactionContextFactory
 {
     private readonly EzzygateDbContext _context;
+    private readonly DomainConfiguration _domainConfiguration;
     private readonly ITerminalRepository _terminalRepository;
     private readonly IChargeAttemptRepository _chargeAttemptRepository;
     private readonly IPaymentMethodRepository _paymentMethodRepository;
 
     public TransactionContextFactory(
         EzzygateDbContext context,
+        DomainConfiguration domainConfiguration,
         ITerminalRepository terminalRepository,
         IChargeAttemptRepository chargeAttemptRepository,
         IPaymentMethodRepository paymentMethodRepository)
     {
         _context = context;
+        _domainConfiguration = domainConfiguration;
         _terminalRepository = terminalRepository;
         _chargeAttemptRepository = chargeAttemptRepository;
         _paymentMethodRepository = paymentMethodRepository;
@@ -43,7 +47,7 @@ public class TransactionContextFactory : ITransactionContextFactory
         if (debitCompany == null)
             throw new Exception($"Bank with id {terminal.DebitCompanyId} not found");
 
-        var context = new TransactionContext
+        var context = new TransactionContext(_domainConfiguration)
         {
             LocatedTrx = locatedTrx,
             Terminal = terminal,
@@ -63,7 +67,7 @@ public class TransactionContextFactory : ITransactionContextFactory
         if (debitCompany == null)
             throw new Exception($"Bank with id {terminal.DebitCompanyId} not found");
 
-        return new TransactionContext
+        return new TransactionContext(_domainConfiguration)
         {
             Terminal = terminal,
             DebitCompany = debitCompany
@@ -87,7 +91,7 @@ public class TransactionContextFactory : ITransactionContextFactory
         if (paymentMethod == null)
             throw new Exception($"Payment method with id {paymentMethodId} not found");
 
-        return new TransactionContext
+        return new TransactionContext(_domainConfiguration)
         {
             Terminal = terminal,
             DebitCompany = debitCompany,
@@ -135,7 +139,7 @@ public class TransactionContextFactory : ITransactionContextFactory
             ? await _terminalRepository.GetDebitCompanyByIdAsync(terminal.DebitCompanyId)
             : null;
 
-        var context = new TransactionContext
+        var context = new TransactionContext(_domainConfiguration)
         {
             Terminal = terminal,
             DebitCompany = debitCompany,
@@ -166,7 +170,7 @@ public class TransactionContextFactory : ITransactionContextFactory
             ? await _terminalRepository.GetDebitCompanyByIdAsync(terminal.DebitCompanyId)
             : null;
 
-        var context = new TransactionContext
+        var context = new TransactionContext(_domainConfiguration)
         {
             Terminal = terminal,
             DebitCompany = debitCompany,
@@ -195,7 +199,7 @@ public class TransactionContextFactory : ITransactionContextFactory
             ? await _terminalRepository.GetDebitCompanyByIdAsync(terminal.DebitCompanyId)
             : null;
 
-        var context = new TransactionContext
+        var context = new TransactionContext(_domainConfiguration)
         {
             Terminal = terminal,
             DebitCompany = debitCompany,
@@ -225,7 +229,7 @@ public class TransactionContextFactory : ITransactionContextFactory
             ? await _terminalRepository.GetDebitCompanyByIdAsync(terminal.DebitCompanyId)
             : null;
 
-        var context = new TransactionContext
+        var context = new TransactionContext(_domainConfiguration)
         {
             Terminal = terminal,
             DebitCompany = debitCompany,
@@ -315,7 +319,7 @@ public class TransactionContextFactory : ITransactionContextFactory
             if (locatedTrx.TransType == 0 || locatedTrx.TransType == 3)
                 return is3DSecure ? OperationType.Sale3DS : OperationType.Sale;
             else if (locatedTrx.TransType == 1)
-                return is3DSecure ? OperationType.Authorization3Ds : OperationType.Authorization;
+                return is3DSecure ? OperationType.Authorization3DS : OperationType.Authorization;
             else if (locatedTrx.TransType == 2)
                 return OperationType.AuthorizationCapture;
         }

@@ -12,31 +12,31 @@ public static class HashExtensions
         HexadecimalLowerCaseNoDash
     }
 
-    public static string? ToMd5(this string source, HashResultFormat format = HashResultFormat.Base64)
+    public static string ToMd5(this string source, HashResultFormat format = HashResultFormat.Base64)
     {
         var hash = MD5.HashData(Encoding.UTF8.GetBytes(source));
         return hash.ToString(format);
     }
 
-    public static string? ToSha1(this string source, HashResultFormat format = HashResultFormat.Base64)
+    public static string ToSha1(this string source, HashResultFormat format = HashResultFormat.Base64)
     {
         var hash = SHA1.HashData(Encoding.UTF8.GetBytes(source));
         return hash.ToString(format);
     }
 
-    public static string? ToSha256(this string source, HashResultFormat format = HashResultFormat.Base64)
+    public static string ToSha256(this string source, HashResultFormat format = HashResultFormat.Base64)
     {
         var hash = SHA256.HashData(Encoding.UTF8.GetBytes(source));
         return hash.ToString(format);
     }
 
-    public static string? ToSha512(this string source, HashResultFormat format = HashResultFormat.Base64)
+    public static string ToSha512(this string source, HashResultFormat format = HashResultFormat.Base64)
     {
-        byte[] hash = SHA512.HashData(Encoding.UTF8.GetBytes(source));
+        var hash = SHA512.HashData(Encoding.UTF8.GetBytes(source));
         return hash.ToString(format);
     }
 
-    public static string? ToHmacSha256(this string source, string hmacKey,
+    public static string ToHmacSha256(this string source, string hmacKey,
         HashResultFormat format = HashResultFormat.Base64)
     {
         using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(hmacKey));
@@ -44,7 +44,7 @@ public static class HashExtensions
         return hash.ToString(format);
     }
 
-    private static string? ToString(this byte[] source, HashResultFormat format = HashResultFormat.Base64)
+    private static string ToString(this byte[] source, HashResultFormat format = HashResultFormat.Base64)
     {
         switch (format)
         {
@@ -55,7 +55,7 @@ public static class HashExtensions
             case HashResultFormat.HexadecimalLowerCaseNoDash:
                 return BitConverter.ToString(source).ToLower().Replace("-", "");
             default:
-                return null;
+                return "";
         }
     }
 
