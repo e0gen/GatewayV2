@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ezzygate.Application.Integrations;
 using Ezzygate.Application.Transactions;
+using Ezzygate.Domain.Enums;
 using Ezzygate.Infrastructure.Notifications;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 using Ezzygate.Infrastructure.Transactions;
@@ -41,6 +42,61 @@ public abstract class BaseIntegration : IIntegration
     public virtual Task MaintainAsync(CancellationToken cancellationToken = default)
     {
         return Task.CompletedTask;
+    }
+
+    protected void ValidateDebitCompanyId(TransactionContext ctx, int debitCompanyId)
+    {
+        if (ctx.DebitCompany?.Id != debitCompanyId)
+            throw new Exception("Invalid debit company");
+    }
+
+    protected async Task UpdatePendingEventsAsync(int movedTrxId, string replyCode, int pendingTrxId,
+        int pendingTrxType, int pendingTrxCreditType, int merchantId)
+    {
+        await DataService.EventPendings.DeleteByPendingTransactionIdAsync(pendingTrxId);
+
+        int? transPassId = null;
+        int? transPreAuthId = null;
+        int? transFailId = null;
+
+        switch (replyCode)
+        {
+            case "000" when pendingTrxType == 0 || pendingTrxType == 3:
+                transPassId = movedTrxId;
+                break;
+            case "000" when pendingTrxType == 1:
+                transPreAuthId = movedTrxId;
+                break;
+            case "000":
+                throw new Exception($"Invalid trans type '{pendingTrxType}'");
+            case "553":
+                return;
+            default:
+                transFailId = movedTrxId;
+                break;
+        }
+
+        await DataService.EventPendings.CreateFeesEventAsync(transPassId, transPreAuthId, transFailId);
+
+        if (pendingTrxCreditType == (int)CreditType.Installments && replyCode == "000")
+            await DataService.EventPendings.CreateInstallmentsAlertEventAsync(transPassId, transPreAuthId);
+
+        var merchant = await DataService.Merchants.GetByIdAsync(merchantId);
+        if (merchant == null) return;
+
+        if (replyCode == "000")
+        {
+            if (merchant.IsSendUserConfirmationEmail)
+                await DataService.EventPendings.CreateClientNotificationEventAsync(transPassId, transPreAuthId);
+
+            if (merchant.IsMerchantNotifiedOnPass)
+                await DataService.EventPendings.CreateMerchantNotificationEventAsync(transPassId, transPreAuthId, null);
+        }
+        else
+        {
+            if (merchant.IsMerchantNotifiedOnFail)
+                await DataService.EventPendings.CreateMerchantNotificationEventAsync(null, null, transFailId);
+        }
     }
 
     protected async Task SendNotificationAsync(PendingTransaction pendingTrx, IntegrationResult integrationResult)
