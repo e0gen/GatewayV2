@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Ezzygate.Integrations.Abstractions;
 
 public interface IIntegrationProvider

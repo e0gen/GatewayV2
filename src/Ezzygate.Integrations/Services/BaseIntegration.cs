@@ -1,8 +1,5 @@
-using System;
 using Microsoft.Extensions.Logging;
 using Ezzygate.Integrations.Abstractions;
-using System.Threading;
-using System.Threading.Tasks;
 using Ezzygate.Application.Integrations;
 using Ezzygate.Application.Transactions;
 using Ezzygate.Domain.Enums;

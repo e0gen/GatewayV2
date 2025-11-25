@@ -1,5 +1,4 @@
 using Ezzygate.Domain.Enums;
-using Ezzygate.Domain.Interfaces;
 using Ezzygate.Domain.Models;
 using Ezzygate.Domain.Services;
 using Ezzygate.Infrastructure.Repositories.Interfaces;

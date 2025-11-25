@@ -1,5 +1,3 @@
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Ezzygate.Infrastructure.Ef.Context;
 using Ezzygate.Infrastructure.Repositories.Interfaces;

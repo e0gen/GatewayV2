@@ -1,5 +1,3 @@
-using System;
-
 namespace Ezzygate.Infrastructure.Notifications
 {
     public class NotificationData

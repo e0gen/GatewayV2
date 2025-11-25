@@ -1,5 +1,3 @@
-using System;
-
 namespace Ezzygate.Integrations.Api;
 
 public class ApiResult<T>

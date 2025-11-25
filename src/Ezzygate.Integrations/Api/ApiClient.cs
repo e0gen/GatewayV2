@@ -1,7 +1,4 @@
-using System;
-using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.Infrastructure.Transactions;
 using Ezzygate.Integrations.Extensions;
@@ -26,13 +23,6 @@ public abstract class ApiClient
 
     protected virtual void ConfigureClient(HttpClient client, TransactionContext ctx)
     {
-    }
-
-    protected ApiResult<TResult> MakeRequestInternal<TResult>(
-        HttpMethod method, string path, object bodyJson, TransactionContext ctx)
-        where TResult : class
-    {
-        return MakeRequestInternalAsync<TResult>(method, path, bodyJson, ctx).GetAwaiter().GetResult();
     }
 
     protected async Task<ApiResult<TResponse>> MakeRequestInternalAsync<TResponse>(

@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Ezzygate.Integrations.Ph3a.Api;
 
 namespace Ezzygate.Integrations.Ph3a;

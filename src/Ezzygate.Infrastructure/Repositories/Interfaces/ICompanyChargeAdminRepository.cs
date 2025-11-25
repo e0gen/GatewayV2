@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace Ezzygate.Infrastructure.Repositories.Interfaces;
 
 public interface ICompanyChargeAdminRepository
