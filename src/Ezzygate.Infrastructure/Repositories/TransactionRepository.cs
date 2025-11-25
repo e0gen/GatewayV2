@@ -324,18 +324,26 @@ public class TransactionRepository : ITransactionRepository
         return trx.Id;
     }
 
-    public async Task<ApprovalTransaction?> GetApprovalTrxAsync(int approvalId)
+    public async Task<ApprovalTransaction?> GetApprovalTrxAsync(int approvalTrxId)
     {
         var entity = await _context.TblCompanyTransApprovals
-            .FirstOrDefaultAsync(e => e.Id == approvalId);
+            .FirstOrDefaultAsync(e => e.Id == approvalTrxId);
 
         return entity?.ToDomain();
     }
-    
-    public async Task<PendingTransaction?> GetPendingTrxAsync(int approvalId)
+
+    public async Task<PendingTransaction?> GetPendingTrxByIdAsync(int pendingTrxId)
     {
         var entity = await _context.TblCompanyTransPendings
-            .FirstOrDefaultAsync(e => e.Id == approvalId);
+            .FirstOrDefaultAsync(e => e.Id == pendingTrxId);
+
+        return entity?.ToDomain();
+    }
+
+    public async Task<PendingTransaction?> GetPendingTrxByApprovalNumberAsync(string approvalNumber)
+    {
+        var entity = await _context.TblCompanyTransPendings
+            .FirstOrDefaultAsync(e => e.DebitApprovalNumber == approvalNumber);
 
         return entity?.ToDomain();
     }

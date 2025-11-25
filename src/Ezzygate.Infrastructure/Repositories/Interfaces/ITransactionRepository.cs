@@ -6,7 +6,8 @@ namespace Ezzygate.Infrastructure.Repositories.Interfaces;
 public interface ITransactionRepository
 {
     Task<MoveTransactionResult> MoveTrxAsync(int pendingId, string replyCode, string message, string? binCountryIso);
-    Task<PendingTransaction?> GetPendingTrxAsync(int approvalId);
-    Task<ApprovalTransaction?> GetApprovalTrxAsync(int approvalId);
+    Task<ApprovalTransaction?> GetApprovalTrxAsync(int approvalTrxId);
+    Task<PendingTransaction?> GetPendingTrxByIdAsync(int pendingTrxId);
+    Task<PendingTransaction?> GetPendingTrxByApprovalNumberAsync(string approvalNumber);
     Task UpdateApprovalTrxAuthStatusAsync(int approvalTrxId, OperationType opType);
 }
