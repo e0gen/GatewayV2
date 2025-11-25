@@ -9,6 +9,7 @@ public class IntegrationDataService : IIntegrationDataService
         ICompanyChargeAdminRepository companyChargeAdminRepository,
         IPaymentMethodRepository paymentMethodRepository,
         ITransactionRepository transactionRepository,
+        ITerminalRepository terminals,
         IChargeAttemptRepository chargeAttemptRepository,
         IHistoryRepository historyRepository,
         IEventPendingRepository eventPendingRepository)
@@ -17,6 +18,7 @@ public class IntegrationDataService : IIntegrationDataService
         CompanyChargeAdmins = companyChargeAdminRepository;
         PaymentMethods = paymentMethodRepository;
         Transactions = transactionRepository;
+        Terminals = terminals;
         ChargeAttempts = chargeAttemptRepository;
         History = historyRepository;
         EventPendings = eventPendingRepository;
@@ -29,6 +31,8 @@ public class IntegrationDataService : IIntegrationDataService
     public IPaymentMethodRepository PaymentMethods { get; }
 
     public ITransactionRepository Transactions { get; }
+
+    public ITerminalRepository Terminals { get; }
 
     public IChargeAttemptRepository ChargeAttempts { get; }
 

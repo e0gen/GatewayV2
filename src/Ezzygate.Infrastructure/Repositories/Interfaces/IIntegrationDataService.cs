@@ -6,6 +6,7 @@ public interface IIntegrationDataService
     ICompanyChargeAdminRepository CompanyChargeAdmins { get; }
     IPaymentMethodRepository PaymentMethods { get; }
     ITransactionRepository Transactions { get; }
+    ITerminalRepository Terminals { get; }
     IChargeAttemptRepository ChargeAttempts { get; }
     IHistoryRepository History { get; }
     IEventPendingRepository EventPendings { get; }
