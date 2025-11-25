@@ -2856,9 +2856,9 @@ public partial class EzzygateDbContext : DbContext
         {
             entity.HasKey(e => e.Bin).HasFillFactor(90);
 
-            entity.Property(e => e.Binid).ValueGeneratedOnAdd();
-            entity.Property(e => e.Binlen).HasComputedColumnSql("(len([BIN]))", true);
-            entity.Property(e => e.Binnumber).HasComputedColumnSql("(CONVERT([int],case when len([BIN])>(6) then left([BIN],(6)) else [BIN] end,(0)))", true);
+            entity.Property(e => e.BinId).ValueGeneratedOnAdd();
+            entity.Property(e => e.BinLen).HasComputedColumnSql("(len([BIN]))", true);
+            entity.Property(e => e.BinNumber).HasComputedColumnSql("(CONVERT([int],case when len([BIN])>(6) then left([BIN],(6)) else [BIN] end,(0)))", true);
             entity.Property(e => e.InsertDate).HasDefaultValueSql("(getdate())");
         });
 

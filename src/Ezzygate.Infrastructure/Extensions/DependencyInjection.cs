@@ -1,12 +1,14 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Ezzygate.Domain.Services;
 using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Ef;
 using Ezzygate.Infrastructure.Locking;
 using Ezzygate.Infrastructure.Notifications;
 using Ezzygate.Infrastructure.Repositories;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
+using Ezzygate.Infrastructure.Services;
 using Ezzygate.Infrastructure.Transactions;
 
 namespace Ezzygate.Infrastructure.Extensions;
@@ -74,6 +76,8 @@ public static class DependencyInjection
         services.AddScoped<IHistoryRepository, HistoryRepository>();
         services.AddScoped<IEventPendingRepository, EventPendingRepository>();
         services.AddScoped<IIntegrationDataService, IntegrationDataService>();
+        services.AddScoped<ICreditCardBinRepository, CreditCardBinRepository>();
+        services.AddScoped<ICreditCardService, CreditCardService>();
         services.AddScoped<INotificationClient, NotificationClient>();
         services.AddMemoryCache();
 

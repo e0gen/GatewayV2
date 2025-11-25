@@ -21,10 +21,10 @@ public partial class TblCreditCardBin
 
     [Column("CCName")]
     [StringLength(20)]
-    public string Ccname { get; set; } = null!;
+    public string CcName { get; set; } = null!;
 
     [Column("CCType")]
-    public byte Cctype { get; set; }
+    public byte CcType { get; set; }
 
     [Column(TypeName = "datetime")]
     public DateTime? ImportDate { get; set; }
@@ -33,13 +33,13 @@ public partial class TblCreditCardBin
     public DateTime InsertDate { get; set; }
 
     [Column("BINID")]
-    public int Binid { get; set; }
+    public int BinId { get; set; }
 
     [Column("BINLen")]
-    public int? Binlen { get; set; }
+    public int? BinLen { get; set; }
 
     [Column("BINNumber")]
-    public int? Binnumber { get; set; }
+    public int? BinNumber { get; set; }
 
     public bool? IsPrepaid { get; set; }
 }
