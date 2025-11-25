@@ -8,12 +8,13 @@ using Ezzygate.Infrastructure.Locking;
 using Ezzygate.Infrastructure.Notifications;
 using Ezzygate.Infrastructure.Repositories;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
+using Ezzygate.Infrastructure.Scheduling;
 using Ezzygate.Infrastructure.Services;
 using Ezzygate.Infrastructure.Transactions;
 
 namespace Ezzygate.Infrastructure.Extensions;
 
-public static class DependencyInjection
+public static class ServiceCollectionExtensions
 {
     private const string InfrastructureConfigFile = "Ezzygate.Infrastructure.json";
 
@@ -80,6 +81,16 @@ public static class DependencyInjection
         services.AddScoped<ICreditCardService, CreditCardService>();
         services.AddScoped<INotificationClient, NotificationClient>();
         services.AddMemoryCache();
+
+        return services;
+    }
+
+    public static IServiceCollection AddDelayedTaskScheduler(this IServiceCollection services)
+    {
+        services.AddSingleton<DelayedTaskScheduler>();
+        services.AddSingleton<IDelayedTaskScheduler>(sp => sp.GetRequiredService<DelayedTaskScheduler>());
+
+        services.AddHostedService<DelayedTaskProcessor>();
 
         return services;
     }
