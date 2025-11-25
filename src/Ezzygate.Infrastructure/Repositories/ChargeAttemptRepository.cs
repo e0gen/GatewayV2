@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Ezzygate.Domain.Models;
 using Ezzygate.Infrastructure.Ef.Context;
@@ -18,54 +19,98 @@ public class ChargeAttemptRepository : IChargeAttemptRepository
     public async Task<ChargeAttempt?> GetByIdAsync(int logChargeAttemptId)
     {
         var entity = await _context.TblLogChargeAttempts
+            .OrderBy(t => t.LogChargeAttemptsId)
             .FirstOrDefaultAsync(l => l.LogChargeAttemptsId == logChargeAttemptId);
 
         return entity != null ? MapToChargeAttempt(entity) : null;
     }
 
-    public async Task<bool> UpdateRedirectFlagAsync(int logChargeAttemptId, bool redirectFlag,
-        CancellationToken cancellationToken = default)
+    public async Task<ChargeAttempt?> GetByTransactionIdAsync(int transactionId)
     {
         var entity = await _context.TblLogChargeAttempts
-            .FirstOrDefaultAsync(l => l.LogChargeAttemptsId == logChargeAttemptId, cancellationToken);
+            .Where(l => l.LcaTransNum == transactionId)
+            .OrderBy(t => t.LogChargeAttemptsId)
+            .FirstOrDefaultAsync();
 
-        if (entity == null) return false;
+        return entity != null ? MapToChargeAttempt(entity) : null;
+    }
 
-        entity.IsRedirectApplied = redirectFlag;
+    public async Task<bool> UpdateAsync(
+        Expression<Func<int, bool>> byId,
+        Action<ChargeAttemptUpdate> configure,
+        CancellationToken cancellationToken = default)
+    {
+        var update = new ChargeAttemptUpdate();
+        configure(update);
+
+        var compiledPredicate = byId.Compile();
+        return await UpdateEntityAsync(
+            entity => compiledPredicate(entity.LogChargeAttemptsId),
+            entity => ApplyUpdates(entity, update),
+            cancellationToken,
+            update.ThrowIfNotFound,
+            update.NotFoundMessage);
+    }
+
+    public async Task<bool> UpdateByTransactionAsync(
+        Expression<Func<int?, string?, bool>> byTransaction,
+        Action<ChargeAttemptUpdate> configure,
+        CancellationToken cancellationToken = default)
+    {
+        var update = new ChargeAttemptUpdate();
+        configure(update);
+
+        var compiledPredicate = byTransaction.Compile();
+        return await UpdateEntityAsync(
+            entity => compiledPredicate(entity.LcaTransNum, entity.LcaReplyCode),
+            entity => ApplyUpdates(entity, update),
+            cancellationToken,
+            update.ThrowIfNotFound,
+            update.NotFoundMessage);
+    }
+
+    private async Task<bool> UpdateEntityAsync(
+        Expression<Func<Ef.Entities.TblLogChargeAttempt, bool>> predicate,
+        Action<Ef.Entities.TblLogChargeAttempt> updateAction,
+        CancellationToken cancellationToken = default,
+        bool throwIfNotFound = false,
+        string? notFoundMessage = null)
+    {
+        var entity = await _context.TblLogChargeAttempts
+            .FirstOrDefaultAsync(predicate, cancellationToken);
+
+        if (entity == null)
+        {
+            if (throwIfNotFound)
+                throw new InvalidOperationException(notFoundMessage ?? "Entity not found");
+            return false;
+        }
+
+        updateAction(entity);
         var rowsAffected = await _context.SaveChangesAsync(cancellationToken);
         return rowsAffected > 0;
     }
 
-    public async Task UpdatePendingChargeAttemptAsync(int pendingTrxId, int movedTrxId, string replyCode,
-        string replyDescription, CancellationToken cancellationToken = default)
+    private static void ApplyUpdates(Ef.Entities.TblLogChargeAttempt entity, ChargeAttemptUpdate update)
     {
-        var chargeLog = await _context.TblLogChargeAttempts
-            .SingleOrDefaultAsync(e => e.LcaTransNum == pendingTrxId && e.LcaReplyCode == "553", cancellationToken);
-        if (chargeLog == null) return;
+        if (update.TransactionId.HasValue)
+        {
+            entity.LcaTransNum = update.TransactionId.Value;
+            entity.LcaReplyCode = update.ReplyCode;
+            entity.LcaReplyDesc = update.ReplyDescription;
+        }
 
-        chargeLog.LcaTransNum = movedTrxId;
-        chargeLog.LcaReplyCode = replyCode;
-        chargeLog.LcaReplyDesc = replyDescription;
+        if (update.RedirectFlag.HasValue)
+            entity.IsRedirectApplied = update.RedirectFlag.Value;
 
-        await _context.SaveChangesAsync(cancellationToken);
+        if (update.InnerRequest != null)
+            entity.LcaInnerRequest = update.InnerRequest.Truncate(4000);
+
+        if (update.InnerResponse != null)
+            entity.LcaInnerResponse = update.InnerResponse.Truncate(4000);
     }
 
-    public async Task UpdateInnerLogsAsync(int logChargeAttemptId, string? innerRequest, string? innerResponse,
-        CancellationToken cancellationToken = default)
-    {
-        var entity = await _context.TblLogChargeAttempts
-            .SingleOrDefaultAsync(l => l.LogChargeAttemptsId == logChargeAttemptId, cancellationToken);
-
-        if (entity == null)
-            throw new InvalidOperationException($"Charge attempt log with Id {logChargeAttemptId} not found");
-
-        entity.LcaInnerRequest = innerRequest.Truncate(4000);
-        entity.LcaInnerResponse = innerResponse.Truncate(4000);
-
-        await _context.SaveChangesAsync(cancellationToken);
-    }
-
-    private ChargeAttempt MapToChargeAttempt(Ef.Entities.TblLogChargeAttempt entity)
+    private static ChargeAttempt MapToChargeAttempt(Ef.Entities.TblLogChargeAttempt entity)
     {
         return new ChargeAttempt
         {

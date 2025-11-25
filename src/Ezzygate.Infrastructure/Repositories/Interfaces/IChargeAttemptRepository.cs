@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Ezzygate.Domain.Models;
 
 namespace Ezzygate.Infrastructure.Repositories.Interfaces;
@@ -6,12 +7,15 @@ public interface IChargeAttemptRepository
 {
     Task<ChargeAttempt?> GetByIdAsync(int logChargeAttemptId);
 
-    Task<bool> UpdateRedirectFlagAsync(int logChargeAttemptId, bool redirectFlag,
+    Task<ChargeAttempt?> GetByTransactionIdAsync(int transactionId);
+
+    Task<bool> UpdateAsync(
+        Expression<Func<int, bool>> byId,
+        Action<ChargeAttemptUpdate> configure,
         CancellationToken cancellationToken = default);
 
-    Task UpdatePendingChargeAttemptAsync(int pendingTrxId, int movedTrxId, string replyCode, string replyDescription,
-        CancellationToken cancellationToken = default);
-
-    Task UpdateInnerLogsAsync(int logChargeAttemptId, string? innerRequest, string? innerResponse,
+    Task<bool> UpdateByTransactionAsync(
+        Expression<Func<int?, string?, bool>> byTransaction,
+        Action<ChargeAttemptUpdate> configure,
         CancellationToken cancellationToken = default);
 }

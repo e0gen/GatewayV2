@@ -74,12 +74,9 @@ public class CreditCardIntegrationProcessor : ICreditCardIntegrationProcessor
             result.TrxId = moveResult.TrxId;
             result.TrxType = moveResult.PendingTrx.TransType;
 
-            await _chargeAttemptRepository.UpdatePendingChargeAttemptAsync(
-                context.LocatedTrx.TrxId,
-                moveResult.TrxId,
-                result.Code,
-                result.Message,
-                cancellationToken);
+            await _chargeAttemptRepository
+                .UpdateByTransactionAsync((trxId, reply) => trxId == context.LocatedTrx.TrxId && reply == "553", u => u
+                        .SetTransaction(moveResult.TrxId, result.Code, result.Message), cancellationToken);
 
             return result;
         }
@@ -96,8 +93,9 @@ public class CreditCardIntegrationProcessor : ICreditCardIntegrationProcessor
 
         if (processResult.Code == "553")
         {
-            var updated = await _chargeAttemptRepository.UpdateRedirectFlagAsync(context.ChargeAttemptLogId, true,
-                    cancellationToken);
+            var updated = await _chargeAttemptRepository
+                .UpdateAsync(id => id == context.ChargeAttemptLogId, u => u
+                        .SetRedirectFlag(true), cancellationToken);
             if (!updated)
                 _logger.LogWarning("Failed to update Redirect flag. ChargeAttemptLogId: '{ChargeAttemptLogId}'",
                     context.ChargeAttemptLogId);
@@ -126,7 +124,7 @@ public class CreditCardIntegrationProcessor : ICreditCardIntegrationProcessor
             var trx = await _transactionRepository.GetApprovalTrxAsync(preAuthIdInt);
             if (trx == null)
                 throw new Exception($"Pre-auth trx not found '{preAuthIdInt}'");
-            
+
             await _transactionRepository.UpdateApprovalTrxAuthStatusAsync(preAuthIdInt, context.OpType);
         }
 
