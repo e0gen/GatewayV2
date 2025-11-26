@@ -2,12 +2,12 @@ using Ezzygate.Domain.Enums;
 
 namespace Ezzygate.WebApi.Models.Integration;
 
-public class IntegrationFinalizeRequest
+public class IntegrationProcessRequestDto
 {
     public OperationType OperationType { get; set; }
     public string? DebitRefCode { get; set; }
     public string? ApprovalNumber { get; set; }
-    public string DebitRefNum { get; set; } = null!;
+    public string? DebitRefNum { get; set; }
     public int TerminalId { get; set; }
     public bool Is3DSecure { get; set; }
     public CreditCardDto? CreditCard { get; set; }
@@ -26,7 +26,7 @@ public class IntegrationFinalizeRequest
     public string? CartId { get; set; }
     public string? OrderId { get; set; }
     public string? CustomerId { get; set; }
-    public int ChargeAttemptLogId { get; set; }
+    public int? ChargeAttemptLogId { get; set; }
     public TransactionSource? RequestSource { get; set; }
     public int TransType { get; set; }
     public int CreditType { get; set; }
