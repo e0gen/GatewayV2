@@ -1,7 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
+using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.Integrations.Abstractions;
+using Ezzygate.Integrations.Events;
 using Ezzygate.Integrations.Ph3a;
 using Ezzygate.Integrations.Ph3a.Api;
+using Ezzygate.Integrations.Scheduling;
 using Ezzygate.Integrations.Services;
 using Ezzygate.Integrations.Services.Processing;
 
@@ -17,6 +20,10 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IIntegrationFinalizer, IntegrationFinalizer>();
 
         services.AddScoped<ICreditCardIntegration, MockCreditCardIntegration>();
+
+        services.AddDelayedTaskScheduler();
+
+        services.AddScoped<CallbackFinalizeTask>();
 
         services.AddScoped<IPh3AService, Ph3AService>();
         services.AddScoped<Ph3AApiClient>();
