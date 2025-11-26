@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Ezzygate.Infrastructure.Logging;
+using Ezzygate.Integrations.Core.Processing;
 using Ezzygate.Integrations.Ph3a;
-using Ezzygate.Integrations.Services.Processing;
 using Ezzygate.WebApi.Extensions;
 using Ezzygate.WebApi.Filters;
 using Ezzygate.WebApi.Models;

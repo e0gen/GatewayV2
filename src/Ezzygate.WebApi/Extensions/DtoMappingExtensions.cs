@@ -1,4 +1,4 @@
-using Ezzygate.Integrations.Services.Processing;
+using Ezzygate.Integrations.Core.Processing;
 using Ezzygate.WebApi.Models.Integration;
 
 namespace Ezzygate.WebApi.Extensions;

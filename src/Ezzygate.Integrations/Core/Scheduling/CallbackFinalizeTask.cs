@@ -2,9 +2,9 @@ using Microsoft.Extensions.Logging;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Infrastructure.Scheduling;
-using Ezzygate.Integrations.Services.Processing;
+using Ezzygate.Integrations.Core.Processing;
 
-namespace Ezzygate.Integrations.Scheduling;
+namespace Ezzygate.Integrations.Core.Scheduling;
 
 public sealed class CallbackFinalizeTask : IDelayedTask<CallbackFinalizePayload>
 {

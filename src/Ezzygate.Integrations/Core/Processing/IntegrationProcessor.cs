@@ -6,9 +6,9 @@ using Ezzygate.Domain.Enums;
 using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Infrastructure.Transactions;
-using Ezzygate.Integrations.Abstractions;
+using Ezzygate.Integrations.Core.Abstractions;
 
-namespace Ezzygate.Integrations.Services.Processing;
+namespace Ezzygate.Integrations.Core.Processing;
 
 public sealed class IntegrationProcessor : IIntegrationProcessor
 {

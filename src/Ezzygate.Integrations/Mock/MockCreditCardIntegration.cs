@@ -4,9 +4,10 @@ using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Infrastructure.Notifications;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 using Ezzygate.Infrastructure.Transactions;
-using Ezzygate.Integrations.Abstractions;
+using Ezzygate.Integrations.Core;
+using Ezzygate.Integrations.Core.Abstractions;
 
-namespace Ezzygate.Integrations.Services;
+namespace Ezzygate.Integrations.Mock;
 
 public class MockCreditCardIntegration : BaseIntegration, ICreditCardIntegration
 {
@@ -30,10 +31,8 @@ public class MockCreditCardIntegration : BaseIntegration, ICreditCardIntegration
             "Processing mock credit card transaction. OpType: {OpType}, Amount: {Amount}, DebitRefCode: {DebitRefCode}",
             context.OpType, context.Amount, context.DebitRefCode);
 
-        // Simulate processing delay
         await Task.Delay(100, cancellationToken);
 
-        // Mock logic: approve transactions under $100, decline above
         var isApproved = context.Amount < 100;
 
         var result = new IntegrationResult

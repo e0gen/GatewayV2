@@ -1,6 +1,6 @@
 using Ezzygate.Application.Integrations;
 
-namespace Ezzygate.Integrations.Services.Processing;
+namespace Ezzygate.Integrations.Core.Processing;
 
 public interface IIntegrationProcessor
 {

@@ -4,9 +4,9 @@ using Ezzygate.Domain.Models;
 using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 using Ezzygate.Infrastructure.Scheduling;
-using Ezzygate.Integrations.Scheduling;
+using Ezzygate.Integrations.Core.Scheduling;
 
-namespace Ezzygate.Integrations.Events;
+namespace Ezzygate.Integrations.Core.Events;
 
 public abstract class IntegrationEventHandler : IIntegrationEventHandler
 {

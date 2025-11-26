@@ -1,6 +1,6 @@
 using Ezzygate.Domain.Enums;
 
-namespace Ezzygate.Integrations.Services.Processing;
+namespace Ezzygate.Integrations.Core.Processing;
 
 public sealed class FinalizeRequest
 {

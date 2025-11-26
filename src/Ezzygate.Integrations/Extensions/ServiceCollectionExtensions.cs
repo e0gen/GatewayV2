@@ -1,12 +1,13 @@
 using Microsoft.Extensions.DependencyInjection;
 using Ezzygate.Infrastructure.Extensions;
-using Ezzygate.Integrations.Abstractions;
-using Ezzygate.Integrations.Events;
+using Ezzygate.Integrations.Core;
+using Ezzygate.Integrations.Core.Abstractions;
+using Ezzygate.Integrations.Core.Events;
+using Ezzygate.Integrations.Core.Processing;
+using Ezzygate.Integrations.Core.Scheduling;
+using Ezzygate.Integrations.Mock;
 using Ezzygate.Integrations.Ph3a;
 using Ezzygate.Integrations.Ph3a.Api;
-using Ezzygate.Integrations.Scheduling;
-using Ezzygate.Integrations.Services;
-using Ezzygate.Integrations.Services.Processing;
 
 namespace Ezzygate.Integrations.Extensions;
 

@@ -1,13 +1,13 @@
 using Microsoft.Extensions.Logging;
-using Ezzygate.Integrations.Abstractions;
 using Ezzygate.Application.Integrations;
 using Ezzygate.Application.Transactions;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Infrastructure.Notifications;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 using Ezzygate.Infrastructure.Transactions;
+using Ezzygate.Integrations.Core.Abstractions;
 
-namespace Ezzygate.Integrations.Services;
+namespace Ezzygate.Integrations.Core;
 
 public abstract class BaseIntegration : IIntegration
 {

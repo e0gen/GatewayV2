@@ -1,4 +1,4 @@
-namespace Ezzygate.Integrations.Abstractions;
+namespace Ezzygate.Integrations.Core.Abstractions;
 
 public interface IIntegrationProvider
 {

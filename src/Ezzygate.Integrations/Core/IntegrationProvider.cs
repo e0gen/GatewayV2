@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
-using Ezzygate.Integrations.Abstractions;
+using Ezzygate.Integrations.Core.Abstractions;
 
-namespace Ezzygate.Integrations.Services;
+namespace Ezzygate.Integrations.Core;
 
 public class IntegrationProvider : IIntegrationProvider
 {

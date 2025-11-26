@@ -1,4 +1,4 @@
-namespace Ezzygate.Integrations.Scheduling;
+namespace Ezzygate.Integrations.Core.Scheduling;
 
 public sealed record CallbackFinalizePayload
 {

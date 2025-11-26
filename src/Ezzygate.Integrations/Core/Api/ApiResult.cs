@@ -1,4 +1,4 @@
-namespace Ezzygate.Integrations.Api;
+namespace Ezzygate.Integrations.Core.Api;
 
 public class ApiResult<T>
 {

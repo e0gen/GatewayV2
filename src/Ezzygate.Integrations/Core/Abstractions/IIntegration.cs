@@ -1,7 +1,7 @@
 using Ezzygate.Application.Integrations;
 using Ezzygate.Infrastructure.Transactions;
 
-namespace Ezzygate.Integrations.Abstractions;
+namespace Ezzygate.Integrations.Core.Abstractions;
 
 public interface IIntegration
 {

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace Ezzygate.Integrations.Events;
+namespace Ezzygate.Integrations.Core.Events;
 
 public interface IIntegrationEventHandler
 {

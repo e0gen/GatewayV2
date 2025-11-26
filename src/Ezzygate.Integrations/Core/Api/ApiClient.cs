@@ -3,7 +3,7 @@ using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.Infrastructure.Transactions;
 using Ezzygate.Integrations.Extensions;
 
-namespace Ezzygate.Integrations.Api;
+namespace Ezzygate.Integrations.Core.Api;
 
 public abstract class ApiClient
 {

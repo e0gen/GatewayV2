@@ -1,4 +1,4 @@
-namespace Ezzygate.Integrations.Events;
+namespace Ezzygate.Integrations.Core.Events;
 
 public sealed class IntegrationEventContext
 {
