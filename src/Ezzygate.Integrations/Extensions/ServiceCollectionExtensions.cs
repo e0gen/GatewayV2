@@ -3,6 +3,7 @@ using Ezzygate.Integrations.Abstractions;
 using Ezzygate.Integrations.Ph3a;
 using Ezzygate.Integrations.Ph3a.Api;
 using Ezzygate.Integrations.Services;
+using Ezzygate.Integrations.Services.Processing;
 
 namespace Ezzygate.Integrations.Extensions;
 
@@ -12,6 +13,8 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<IIntegrationProvider, IntegrationProvider>();
         services.AddScoped<ICreditCardIntegrationProcessor, CreditCardIntegrationProcessor>();
+        services.AddScoped<IIntegrationProcessor, IntegrationProcessor>();
+        services.AddScoped<IIntegrationFinalizer, IntegrationFinalizer>();
 
         services.AddScoped<ICreditCardIntegration, MockCreditCardIntegration>();
 
