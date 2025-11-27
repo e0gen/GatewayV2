@@ -178,4 +178,22 @@ public class TransactionContext
             return type != null ? Enum.Parse<FinalizeUrlType>(type) : FinalizeUrlType.Unknown;
         }
     }
+
+    public IntegrationResult GetIntegrationResult()
+    {
+        return new IntegrationResult
+        {
+            Code = ReplyCode,
+            Message = ErrorMessage,
+            ApprovalNumber = ApprovalNumber,
+            DebitRefCode = DebitRefCode,
+            DebitRefNum = DebitRefNum,
+            TerminalNumber = TerminalNumber,
+            TrxId = TrxId,
+            DebitCompanyId = DebitCompany.Id,
+            IsFinalized = IsFinalized,
+            TrxType = TransType,
+            RedirectUrl = RedirectUrl
+        };
+    }
 }

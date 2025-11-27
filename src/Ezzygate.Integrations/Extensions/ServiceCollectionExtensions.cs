@@ -8,6 +8,7 @@ using Ezzygate.Integrations.Core.Scheduling;
 using Ezzygate.Integrations.Mock;
 using Ezzygate.Integrations.Ph3a;
 using Ezzygate.Integrations.Ph3a.Api;
+using Ezzygate.Integrations.Rapyd;
 
 namespace Ezzygate.Integrations.Extensions;
 
@@ -21,6 +22,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IIntegrationFinalizer, IntegrationFinalizer>();
 
         services.AddScoped<ICreditCardIntegration, MockCreditCardIntegration>();
+        services.AddScoped<ICreditCardIntegration, RapydIntegration>();
 
         services.AddDelayedTaskScheduler();
 

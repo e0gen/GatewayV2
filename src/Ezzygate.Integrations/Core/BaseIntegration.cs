@@ -13,12 +13,12 @@ public abstract class BaseIntegration : IIntegration
 {
     protected readonly ILogger<BaseIntegration> Logger;
     protected readonly IIntegrationDataService DataService;
-    private readonly NotificationClient _notificationClient;
+    private readonly INotificationClient _notificationClient;
 
     protected BaseIntegration(
         ILogger<BaseIntegration> logger,
         IIntegrationDataService dataService,
-        NotificationClient notificationClient)
+        INotificationClient notificationClient)
     {
         Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         DataService = dataService ?? throw new ArgumentNullException(nameof(dataService));
