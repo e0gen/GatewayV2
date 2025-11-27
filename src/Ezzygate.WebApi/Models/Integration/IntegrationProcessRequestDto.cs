@@ -35,8 +35,4 @@ public class IntegrationProcessRequestDto
     public string? RoutingNumber { get; set; }
     public string? AccountNumber { get; set; }
     public string? AccountName { get; set; }
-    public bool IsAutomatedRequest { get; set; }
-    public string? AutomatedStatus { get; set; }
-    public string? AutomatedErrorMessage { get; set; }
-    public string? AutomatedPayload { get; set; }
 }
