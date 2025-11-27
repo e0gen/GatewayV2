@@ -9,6 +9,7 @@ public sealed record CallbackFinalizePayload
     public required string DebitReferenceNum { get; init; }
     public required int ChargeAttemptLogId { get; init; }
     public string? AutomatedStatus { get; init; }
-    public string? AutomatedErrorMessage { get; init; }
+    public string? AutomatedCode { get; init; }
+    public string? AutomatedMessage { get; init; }
     public object? AutomatedPayload { get; init; }
 }

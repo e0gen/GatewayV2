@@ -65,7 +65,8 @@ public sealed class IntegrationFinalizer : IIntegrationFinalizer
             ctx.QueryString = request.QueryString;
             ctx.IsAutomatedRequest = request.IsAutomatedRequest;
             ctx.AutomatedStatus = request.AutomatedStatus;
-            ctx.AutomatedErrorMessage = request.AutomatedErrorMessage;
+            ctx.AutomatedCode = request.AutomatedCode;
+            ctx.AutomatedMessage = request.AutomatedMessage;
             ctx.AutomatedPayload = request.AutomatedPayload;
 
             var result = await _integrationProcessor.ProcessTransactionAsync(ctx, cancellationToken);

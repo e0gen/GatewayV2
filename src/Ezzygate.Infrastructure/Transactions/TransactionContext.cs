@@ -42,7 +42,8 @@ public class TransactionContext
     public string TerminalAuthCode3D => Terminal?.AuthenticationCode3D ?? string.Empty;
     public bool IsAutomatedRequest { get; set; }
     public string? AutomatedStatus { get; set; } = string.Empty;
-    public string? AutomatedErrorMessage { get; set; } = string.Empty;
+    public string? AutomatedCode { get; set; } = string.Empty;
+    public string? AutomatedMessage { get; set; } = string.Empty;
     public object? AutomatedPayload { get; set; }
     public int TrxId { get; set; }
     public DateTime TrxDate { get; set; }

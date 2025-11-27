@@ -73,7 +73,8 @@ public sealed class IntegrationProcessor : IIntegrationProcessor
             ctx.RequestSource = request.RequestSource;
             ctx.IsAutomatedRequest = request.IsAutomatedRequest;
             ctx.AutomatedStatus = request.AutomatedStatus;
-            ctx.AutomatedErrorMessage = request.AutomatedErrorMessage;
+            ctx.AutomatedCode = request.AutomatedCode;
+            ctx.AutomatedMessage = request.AutomatedErrorMessage;
             ctx.AutomatedPayload = request.AutomatedPayload;
             if (!string.IsNullOrEmpty(ctx.QueryString))
             {

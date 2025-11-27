@@ -89,7 +89,8 @@ public abstract class IntegrationEventHandler : IIntegrationEventHandler
                 DebitReferenceNum = pendingTrx.DebitReferenceNum ?? string.Empty,
                 ChargeAttemptLogId = logId.Id,
                 AutomatedStatus = context.AutomatedStatus,
-                AutomatedErrorMessage = context.AutomatedErrorMessage,
+                AutomatedCode = context.AutomatedCode,
+                AutomatedMessage = context.AutomatedMessage,
                 AutomatedPayload = context.AutomatedPayload
             };
 

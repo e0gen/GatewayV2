@@ -40,6 +40,7 @@ public sealed class ProcessRequest
     public TransactionSource? RequestSource { get; init; }
     public bool IsAutomatedRequest { get; init; }
     public string? AutomatedStatus { get; init; }
+    public string? AutomatedCode { get; init; }
     public string? AutomatedErrorMessage { get; init; }
     public object? AutomatedPayload { get; init; }
 }
