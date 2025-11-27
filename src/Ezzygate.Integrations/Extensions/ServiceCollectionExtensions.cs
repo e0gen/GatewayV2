@@ -24,9 +24,12 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ICreditCardIntegration, MockCreditCardIntegration>();
         services.AddScoped<ICreditCardIntegration, RapydIntegration>();
 
+        services.AddScoped<RapydEventHandler>();
+
         services.AddDelayedTaskScheduler();
 
         services.AddScoped<CallbackFinalizeTask>();
+        services.AddScoped<TimeoutFinalizeTask>();
 
         services.AddScoped<IPh3AService, Ph3AService>();
         services.AddScoped<Ph3AApiClient>();
@@ -46,6 +49,13 @@ public static class ServiceCollectionExtensions
         where TService : class, TInterface
     {
         services.AddScoped<TInterface, TService>();
+        return services;
+    }
+
+    public static IServiceCollection AddEventHandler<THandler>(this IServiceCollection services)
+        where THandler : class, IIntegrationEventHandler
+    {
+        services.AddScoped<THandler>();
         return services;
     }
 }

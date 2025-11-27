@@ -6,6 +6,7 @@ using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Infrastructure.Notifications;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
+using Ezzygate.Infrastructure.Scheduling;
 using Ezzygate.Infrastructure.Transactions;
 using Ezzygate.Integrations.Core;
 using Ezzygate.Integrations.Core.Abstractions;
@@ -20,18 +21,21 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
     private readonly IRapydApiClient _apiClient;
     private readonly ILogger<RapydIntegration> _logger;
     private readonly ICreditCardService _creditCardService;
+    private readonly IDelayedTaskScheduler _taskScheduler;
 
     public RapydIntegration(
         ILogger<RapydIntegration> logger,
         IIntegrationDataService dataService,
         INotificationClient notificationClient,
         IRapydApiClient rapydApiClient,
-        ICreditCardService creditCardService)
+        ICreditCardService creditCardService,
+        IDelayedTaskScheduler taskScheduler)
         : base(logger, dataService, notificationClient)
     {
         _apiClient = rapydApiClient;
         _logger = logger;
         _creditCardService = creditCardService;
+        _taskScheduler = taskScheduler;
     }
 
     public override string Tag => "Rapyd";
@@ -42,7 +46,7 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
         switch (ctx.OpType)
         {
             case OperationType.Finalize:
-                return FinalizeTrxAsync(ctx);
+                return FinalizeTrxAsync(ctx, cancellationToken);
             case OperationType.Refund:
                 return RefundTrxAsync(ctx);
             case OperationType.AuthorizationCapture:
@@ -167,8 +171,7 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
             integrationResult.RedirectUrl = collectUrl;
 
             logger.Info("Status: Pending. Scheduling a timeout job");
-            // TODO ScheduleTimeoutJob
-            logger.Info("Timeout job scheduled for 15 minutes");
+            ScheduleTimeoutJob(ctx.DebitRefCode, ctx.ChargeAttemptLogId, TimeSpan.FromMinutes(15));
         }
         else
         {
@@ -180,8 +183,12 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
         return integrationResult;
     }
 
-    private async Task<IntegrationResult> FinalizeTrxAsync(TransactionContext ctx)
+    private async Task<IntegrationResult> FinalizeTrxAsync(TransactionContext ctx,
+        CancellationToken cancellationToken = default)
     {
+        if (ctx.AutomatedStatus == TimeoutFinalizeTask.EventName)
+            return await AutoFinalizeTrxAsync(ctx, cancellationToken);
+
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(FinalizeTrxAsync));
         logger.Info($"Source: {(ctx.IsAutomatedRequest ? "Webhook" : "Redirect")}");
         try
@@ -214,7 +221,7 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
             await DataService.ChargeAttempts
                 .UpdateAsync(id => id == ctx.ChargeAttemptLogId, u => u
                     .SetInnerRequest($"Callback: {ctx.IsAutomatedRequest}, {log.InnerRequest ?? ""}{ctx.GetFinalizeUrl(ctx.FinalizeType)}")
-                    .SetInnerResponse(paymentResult.ResponseJson));
+                    .SetInnerResponse(paymentResult.ResponseJson), cancellationToken);
 
             logger.Info($"Status: {status} TransType: {ctx.LocatedTrx.TransType} Approval number: {ctx.ApprovalNumber}");
             logger.Info(ctx.IsAutomatedRequest
@@ -247,5 +254,17 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
             logger.Error($"Error in Rapyd finalization: {e.Message}\n\n{e.StackTrace}");
             return new IntegrationResult { Code = "500", Message = "Internal server error: finalization" };
         }
+    }
+
+    private void ScheduleTimeoutJob(string debitReferenceCode, int chargeAttemptLogId, TimeSpan timeout)
+    {
+        var payload = new TimeoutFinalizePayload
+        {
+            Tag = Tag,
+            DebitReferenceCode = debitReferenceCode,
+            ChargeAttemptLogId = chargeAttemptLogId
+        };
+
+        _taskScheduler.Schedule<TimeoutFinalizeTask, TimeoutFinalizePayload>(payload, timeout);
     }
 }
