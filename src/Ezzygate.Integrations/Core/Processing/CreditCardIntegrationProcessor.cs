@@ -56,7 +56,7 @@ public class CreditCardIntegrationProcessor : ICreditCardIntegrationProcessor
             return result;
         }
 
-        if (!context.Terminal!.IsActive || !context.DebitCompany!.IsActive)
+        if (!context.Terminal.IsActive || !context.DebitCompany.IsActive)
         {
             var result = new IntegrationResult
             {

@@ -35,14 +35,15 @@ public sealed class CallbackFinalizeTask : IDelayedTask<CallbackFinalizePayload>
                 OperationType = OperationType.Finalize,
                 IsAutomatedRequest = true,
                 AutomatedStatus = payload.AutomatedStatus,
-                AutomatedErrorMessage = payload.AutomatedErrorMessage,
+                AutomatedCode = payload.AutomatedCode,
+                AutomatedMessage = payload.AutomatedMessage,
                 AutomatedPayload = payload.AutomatedPayload
             };
 
             var result = await _finalizer.FinalizeAsync(request, cancellationToken);
 
-            logger.SetShortMessage($"Event {payload.EventName} finalized. Approval id: {payload.ApprovalNumber} Code: {result.Code}");
-            logger.Info($"Finalized approval id: {payload.ApprovalNumber} TrxId: {result.TrxId} Code: {result.Code}");
+            logger.SetShortMessage($"Event {payload.EventName} finalized. Approval id: {result.ApprovalNumber} Code: {result.Code}");
+            logger.Info($"Finalized approval id: {result.ApprovalNumber} TrxId: {result.TrxId} Code: {result.Code}");
         }
         catch (Exception ex)
         {

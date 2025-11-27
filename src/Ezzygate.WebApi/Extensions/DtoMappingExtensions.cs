@@ -42,11 +42,7 @@ public static class DtoMappingExtensions
             RequestContent = dto.RequestContent,
             FormData = dto.FormData,
             QueryString = dto.QueryString,
-            RequestSource = dto.RequestSource,
-            IsAutomatedRequest = dto.IsAutomatedRequest,
-            AutomatedStatus = dto.AutomatedStatus,
-            AutomatedErrorMessage = dto.AutomatedErrorMessage,
-            AutomatedPayload = dto.AutomatedPayload
+            RequestSource = dto.RequestSource
         };
     }
 
@@ -60,11 +56,7 @@ public static class DtoMappingExtensions
             OperationType = dto.OperationType,
             RequestContent = dto.RequestContent,
             FormData = dto.FormData,
-            QueryString = dto.QueryString,
-            IsAutomatedRequest = dto.IsAutomatedRequest,
-            AutomatedStatus = dto.AutomatedStatus,
-            AutomatedErrorMessage = dto.AutomatedErrorMessage,
-            AutomatedPayload = dto.AutomatedPayload
+            QueryString = dto.QueryString
         };
     }
 }

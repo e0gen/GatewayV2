@@ -42,7 +42,8 @@ public class TransactionContext
     public string TerminalAuthCode3D => Terminal?.AuthenticationCode3D ?? string.Empty;
     public bool IsAutomatedRequest { get; set; }
     public string? AutomatedStatus { get; set; } = string.Empty;
-    public string? AutomatedErrorMessage { get; set; } = string.Empty;
+    public string? AutomatedCode { get; set; } = string.Empty;
+    public string? AutomatedMessage { get; set; } = string.Empty;
     public object? AutomatedPayload { get; set; }
     public int TrxId { get; set; }
     public DateTime TrxDate { get; set; }
@@ -177,5 +178,23 @@ public class TransactionContext
             var type = QueryStringParsed["type"];
             return type != null ? Enum.Parse<FinalizeUrlType>(type) : FinalizeUrlType.Unknown;
         }
+    }
+
+    public IntegrationResult GetIntegrationResult()
+    {
+        return new IntegrationResult
+        {
+            Code = ReplyCode,
+            Message = ErrorMessage,
+            ApprovalNumber = ApprovalNumber,
+            DebitRefCode = DebitRefCode,
+            DebitRefNum = DebitRefNum,
+            TerminalNumber = TerminalNumber,
+            TrxId = TrxId,
+            DebitCompanyId = DebitCompany.Id,
+            IsFinalized = IsFinalized,
+            TrxType = TransType,
+            RedirectUrl = RedirectUrl
+        };
     }
 }

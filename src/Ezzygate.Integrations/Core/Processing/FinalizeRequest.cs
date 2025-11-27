@@ -13,6 +13,7 @@ public sealed class FinalizeRequest
     public string? QueryString { get; init; }
     public bool IsAutomatedRequest { get; init; }
     public string? AutomatedStatus { get; init; }
-    public string? AutomatedErrorMessage { get; init; }
+    public string? AutomatedCode { get; init; }
+    public string? AutomatedMessage { get; init; }
     public object? AutomatedPayload { get; init; }
 }

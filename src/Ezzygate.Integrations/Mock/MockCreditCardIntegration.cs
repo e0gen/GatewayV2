@@ -16,7 +16,7 @@ public class MockCreditCardIntegration : BaseIntegration, ICreditCardIntegration
     public MockCreditCardIntegration(
         ILogger<MockCreditCardIntegration> logger,
         IIntegrationDataService dataService,
-        NotificationClient notificationClient)
+        INotificationClient notificationClient)
         : base(logger, dataService, notificationClient)
     {
         _logger = logger;
