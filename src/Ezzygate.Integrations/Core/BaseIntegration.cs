@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using Ezzygate.Application.Integrations;
 using Ezzygate.Application.Transactions;
 using Ezzygate.Domain.Enums;
+using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Infrastructure.Notifications;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 using Ezzygate.Infrastructure.Transactions;
@@ -82,6 +83,32 @@ public abstract class BaseIntegration : IIntegration
                 .UpdateAsync(id => id == ctx.ChargeAttemptLogId, u => u
                     .SetRedirectFlag(false), cancellationToken);
         }
+    }
+
+    protected async Task<IntegrationResult> AutoFinalizeTrxAsync(TransactionContext ctx,
+        CancellationToken cancellationToken = default)
+    {
+        using var logger = Logger.GetScopedForIntegration(Tag, nameof(AutoFinalizeTrxAsync));
+
+        var log = await DataService.ChargeAttempts.GetByIdAsync(ctx.ChargeAttemptLogId);
+        if (log is null)
+            throw new Exception($"Charge attempt log not found for id '{ctx.ChargeAttemptLogId}'");
+
+        await DataService.ChargeAttempts
+            .UpdateAsync(id => id == ctx.ChargeAttemptLogId, u => u
+                .SetInnerRequest($"{ctx.AutomatedStatus},{log.InnerRequest}")
+                .SetInnerResponse($"{ctx.AutomatedStatus},{log.InnerResponse}"), cancellationToken);
+
+        var integrationResult = ctx.GetIntegrationResult();
+        integrationResult.Code = ctx.AutomatedCode;
+        integrationResult.Message = ctx.AutomatedMessage;
+
+        await CompleteFinalizationAsync(ctx, integrationResult, cancellationToken);
+
+        logger.SetShortMessage(
+            $"Status: {ctx.AutomatedStatus} Approval Number: {integrationResult.ApprovalNumber} Pass/Fail Id: {integrationResult.TrxId} Code: {integrationResult.Code}");
+
+        return integrationResult;
     }
 
     protected async Task UpdatePendingEventsAsync(int movedTrxId, string replyCode, int pendingTrxId,
