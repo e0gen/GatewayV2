@@ -47,6 +47,43 @@ public abstract class BaseIntegration : IIntegration
             throw new Exception("Invalid debit company");
     }
 
+    protected async Task CompleteFinalizationAsync(
+        TransactionContext ctx,
+        IntegrationResult result,
+        CancellationToken cancellationToken = default)
+    {
+        var pendingTrx = await DataService.Transactions.GetPendingTrxByIdAsync(ctx.LocatedTrx.TrxId);
+        if (pendingTrx is null)
+            throw new Exception($"Finalize pending trx '{ctx.LocatedTrx.TrxId}' not found");
+
+        var (movedTrxId, movedPendingTrx) = await DataService.Transactions.MoveTrxAsync(
+            ctx.LocatedTrx.TrxId,
+            result.Code,
+            result.Message,
+            ctx.LocatedTrx.BinCountry);
+
+        result.TrxId = movedTrxId;
+        result.TrxType = movedPendingTrx.TransType;
+        result.CardStorageId = movedPendingTrx.CcStorageId;
+        result.ApprovalNumber ??= movedPendingTrx.DebitApprovalNumber;
+
+        await SendNotificationAsync(movedPendingTrx, result);
+
+        await DataService.ChargeAttempts
+            .UpdateByTransactionAsync((trxId, reply) => trxId == ctx.LocatedTrx.TrxId && reply == "553", u => u
+                .SetTransaction(movedTrxId, result.Code, result.Message), cancellationToken);
+
+        await UpdatePendingEventsAsync(movedTrxId, result.Code, movedPendingTrx.Id,
+            movedPendingTrx.TransType, movedPendingTrx.TransCreditType, movedPendingTrx.CompanyId);
+
+        if (ctx.IsAutomatedRequest)
+        {
+            await DataService.ChargeAttempts
+                .UpdateAsync(id => id == ctx.ChargeAttemptLogId, u => u
+                    .SetRedirectFlag(false), cancellationToken);
+        }
+    }
+
     protected async Task UpdatePendingEventsAsync(int movedTrxId, string replyCode, int pendingTrxId,
         int pendingTrxType, int pendingTrxCreditType, int merchantId)
     {

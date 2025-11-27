@@ -192,9 +192,6 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
             ctx.TransType = ctx.CreditType;
             ctx.DebitRefNum = ctx.Terminal.TerminalNumber;
 
-            var updatePending = await DataService.Transactions.GetPendingTrxByIdAsync(ctx.LocatedTrx.TrxId);
-            if (updatePending is null)
-                throw new Exception($"Finalize pending trx '{ctx.LocatedTrx.TrxId}' not found");
             var log = await DataService.ChargeAttempts.GetByIdAsync(ctx.ChargeAttemptLogId);
             if (log is null)
                 throw new Exception($"Charge attempt log not found for id '{ctx.ChargeAttemptLogId}'");
@@ -225,15 +222,12 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
                 : $"Redirection request. Type: {ctx.FinalizeType}");
 
             var integrationResult = ctx.GetIntegrationResult();
-            integrationResult.ApprovalNumber = updatePending.DebitApprovalNumber;
 
             switch (status)
             {
                 case "CLO":
                     integrationResult.Code = "000";
                     integrationResult.Message = "Payment Processed";
-                    if (ctx.LocatedTrx.TransType == 1) // pre-auth
-                        integrationResult.TrxId = ctx.LocatedTrx.TrxId;
                     break;
                 default:
                     integrationResult.Code = "99";
@@ -241,39 +235,10 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
                     break;
             }
 
-            var moveTrxResult = await DataService.Transactions.MoveTrxAsync(ctx.LocatedTrx.TrxId,
-                integrationResult.Code,
-                integrationResult.Message,
-                ctx.LocatedTrx.BinCountry);
-
-            var movedTrxId = moveTrxResult.TrxId;
-            var pendingTrx = moveTrxResult.PendingTrx;
-
-            integrationResult.TrxId = movedTrxId;
-            integrationResult.TrxType = pendingTrx.TransType;
-            integrationResult.CardStorageId = pendingTrx.CcStorageId;
-
-            await SendNotificationAsync(pendingTrx, integrationResult);
+            await CompleteFinalizationAsync(ctx, integrationResult, cancellationToken);
 
             logger.SetShortMessage(
-                $"Status: {status} Approval Number: {pendingTrx.DebitApprovalNumber} Pass/Fail Id : {movedTrxId} Code: {integrationResult.Code}");
-
-            await DataService.ChargeAttempts
-                .UpdateByTransactionAsync((trxId, reply) => trxId == ctx.LocatedTrx.TrxId && reply == "553", u => u
-                    .SetTransaction(movedTrxId, integrationResult.Code, integrationResult.Message));
-
-            await UpdatePendingEventsAsync(movedTrxId, integrationResult.Code, pendingTrx.Id, pendingTrx.TransType,
-                pendingTrx.TransCreditType, pendingTrx.CompanyId);
-
-            if (ctx.IsAutomatedRequest)
-            {
-                logger.Info("Setting isRedirectApplied flag = false for Webhook events if needed");
-                var updated = await DataService.ChargeAttempts
-                    .UpdateAsync(id => id == ctx.ChargeAttemptLogId, u => u
-                        .SetRedirectFlag(false));
-                if (!updated)
-                    logger.Warn($"Failed to update redirect flag for charge attempt log id '{ctx.ChargeAttemptLogId}'");
-            }
+                $"Status: {status} Approval Number: {integrationResult.ApprovalNumber} Pass/Fail Id: {integrationResult.TrxId} Code: {integrationResult.Code}");
 
             return integrationResult;
         }
