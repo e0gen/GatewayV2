@@ -1,5 +1,5 @@
 using Ezzygate.Integrations.Core.Processing;
-using Ezzygate.WebApi.Models.Integration;
+using Ezzygate.WebApi.Dtos;
 
 namespace Ezzygate.WebApi.Extensions;
 
@@ -10,26 +10,21 @@ public static class DtoMappingExtensions
         return new ProcessRequest
         {
             OperationType = dto.OperationType,
-            TerminalId = dto.TerminalId,
-            PaymentMethodId = dto.PaymentMethodId,
             DebitRefCode = dto.DebitRefCode,
             DebitRefNum = dto.DebitRefNum,
             ApprovalNumber = dto.ApprovalNumber,
+            TerminalId = dto.TerminalId,
+            Is3DSecure = dto.Is3DSecure,
+            CreditCard = dto.CreditCard,
+            Customer = dto.Customer,
+            PaymentMethodId = dto.PaymentMethodId,
             Amount = dto.Amount,
             OriginalAmount = dto.OriginalAmount,
             CurrencyIso = dto.CurrencyIso,
             Payments = dto.Payments,
             TransType = dto.TransType,
             CreditType = dto.CreditType,
-            CardHolderName = dto.CreditCard?.HolderName,
-            CardNumber = dto.CreditCard?.Number,
-            Cvv = dto.CreditCard?.Cvv,
-            Track2 = dto.CreditCard?.Track2,
-            ExpirationMonth = dto.CreditCard?.ExpirationMonth ?? 0,
-            ExpirationYear = dto.CreditCard?.ExpirationYear ?? 0,
-            Email = dto.Customer?.Email,
-            PersonalIdNumber = dto.Customer?.PersonalIdNumber,
-            PhoneNumber = dto.Customer?.PhoneNumber,
+            ChargeAttemptLogId = dto.ChargeAttemptLogId,
             MerchantNumber = dto.MerchantNumber,
             OrderId = dto.OrderId,
             CartId = dto.CartId,

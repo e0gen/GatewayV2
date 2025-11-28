@@ -36,7 +36,7 @@ public sealed class TimeoutFinalizeTask : IDelayedTask<TimeoutFinalizePayload>
             {
                 DebitReferenceCode = payload.DebitReferenceCode,
                 ChargeAttemptLogId = payload.ChargeAttemptLogId,
-                OperationType = OperationType.ForceFinalize,
+                OperationType = OperationType.Finalize,
                 IsAutomatedRequest = true,
                 AutomatedStatus = EventName,
                 AutomatedCode = "99",

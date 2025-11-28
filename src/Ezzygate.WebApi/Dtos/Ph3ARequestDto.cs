@@ -1,6 +1,6 @@
 using Ezzygate.Integrations.Ph3a.Api;
 
-namespace Ezzygate.WebApi.Models.Integration;
+namespace Ezzygate.WebApi.Dtos;
 
 public class Ph3ARequestDto : Ph3ARequest
 {

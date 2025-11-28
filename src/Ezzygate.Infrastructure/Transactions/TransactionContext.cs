@@ -27,7 +27,7 @@ public class TransactionContext
     public Terminal? Terminal { get; init; }
     public DebitCompany? DebitCompany { get; init; }
     public PaymentMethod? PaymentMethod { get; init; }
-    public int ChargeAttemptLogId { get; set; }
+    public int? ChargeAttemptLogId { get; set; }
     public string DebitRefCode { get; set; } = string.Empty;
     public string? SentDebitRefCode { get; set; } = string.Empty;
     public string? ApprovalNumber { get; set; } = string.Empty;
@@ -55,7 +55,58 @@ public class TransactionContext
     public string ErrorMessage { get; set; } = string.Empty;
     public string BinCountry { get; set; } = string.Empty;
     public string PayFor { get; set; } = string.Empty;
-    public string? RequestContent { get; set; } = string.Empty;
+    public decimal Amount { get; set; }
+    
+    public uint AmountInteger => GetAmountInteger(Amount);
+
+    public uint GetAmountInteger(decimal amount)
+    {
+        return (uint)Math.Round(amount * 100);
+    }
+    public string CurrencyIso { get; set; } = string.Empty;
+    public byte Payments { get; set; }
+    public string? PayerName { get; set; } = string.Empty;
+
+    public string PayerFirstName
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(PayerName))
+                return string.Empty;
+
+            var parts = PayerName.Trim().Split([' '], StringSplitOptions.RemoveEmptyEntries);
+            return parts.Length > 0 ? parts[0] : string.Empty;
+        }
+    }
+
+    public string PayerLastName
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(PayerName))
+                return string.Empty;
+
+            var parts = PayerName.Trim().Split([' '], StringSplitOptions.RemoveEmptyEntries);
+            return parts.Length > 1 ? parts[^1] : string.Empty;
+        }
+    }
+
+    public string? CardNumber { get; set; } = string.Empty;
+    public string? Cvv { get; set; } = string.Empty;
+    public string? Track2 { get; set; } = string.Empty;
+    public string? Email { get; set; } = string.Empty;
+    public Address BillingAddress { get; set; }
+    public int ExpirationMonth { get; set; }
+    public int ExpirationYear { get; set; }
+    public string? PersonalIdNumber { get; set; } = string.Empty;
+    public string? PhoneNumber { get; set; } = string.Empty;
+    public string? ClientIp { get; set; } = string.Empty;
+    public string? MerchantNumber { get; set; } = string.Empty;
+    public string? OrderId { get; set; } = string.Empty;
+    public string? CartId { get; set; } = string.Empty;
+    public string? CustomerId { get; set; }
+    public string? DateOfBirth { get; set; }
+    public string? RequestContent { get; set; }
     public string? FormData { get; set; } = string.Empty;
     public string? QueryString { get; set; } = string.Empty;
 
@@ -93,25 +144,8 @@ public class TransactionContext
             return _formDataParsed;
         }
     }
-
-    public decimal Amount { get; set; }
-    public string CurrencyIso { get; set; } = string.Empty;
-    public byte Payments { get; set; }
-    public string PayerName { get; set; } = string.Empty;
-    public string CardNumber { get; set; } = string.Empty;
-    public string Cvv { get; set; } = string.Empty;
-    public string Track2 { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
-    public int ExpirationMonth { get; set; }
-    public int ExpirationYear { get; set; }
-    public string PersonalIdNumber { get; set; } = string.Empty;
-    public string PhoneNumber { get; set; } = string.Empty;
-    public string? ClientIp { get; set; } = string.Empty;
-    public string? MerchantNumber { get; set; } = string.Empty;
-    public string? OrderId { get; set; } = string.Empty;
-    public string? CartId { get; set; } = string.Empty;
-    public string? CustomerId { get; set; }
     public decimal OriginalAmount { get; set; }
+    public uint OriginalAmountInteger => GetAmountInteger(OriginalAmount);
     public TransactionSource? RequestSource { get; set; }
     public int TransType { get; set; }
     public int CreditType { get; set; }
@@ -140,6 +174,8 @@ public class TransactionContext
         public string YYMM => $"{YY}{MM}";
         public string SlashMMYY => $"{MM}/{YY}";
     }
+
+    public string GetMerchantUrl() => _domainConfiguration.MerchantUrl;
 
     public string GetCollectUrl(string actionUrl, string? integrationTag = null)
     {
