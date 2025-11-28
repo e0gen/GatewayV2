@@ -24,7 +24,7 @@ public sealed class ProcessRequest
     public string? OrderId { get; init; }
     public string? CartId { get; init; }
     public string? CustomerId { get; init; }
-    public int? ChargeAttemptLogId { get; init; }
+    public int ChargeAttemptLogId { get; init; }
     public string? Comment { get; init; }
     public string? RoutingNumber { get; init; }
     public string? AccountNumber { get; init; }

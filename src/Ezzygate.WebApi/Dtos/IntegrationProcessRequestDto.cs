@@ -27,7 +27,7 @@ public class IntegrationProcessRequestDto
     public string? CartId { get; set; }
     public string? OrderId { get; set; }
     public string? CustomerId { get; set; }
-    public int? ChargeAttemptLogId { get; set; }
+    public int ChargeAttemptLogId { get; set; }
     public TransactionSource? RequestSource { get; set; }
     public int TransType { get; set; }
     public int CreditType { get; set; }

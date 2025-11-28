@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Infrastructure.Logging;
-using Ezzygate.Infrastructure.Repositories.Interfaces;
 using Ezzygate.Infrastructure.Scheduling;
 using Ezzygate.Integrations.Core.Processing;
 
@@ -12,16 +11,13 @@ public sealed class TimeoutFinalizeTask : IDelayedTask<TimeoutFinalizePayload>
     public const string EventName = "3DS_TIMEOUT";
     private readonly ILogger<TimeoutFinalizeTask> _logger;
     private readonly IIntegrationFinalizer _integrationFinalizer;
-    private readonly IChargeAttemptRepository _chargeAttemptRepository;
 
     public TimeoutFinalizeTask(
         ILogger<TimeoutFinalizeTask> logger,
-        IIntegrationFinalizer integrationFinalizer,
-        IChargeAttemptRepository chargeAttemptRepository)
+        IIntegrationFinalizer integrationFinalizer)
     {
         _logger = logger;
         _integrationFinalizer = integrationFinalizer;
-        _chargeAttemptRepository = chargeAttemptRepository;
     }
 
     public async Task ExecuteAsync(TimeoutFinalizePayload payload, CancellationToken cancellationToken = default)

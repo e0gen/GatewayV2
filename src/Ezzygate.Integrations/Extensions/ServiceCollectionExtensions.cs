@@ -9,6 +9,7 @@ using Ezzygate.Integrations.Mock;
 using Ezzygate.Integrations.Ph3a;
 using Ezzygate.Integrations.Ph3a.Api;
 using Ezzygate.Integrations.Rapyd;
+using Ezzygate.Integrations.Rapyd.Api;
 
 namespace Ezzygate.Integrations.Extensions;
 
@@ -25,6 +26,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ICreditCardIntegration, RapydIntegration>();
 
         services.AddScoped<RapydEventHandler>();
+
+        services.AddScoped<IRapydApiClient, RapydApiClient>();
 
         services.AddDelayedTaskScheduler();
 

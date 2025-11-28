@@ -27,7 +27,7 @@ public class TransactionContext
     public Terminal? Terminal { get; init; }
     public DebitCompany? DebitCompany { get; init; }
     public PaymentMethod? PaymentMethod { get; init; }
-    public int? ChargeAttemptLogId { get; set; }
+    public int ChargeAttemptLogId { get; set; }
     public string DebitRefCode { get; set; } = string.Empty;
     public string? SentDebitRefCode { get; set; } = string.Empty;
     public string? ApprovalNumber { get; set; } = string.Empty;
