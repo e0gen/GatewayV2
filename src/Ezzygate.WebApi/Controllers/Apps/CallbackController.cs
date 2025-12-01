@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Ezzygate.Infrastructure.Logging;
+using Ezzygate.Integrations.Paysafe;
 using Ezzygate.Integrations.Rapyd;
 
 namespace Ezzygate.WebApi.Controllers.Apps;
@@ -10,13 +11,16 @@ public class CallbackController : ControllerBase
 {
     private readonly ILogger<CallbackController> _logger;
     private readonly RapydEventHandler _rapydEventHandler;
+    private readonly PaysafeEventHandler _paysafeEventHandler;
 
     public CallbackController(
         ILogger<CallbackController> logger,
-        RapydEventHandler rapydEventHandler)
+        RapydEventHandler rapydEventHandler,
+        PaysafeEventHandler paysafeEventHandler)
     {
         _logger = logger;
         _rapydEventHandler = rapydEventHandler;
+        _paysafeEventHandler = paysafeEventHandler;
     }
 
     [HttpPost("rapyd")]
@@ -31,6 +35,23 @@ public class CallbackController : ControllerBase
         {
             _logger.Error(LogTag.Integration, ex, "Error handling {Integration} event: {Message}",
                 _rapydEventHandler.Tag, ex.Message);
+
+            return Ok();
+        }
+    }
+
+    [HttpPost("paysafe")]
+    public async Task<IActionResult> Paysafe(CancellationToken cancellationToken)
+    {
+        try
+        {
+            await _paysafeEventHandler.HandleAsync(Request, cancellationToken);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(LogTag.Integration, ex, "Error handling {Integration} event: {Message}",
+                _paysafeEventHandler.Tag, ex.Message);
 
             return Ok();
         }
