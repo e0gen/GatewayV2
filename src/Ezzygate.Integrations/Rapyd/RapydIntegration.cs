@@ -76,9 +76,9 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
         logger.Info($"[CaptureRequest] Req: {captureResult.RequestJson}");
         logger.Info($"[CaptureRequest] Res: {captureResult.ResponseJson}");
 
-        var response = captureResult.Response;
         if (captureResult.Response is null)
             throw new Exception("Failed to parse capture response", captureResult.Exception);
+        var response = captureResult.Response;
 
         var integrationResult = ctx.GetIntegrationResult();
         integrationResult.ApprovalNumber = response.Data.Id;
@@ -100,9 +100,9 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
         logger.Info($"[RefundRequest] Req: {refundResult.RequestJson}");
         logger.Info($"[RefundRequest] Res: {refundResult.ResponseJson}");
 
-        var response = refundResult.Response;
         if (refundResult.Response is null)
             throw new Exception("Failed to parse refund response", refundResult.Exception);
+        var response = refundResult.Response;
 
         var integrationResult = ctx.GetIntegrationResult();
         integrationResult.ApprovalNumber = response.Data.Id;
@@ -140,17 +140,17 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
 
         var processResult = await _apiClient.ProcessRequest(ctx, midCountry, capture, cc.PaymentMethodId);
 
-        await DataService.ChargeAttempts.UpdateAsync(id => id == ctx.ChargeAttemptLogId, u => u
-            .SetInnerRequest(processResult.RequestJson)
-            .SetInnerResponse(processResult.ResponseJson));
-
         logger.Info($"[ProcessRequest] Code: {processResult.StatusCode} Path: {processResult.Path}");
         logger.Info($"[ProcessRequest] Req: {processResult.RequestJson}");
         logger.Info($"[ProcessRequest] Res: {processResult.ResponseJson}");
 
-        var response = processResult.Response;
+        await DataService.ChargeAttempts.UpdateAsync(id => id == ctx.ChargeAttemptLogId, u => u
+            .SetInnerRequest(processResult.RequestJson)
+            .SetInnerResponse(processResult.ResponseJson));
+
         if (processResult.Response is null)
             throw new Exception("Failed to parse process response", processResult.Exception);
+        var response = processResult.Response;
 
         var integrationResult = ctx.GetIntegrationResult();
         integrationResult.ApprovalNumber = response.Data.Id;
@@ -186,9 +186,6 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
     private async Task<IntegrationResult> FinalizeTrxAsync(TransactionContext ctx,
         CancellationToken cancellationToken = default)
     {
-        if (ctx.AutomatedStatus == TimeoutFinalizeTask.EventName)
-            return await AutoFinalizeTrxAsync(ctx, cancellationToken);
-
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(FinalizeTrxAsync));
         logger.Info($"Source: {(ctx.IsAutomatedRequest ? "Webhook" : "Redirect")}");
         try
@@ -199,18 +196,27 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
             ctx.TransType = ctx.CreditType;
             ctx.DebitRefNum = ctx.Terminal.TerminalNumber;
 
+            var pendingTrx = await DataService.Transactions.GetPendingTrxByIdAsync(ctx.LocatedTrx.TrxId);
+            if (pendingTrx == null)
+                throw new Exception($"Finalize pending trx '{ctx.LocatedTrx.TrxId}' not found");
             var log = await DataService.ChargeAttempts.GetByIdAsync(ctx.ChargeAttemptLogId);
             if (log is null)
                 throw new Exception($"Charge attempt log not found for id '{ctx.ChargeAttemptLogId}'");
+
+            if (ctx.AutomatedStatus == TimeoutFinalizeTask.EventName)
+            {
+                logger.Info("AutoFinalize");
+                return await AutoFinalizeTrxAsync(ctx, cancellationToken);
+            }
 
             var paymentResult = await _apiClient.StatusRequest(ctx);
 
             logger.Info($"[GetPayment] Code: {paymentResult.StatusCode} Path: {paymentResult.Path}");
             logger.Info($"[GetPayment] Res: {paymentResult.ResponseJson}");
 
-            var paymentResponse = paymentResult.Response;
             if (paymentResult.Response is null)
                 throw new Exception("Failed to parse finalize response", paymentResult.Exception);
+            var paymentResponse = paymentResult.Response;
 
             var isSuccess = paymentResponse.Status.Status == "SUCCESS";
             var status = isSuccess ? paymentResponse.Data.Status : paymentResponse.Status.Status;
@@ -220,8 +226,8 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
 
             await DataService.ChargeAttempts
                 .UpdateAsync(id => id == ctx.ChargeAttemptLogId, u => u
-                    .SetInnerRequest($"Callback: {ctx.IsAutomatedRequest}, {log.InnerRequest ?? ""}{ctx.GetFinalizeUrl(ctx.FinalizeType)}")
-                    .SetInnerResponse(paymentResult.ResponseJson), cancellationToken);
+                    .SetInnerRequest($"Callback: {ctx.IsAutomatedRequest}\n{log.InnerRequest}\n{ctx.GetFinalizeUrl(ctx.FinalizeType)}")
+                    .SetInnerResponse($"{paymentResult.ResponseJson}\n{log.InnerRequest}"), cancellationToken);
 
             logger.Info($"Status: {status} TransType: {ctx.LocatedTrx.TransType} Approval number: {ctx.ApprovalNumber}");
             logger.Info(ctx.IsAutomatedRequest

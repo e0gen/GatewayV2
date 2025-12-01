@@ -253,6 +253,9 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
             if (!ctx.CheckFinalizeUrl() && !ctx.IsAutomatedRequest)
                 return new IntegrationResult { Code = "500", Message = "Return URL signature mismatch" };
 
+            var pendingTrx = await DataService.Transactions.GetPendingTrxByIdAsync(ctx.LocatedTrx.TrxId);
+            if (pendingTrx == null)
+                throw new Exception($"Finalize pending trx '{ctx.LocatedTrx.TrxId}' not found");
             var log = await DataService.ChargeAttempts.GetByIdAsync(ctx.ChargeAttemptLogId);
             if (log is null)
                 throw new Exception($"Charge attempt log not found for id '{ctx.ChargeAttemptLogId}'");
@@ -260,28 +263,25 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
             var trxType = PaysafeServices.GetTrxType(ctx);
             var onlyAuthorize = trxType == PaysafeServices.TrxType.PreAuth;
 
-            // Final status code received from callback
             if (ctx.IsAutomatedRequest && !string.IsNullOrEmpty(ctx.AutomatedStatus) &&
                 !string.IsNullOrEmpty(ctx.AutomatedCode))
             {
+                logger.Info("AutoFinalize");
                 return await AutoFinalizeTrxAsync(ctx, cancellationToken);
             }
 
             PaymentResponse? paymentResponse;
-            // Payment success status from callback
-            if (ctx.IsAutomatedRequest && ctx.AutomatedStatus == "COMPLETED")
+            if (ctx is { IsAutomatedRequest: true, AutomatedStatus: "PAYMENT_COMPLETED" })
             {
                 logger.Info($"Automated Success. Status: {ctx.AutomatedStatus}");
                 paymentResponse = ctx.AutomatedPayload as PaymentResponse;
 
                 await DataService.ChargeAttempts.UpdateAsync(id => id == ctx.ChargeAttemptLogId, u => u
-                        .SetInnerRequest(
-                            $"Callback: {ctx.IsAutomatedRequest}\n{log.InnerRequest}\n{ctx.GetFinalizeUrl(ctx.FinalizeType)}"),
-                    cancellationToken);
+                        .SetInnerRequest($"Callback: {ctx.IsAutomatedRequest}\n{log.InnerRequest}\n{ctx.GetFinalizeUrl(ctx.FinalizeType)}")
+                        .SetInnerResponse($"{ctx.AutomatedStatus}\n{log.InnerRequest}"), cancellationToken);
             }
             else
             {
-                // Main flow
                 var paymentResult = await _apiClient.ProcessPaymentAsync(ctx, onlyAuthorize);
 
                 logger.Info($"[ProcessPayment] Code: {paymentResult.StatusCode} Path: {paymentResult.Path}");
@@ -292,8 +292,7 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
                                   throw new Exception("Failed to parse payment response", paymentResult.Exception);
 
                 await DataService.ChargeAttempts.UpdateAsync(id => id == ctx.ChargeAttemptLogId, u => u
-                    .SetInnerRequest(
-                        $"Callback: {ctx.IsAutomatedRequest}\n{log.InnerRequest}\n{ctx.GetFinalizeUrl(ctx.FinalizeType)}")
+                    .SetInnerRequest($"Callback: {ctx.IsAutomatedRequest}\n{log.InnerRequest}\n{ctx.GetFinalizeUrl(ctx.FinalizeType)}")
                     .SetInnerResponse($"{paymentResult.ResponseJson}\n{log.InnerRequest}"), cancellationToken);
             }
 
