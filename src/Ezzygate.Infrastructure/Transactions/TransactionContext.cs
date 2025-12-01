@@ -175,6 +175,11 @@ public class TransactionContext
         public string SlashMMYY => $"{MM}/{YY}";
     }
 
+    public string GetCallbackUrl(string? integrationEndpoint)
+    {
+        var callbackUrl = $"https://{_domainConfiguration.WebApiUrl}/apps/callback/{integrationEndpoint}";
+        return callbackUrl;
+    }
     public string GetMerchantUrl() => _domainConfiguration.MerchantUrl;
 
     public string GetCollectUrl(string actionUrl, string? integrationTag = null)
