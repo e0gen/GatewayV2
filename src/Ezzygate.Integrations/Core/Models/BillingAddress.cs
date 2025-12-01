@@ -1,6 +1,6 @@
-namespace Ezzygate.WebApi.Models.Integration;
+namespace Ezzygate.Integrations.Core.Models;
 
-public class BillingAddressDto
+public class BillingAddress
 {
     public string? AddressLine1 { get; set; }
     public string? AddressLine2 { get; set; }

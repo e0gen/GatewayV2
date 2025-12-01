@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Ezzygate.Application.Integrations;
 using Ezzygate.Domain.Enums;
+using Ezzygate.Domain.Models;
 using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Infrastructure.Transactions;
@@ -37,45 +38,56 @@ public sealed class IntegrationProcessor : IIntegrationProcessor
             _logger.Info(LogTag.Integration, "Processing integration request: TerminalId={TerminalId}, OpType={OpType}",
                 request.TerminalId, request.OperationType);
 
-            var ctx = await _transactionContextFactory.CreateAsync(request.TerminalId, request.PaymentMethodId);
+            var ctx = await _transactionContextFactory.CreateAsync(request.TerminalId);
 
             ctx.OpType = request.OperationType;
-            ctx.SentDebitRefCode = request.DebitRefCode;
-            ctx.ApprovalNumber = request.ApprovalNumber;
-            ctx.DebitRefNum = request.DebitRefNum ?? string.Empty;
             ctx.Amount = request.Amount;
             ctx.OriginalAmount = request.OriginalAmount;
             ctx.CurrencyIso = request.CurrencyIso;
+
+            ctx.BillingAddress = new Address
+            {
+                AddressLine1 = request.CreditCard?.BillingAddress?.AddressLine1,
+                AddressLine2 = request.CreditCard?.BillingAddress?.AddressLine2,
+                City = request.CreditCard?.BillingAddress?.City,
+                CountryIsoCode = request.CreditCard?.BillingAddress?.CountryIso,
+                PostalCode = request.CreditCard?.BillingAddress?.PostalCode,
+                StateIsoCode = request.CreditCard?.BillingAddress?.StateIso
+            };
+            ctx.CardNumber = request.CreditCard?.Number;
+            ctx.Cvv = request.CreditCard?.Cvv;
+            ctx.Track2 = request.CreditCard?.Track2;
+            ctx.ExpirationMonth = request.CreditCard?.ExpirationMonth ?? 0;
+            ctx.ExpirationYear = request.CreditCard?.ExpirationYear ?? 0;
+            ctx.PayerName = request.CreditCard?.HolderName;
+            
+            ctx.Email = request.Customer?.Email;
+            ctx.PersonalIdNumber = request.Customer?.PersonalIdNumber;
+            ctx.PhoneNumber = request.Customer?.PhoneNumber;
+            ctx.DateOfBirth = request.Customer?.DateOfBirth;
+
             ctx.Payments = request.Payments;
-            ctx.TransType = request.TransType;
-            ctx.CreditType = request.CreditType;
-            ctx.PayerName = request.CardHolderName ?? string.Empty;
-            ctx.CardNumber = request.CardNumber ?? string.Empty;
-            ctx.Cvv = request.Cvv ?? string.Empty;
-            ctx.Track2 = request.Track2 ?? string.Empty;
-            ctx.ExpirationMonth = request.ExpirationMonth;
-            ctx.ExpirationYear = request.ExpirationYear;
-            ctx.Email = request.Email ?? string.Empty;
-            ctx.PersonalIdNumber = request.PersonalIdNumber ?? string.Empty;
-            ctx.PhoneNumber = request.PhoneNumber ?? string.Empty;
-            ctx.MerchantNumber = request.MerchantNumber;
-            ctx.OrderId = request.OrderId;
-            ctx.CartId = request.CartId;
-            ctx.CustomerId = request.CustomerId;
-            ctx.Comment = request.Comment;
-            ctx.RoutingNumber = request.RoutingNumber;
-            ctx.AccountNumber = request.AccountNumber;
-            ctx.AccountName = request.AccountName;
-            ctx.ClientIp = request.ClientIp;
+            ctx.DebitRefCode = Guid.NewGuid().ToString();
+            ctx.SentDebitRefCode = request.DebitRefCode;
+            ctx.ApprovalNumber = request.ApprovalNumber;
+            ctx.DebitRefNum = request.DebitRefNum;
             ctx.RequestContent = request.RequestContent;
             ctx.FormData = request.FormData;
             ctx.QueryString = request.QueryString;
             ctx.RequestSource = request.RequestSource;
-            ctx.IsAutomatedRequest = request.IsAutomatedRequest;
-            ctx.AutomatedStatus = request.AutomatedStatus;
-            ctx.AutomatedCode = request.AutomatedCode;
-            ctx.AutomatedMessage = request.AutomatedErrorMessage;
-            ctx.AutomatedPayload = request.AutomatedPayload;
+            ctx.ClientIp = request.ClientIp;
+
+            ctx.MerchantNumber = request.MerchantNumber;
+            ctx.OrderId = request.OrderId;
+            ctx.CartId = request.CartId;
+            ctx.CustomerId = request.CustomerId;
+            ctx.ChargeAttemptLogId = request.ChargeAttemptLogId;
+            ctx.TransType = request.TransType;
+            ctx.CreditType = request.CreditType;
+            ctx.Comment = request.Comment;
+            ctx.RoutingNumber = request.RoutingNumber;
+            ctx.AccountNumber = request.AccountNumber;
+            ctx.AccountName = request.AccountName;
             if (!string.IsNullOrEmpty(ctx.QueryString))
             {
                 var queryParams = QueryHelpers.ParseQuery(ctx.QueryString);

@@ -6,9 +6,12 @@ using Ezzygate.Integrations.Core.Events;
 using Ezzygate.Integrations.Core.Processing;
 using Ezzygate.Integrations.Core.Scheduling;
 using Ezzygate.Integrations.Mock;
+using Ezzygate.Integrations.Paysafe;
+using Ezzygate.Integrations.Paysafe.Api;
 using Ezzygate.Integrations.Ph3a;
 using Ezzygate.Integrations.Ph3a.Api;
 using Ezzygate.Integrations.Rapyd;
+using Ezzygate.Integrations.Rapyd.Api;
 
 namespace Ezzygate.Integrations.Extensions;
 
@@ -23,8 +26,13 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<ICreditCardIntegration, MockCreditCardIntegration>();
         services.AddScoped<ICreditCardIntegration, RapydIntegration>();
+        services.AddScoped<ICreditCardIntegration, PaysafeIntegration>();
 
         services.AddScoped<RapydEventHandler>();
+        services.AddScoped<PaysafeEventHandler>();
+
+        services.AddScoped<IRapydApiClient, RapydApiClient>();
+        services.AddScoped<IPaysafeApiClient, PaysafeApiClient>();
 
         services.AddDelayedTaskScheduler();
 

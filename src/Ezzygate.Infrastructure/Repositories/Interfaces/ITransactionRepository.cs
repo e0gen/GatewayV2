@@ -10,4 +10,5 @@ public interface ITransactionRepository
     Task<PendingTransaction?> GetPendingTrxByIdAsync(int pendingTrxId);
     Task<PendingTransaction?> GetPendingTrxByApprovalNumberAsync(string approvalNumber);
     Task UpdateApprovalTrxAuthStatusAsync(int approvalTrxId, OperationType opType);
+    Task UpdatePendingTrxApprovalNumberAsync(int pendingTrxId, string approvalNumber);
 }

@@ -1,0 +1,39 @@
+using System.Security.Cryptography;
+using System.Text;
+
+namespace Ezzygate.Infrastructure.Utils;
+
+public static class HashUtils
+{
+    public static string ComputeSha256Hash(string input)
+    {
+        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(input));
+        return Convert.ToHexString(bytes).ToLower();
+    }
+    
+    public static string ComputeSha512Hash(string input)
+    {
+        var bytes = SHA512.HashData(Encoding.UTF8.GetBytes(input));
+        return Convert.ToHexString(bytes).ToLower();
+    }
+    
+    public static string ComputeHmacSha256(string content, string key)
+    {
+        var keyBytes = Encoding.UTF8.GetBytes(key);
+        var contentBytes = Encoding.UTF8.GetBytes(content);
+
+        using var hmac = new HMACSHA256(keyBytes);
+        var hashBytes = hmac.ComputeHash(contentBytes);
+        return Convert.ToBase64String(hashBytes);
+    }
+    
+    public static string ComputeHmacSha512(string content, string key)
+    {
+        var keyBytes = Encoding.UTF8.GetBytes(key);
+        var contentBytes = Encoding.UTF8.GetBytes(content);
+
+        using var hmac = new HMACSHA512(keyBytes);
+        var hashBytes = hmac.ComputeHash(contentBytes);
+        return Convert.ToBase64String(hashBytes);
+    }
+} 

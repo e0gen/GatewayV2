@@ -1,17 +1,18 @@
 using Ezzygate.Domain.Enums;
+using Ezzygate.Integrations.Core.Models;
 
-namespace Ezzygate.WebApi.Models.Integration;
+namespace Ezzygate.WebApi.Dtos;
 
-public class IntegrationProcessRequestDto
+public class IntegrationFinalizeRequestDto
 {
     public OperationType OperationType { get; set; }
     public string? DebitRefCode { get; set; }
     public string? ApprovalNumber { get; set; }
-    public string? DebitRefNum { get; set; }
+    public string DebitRefNum { get; set; } = null!;
     public int TerminalId { get; set; }
     public bool Is3DSecure { get; set; }
-    public CreditCardDto? CreditCard { get; set; }
-    public CustomerDto? Customer { get; set; }
+    public CreditCard? CreditCard { get; set; }
+    public Customer? Customer { get; set; }
     public decimal Amount { get; set; }
     public decimal OriginalAmount { get; set; }
     public string CurrencyIso { get; set; } = null!;
@@ -26,7 +27,7 @@ public class IntegrationProcessRequestDto
     public string? CartId { get; set; }
     public string? OrderId { get; set; }
     public string? CustomerId { get; set; }
-    public int? ChargeAttemptLogId { get; set; }
+    public int ChargeAttemptLogId { get; set; }
     public TransactionSource? RequestSource { get; set; }
     public int TransType { get; set; }
     public int CreditType { get; set; }

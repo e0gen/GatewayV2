@@ -21,8 +21,11 @@ public sealed class RapydApiClient : ApiClient, IRapydApiClient
     protected override void ConfigureRequest(HttpRequestMessage request, TransactionContext ctx, HttpMethod method,
         string path, string bodyJson)
     {
-        var secretKey = ctx.Terminal.AuthenticationCode1;
-        var accessKey = ctx.Terminal.AccountId;
+        var secretKey = ctx.Terminal?.AuthenticationCode1;
+        var accessKey = ctx.Terminal?.AccountId;
+        
+        if(string.IsNullOrEmpty(accessKey) || string.IsNullOrEmpty(secretKey))
+            throw new Exception("Missing credentials configuration in Terminal");
 
         var salt = RapydServices.GenerateRandomString(8);
         var timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
