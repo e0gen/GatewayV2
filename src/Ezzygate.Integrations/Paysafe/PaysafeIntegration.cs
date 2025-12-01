@@ -303,7 +303,7 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
             if (!string.IsNullOrWhiteSpace(paymentResponse.Id))
             {
                 ctx.ApprovalNumber = paymentResponse.Id;
-                await DataService.Transactions.UpdatePendingTrxAuthStatusAsync(ctx.LocatedTrx.TrxId,
+                await DataService.Transactions.UpdatePendingTrxApprovalNumberAsync(ctx.LocatedTrx.TrxId,
                     paymentResponse.Id);
             }
 

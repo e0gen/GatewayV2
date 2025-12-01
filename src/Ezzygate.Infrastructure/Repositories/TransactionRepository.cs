@@ -358,4 +358,15 @@ public class TransactionRepository : ITransactionRepository
         entity.AuthStatus = (byte)opType;
         await _context.SaveChangesAsync();
     }
+
+    public async Task UpdatePendingTrxApprovalNumberAsync(int pendingTrxId, string approvalNumber)
+    {
+        var entity = await _context.TblCompanyTransPendings
+            .FirstOrDefaultAsync(e => e.Id == pendingTrxId);
+        if (entity == null)
+            throw new Exception($"Pending trx not found '{pendingTrxId}'");
+
+        entity.DebitApprovalNumber = approvalNumber;
+        await _context.SaveChangesAsync();
+    }
 }
