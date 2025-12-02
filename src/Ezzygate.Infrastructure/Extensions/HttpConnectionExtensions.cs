@@ -1,6 +1,7 @@
 using System.Net;
+using Microsoft.AspNetCore.Http;
 
-namespace Ezzygate.WebApi.Extensions;
+namespace Ezzygate.Infrastructure.Extensions;
 
 public static class HttpConnectionExtensions
 {

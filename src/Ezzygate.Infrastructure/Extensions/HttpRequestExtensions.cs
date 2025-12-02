@@ -5,13 +5,27 @@ using Microsoft.AspNetCore.Http;
 
 namespace Ezzygate.Infrastructure.Extensions;
 
-public static class HttpExtensions
+public static class HttpRequestExtensions
 {
     public static string? GetHeaderValue(this HttpRequest request, string headerName)
     {
-        return request.Headers.TryGetValue(headerName, out var values) 
-            ? values.FirstOrDefault() 
+        return request.Headers.TryGetValue(headerName, out var values)
+            ? values.FirstOrDefault()
             : null;
+    }
+
+    public static string ReadBodyAsString(this HttpRequest request)
+    {
+        if (request.Body.CanSeek)
+            request.Body.Position = 0;
+
+        using var reader = new StreamReader(request.Body, leaveOpen: true);
+        var body = reader.ReadToEnd();
+
+        if (request.Body.CanSeek)
+            request.Body.Position = 0;
+
+        return body;
     }
 
     public static async Task<string> ReadBodyAsStringAsync(this HttpRequest request)

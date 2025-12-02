@@ -2,8 +2,8 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ezzygate.Application.Integrations;
+using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.Infrastructure.Utils;
-using Ezzygate.WebApi.Extensions;
 using Ezzygate.WebApi.Models;
 
 namespace Ezzygate.WebApi.Filters;
@@ -24,7 +24,7 @@ public class IntegrationSecurityFilterAttribute : FilterBase
         var httpContext = context.HttpContext;
         var request = httpContext.Request;
 
-        var clientSignature = request.Headers.FirstOrDefault(SignatureKey);
+        var clientSignature = request.GetHeaderValue(SignatureKey);
         if (string.IsNullOrEmpty(clientSignature))
         {
             var result = new IntegrationResult { Code = "520", Message = nameof(ResultEnum.SignatureRequired) };
@@ -32,7 +32,7 @@ public class IntegrationSecurityFilterAttribute : FilterBase
             return;
         }
 
-        var content = request.GetRequestContent();
+        var content = request.ReadBodyAsString();
         var serverSignature = HashUtils.ComputeSha256Hash(content + SignatureSalt);
 
         if (clientSignature != serverSignature)

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Integrations.Core.Processing;
 using Ezzygate.Integrations.Ph3a;
@@ -34,7 +35,7 @@ public class IntegrationController : ControllerBase
     public async Task<IActionResult> NotificationLoopback()
     {
         var query = Request.QueryString.HasValue ? Request.QueryString.Value : string.Empty;
-        var post = await Request.GetRequestContentAsync();
+        var post = await Request.ReadBodyAsStringAsync();
 
         _logger.Info(LogTag.Integration, "Notification loopback - Query: {query}, Post: {post}", query, post);
         return Ok("NotificationLoopback OK");

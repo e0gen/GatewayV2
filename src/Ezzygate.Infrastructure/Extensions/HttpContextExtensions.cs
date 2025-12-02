@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using Ezzygate.Domain.Models;
 
 namespace Ezzygate.Infrastructure.Extensions;
 
@@ -38,5 +39,20 @@ public static class HttpContextExtensions
         }
 
         return context?.Connection?.RemoteIpAddress?.ToString() ?? "";
+    }
+    public static void SetMerchant(this HttpContext context, Merchant? merchant) => context.Items["merchant"] = merchant;
+
+    public static Merchant? GetMerchant(this HttpContext context)
+    {
+        context.Items.TryGetValue("merchant", out var merchant);
+        return merchant as Merchant;
+    }
+    
+    public static void SetCurrentDevice(this HttpContext context, MobileDevice? device) => context.Items["currentDevice"] = device;
+
+    public static MobileDevice? GetCurrentDevice(this HttpContext context)
+    {
+        context.Items.TryGetValue("currentDevice", out var device);
+        return device as MobileDevice;
     }
 }

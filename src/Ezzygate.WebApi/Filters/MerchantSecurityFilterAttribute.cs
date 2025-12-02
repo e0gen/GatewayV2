@@ -1,9 +1,9 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 using Ezzygate.Infrastructure.Utils;
-using Ezzygate.WebApi.Extensions;
 using Ezzygate.WebApi.Models;
 
 namespace Ezzygate.WebApi.Filters;
@@ -33,21 +33,21 @@ public class MerchantSecurityFilterAttribute : FilterBase
 
         if (_requireSignature)
         {
-            var clientSignature = context.HttpContext.Request.Headers.FirstOrDefault(SignatureKey);
+            var clientSignature = context.HttpContext.Request.GetHeaderValue(SignatureKey);
             if (string.IsNullOrEmpty(clientSignature))
             {
                 context.Result = new BadRequestObjectResult(new Response(ResultEnum.SignatureRequired));
                 return;
             }
 
-            var clientRequestId = context.HttpContext.Request.Headers.FirstOrDefault(RequestIdKey);
+            var clientRequestId = context.HttpContext.Request.GetHeaderValue(RequestIdKey);
             if (string.IsNullOrEmpty(clientRequestId))
             {
                 context.Result = new BadRequestObjectResult(new Response(ResultEnum.RequestIdRequired));
                 return;
             }
 
-            var merchantNumber = context.HttpContext.Request.Headers.FirstOrDefault(MerchantNumberKey);
+            var merchantNumber = context.HttpContext.Request.GetHeaderValue(MerchantNumberKey);
             if (string.IsNullOrEmpty(merchantNumber))
             {
                 context.Result = new BadRequestObjectResult(new Response(ResultEnum.MerchantNumberRequired));
@@ -83,7 +83,7 @@ public class MerchantSecurityFilterAttribute : FilterBase
             await requestIdRepository.MarkRequestIdAsUsedAsync(clientRequestId);
 
             // signature check
-            var content = context.HttpContext.Request.GetRequestContent();
+            var content = context.HttpContext.Request.ReadBodyAsStringAsync();
             var hashKey = merchant.Account?.HashKey ?? merchant.HashKey ?? "defaultHashKey";
             var serverSignature = HashUtils.ComputeSha256Hash(content + clientRequestId + hashKey);
             if (clientSignature != serverSignature)
