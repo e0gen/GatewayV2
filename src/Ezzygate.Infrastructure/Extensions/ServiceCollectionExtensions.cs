@@ -6,6 +6,7 @@ using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Ef;
 using Ezzygate.Infrastructure.Locking;
 using Ezzygate.Infrastructure.Notifications;
+using Ezzygate.Infrastructure.Processing;
 using Ezzygate.Infrastructure.Repositories;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 using Ezzygate.Infrastructure.Scheduling;
@@ -80,6 +81,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ICreditCardBinRepository, CreditCardBinRepository>();
         services.AddScoped<ICreditCardService, CreditCardService>();
         services.AddScoped<INotificationClient, NotificationClient>();
+        services.AddHttpClient<ILegacyPaymentService, LegacyPaymentService>();
         services.AddMemoryCache();
 
         return services;
