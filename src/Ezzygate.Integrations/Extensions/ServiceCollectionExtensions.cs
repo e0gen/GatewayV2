@@ -10,6 +10,8 @@ using Ezzygate.Integrations.Paysafe;
 using Ezzygate.Integrations.Paysafe.Api;
 using Ezzygate.Integrations.Ph3a;
 using Ezzygate.Integrations.Ph3a.Api;
+using Ezzygate.Integrations.QrMoney;
+using Ezzygate.Integrations.QrMoney.Api;
 using Ezzygate.Integrations.Rapyd;
 using Ezzygate.Integrations.Rapyd.Api;
 
@@ -27,12 +29,15 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ICreditCardIntegration, MockCreditCardIntegration>();
         services.AddScoped<ICreditCardIntegration, RapydIntegration>();
         services.AddScoped<ICreditCardIntegration, PaysafeIntegration>();
+        services.AddScoped<ICreditCardIntegration, QrMoneyIntegration>();
 
         services.AddScoped<RapydEventHandler>();
         services.AddScoped<PaysafeEventHandler>();
+        services.AddScoped<QrMoneyEventHandler>();
 
         services.AddScoped<IRapydApiClient, RapydApiClient>();
         services.AddScoped<IPaysafeApiClient, PaysafeApiClient>();
+        services.AddScoped<IQrMoneyApiClient, QrMoneyApiClient>();
 
         services.AddDelayedTaskScheduler();
 
