@@ -80,6 +80,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IIntegrationDataService, IntegrationDataService>();
         services.AddScoped<ICreditCardBinRepository, CreditCardBinRepository>();
         services.AddScoped<ICreditCardService, CreditCardService>();
+        services.AddScoped<IPaymentPageSettingsRepository, PaymentPageSettingsRepository>();
         services.AddScoped<INotificationClient, NotificationClient>();
         services.AddHttpClient<ILegacyPaymentService, LegacyPaymentService>();
         services.AddMemoryCache();
