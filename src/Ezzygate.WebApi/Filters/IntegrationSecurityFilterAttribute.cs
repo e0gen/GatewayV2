@@ -14,8 +14,7 @@ public class IntegrationSecurityFilterAttribute : FilterBase
     private const string SignatureKey = "signature";
     private const string SignatureSalt = "c3722f2e-d476-40a5-abea-b4c5b66a8891";
 
-
-    public override void OnActionExecuting(ActionExecutingContext context)
+    public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
         var validationResult = ValidateModel(context);
         if (!validationResult)
@@ -27,31 +26,26 @@ public class IntegrationSecurityFilterAttribute : FilterBase
         var clientSignature = request.GetHeaderValue(SignatureKey);
         if (string.IsNullOrEmpty(clientSignature))
         {
-            var result = new IntegrationResult { Code = "520", Message = nameof(ResultEnum.SignatureRequired) };
-            context.Result = new OkObjectResult(result);
+            context.Result = new OkObjectResult(new IntegrationResult { Code = "520", Message = nameof(ResultEnum.SignatureRequired) });
             return;
         }
 
-        var content = request.ReadBodyAsString();
+        var content = await request.ReadBodyAsStringAsync();
         var serverSignature = HashUtils.ComputeSha256Hash(content + SignatureSalt);
 
         if (clientSignature != serverSignature)
         {
-            var result = new IntegrationResult { Code = "520", Message = nameof(ResultEnum.SignatureMismatch) };
-            context.Result = new OkObjectResult(result);
+            context.Result = new OkObjectResult(new IntegrationResult { Code = "520", Message = nameof(ResultEnum.SignatureMismatch) });
             return;
         }
 
-        // SSL check for non-local requests
-        if (!httpContext.Connection.RemoteIpAddress?.IsIPv4MappedToIPv6 == true &&
-            !httpContext.Request.IsHttps)
+        if (!httpContext.Connection.IsLocal() && !request.IsHttps)
         {
-            var result = new IntegrationResult { Code = "520", Message = nameof(ResultEnum.SslRequired) };
-            context.Result = new OkObjectResult(result);
+            context.Result = new OkObjectResult(new IntegrationResult { Code = "520", Message = nameof(ResultEnum.SslRequired) });
             return;
         }
 
-        base.OnActionExecuting(context);
+        await next();
     }
 
     public override void OnActionExecuted(ActionExecutedContext context)

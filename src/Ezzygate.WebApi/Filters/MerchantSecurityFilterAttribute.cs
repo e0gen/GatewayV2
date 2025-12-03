@@ -60,14 +60,12 @@ public class MerchantSecurityFilterAttribute : FilterBase
             var merchant = await merchantRepository.GetByMerchantNumberAsync(merchantNumber);
             context.HttpContext.SetMerchant(merchant);
 
-            // merchant check
             if (merchant == null)
             {
                 context.Result = new BadRequestObjectResult(new Response(ResultEnum.MerchantNotFound));
                 return;
             }
 
-            // request id check
             if (!Guid.TryParse(clientRequestId, out _))
             {
                 context.Result = new BadRequestObjectResult(new Response(ResultEnum.InvalidRequestId));
@@ -82,8 +80,7 @@ public class MerchantSecurityFilterAttribute : FilterBase
 
             await requestIdRepository.MarkRequestIdAsUsedAsync(clientRequestId);
 
-            // signature check
-            var content = context.HttpContext.Request.ReadBodyAsStringAsync();
+            var content = await context.HttpContext.Request.ReadBodyAsStringAsync();
             var hashKey = merchant.Account?.HashKey ?? merchant.HashKey ?? "defaultHashKey";
             var serverSignature = HashUtils.ComputeSha256Hash(content + clientRequestId + hashKey);
             if (clientSignature != serverSignature)
@@ -93,7 +90,6 @@ public class MerchantSecurityFilterAttribute : FilterBase
             }
         }
 
-        // ssl check
         if (!context.HttpContext.Connection.IsLocal() && !context.HttpContext.Request.IsHttps)
         {
             context.Result = new BadRequestObjectResult(new Response(ResultEnum.SslRequired));
