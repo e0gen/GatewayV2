@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Ezzygate.Application.Transactions;
 using Ezzygate.Domain.Services;
 using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Ef;
@@ -75,6 +76,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRiskSettingsRepository, RiskSettingsRepository>();
         services.AddScoped<ITransactionContextFactory, TransactionContextFactory>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
+        services.AddScoped<ITransactionService, TransactionService>();
         services.AddScoped<IHistoryRepository, HistoryRepository>();
         services.AddScoped<IEventPendingRepository, EventPendingRepository>();
         services.AddScoped<IIntegrationDataService, IntegrationDataService>();

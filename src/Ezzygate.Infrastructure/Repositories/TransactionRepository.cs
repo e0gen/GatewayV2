@@ -25,96 +25,85 @@ public class TransactionRepository : ITransactionRepository
         _logger = logger;
     }
 
-    public async Task<MoveTransactionResult> MoveTrxAsync(
-        int pendingId, string replyCode, string message, string? binCountryIso)
+    public async Task<ApprovalTransaction?> GetApprovalTrxAsync(int approvalTrxId)
     {
-        var pendingTrx = _context.TblCompanyTransPendings
-            .SingleOrDefault(t => t.Id == pendingId);
-        if (pendingTrx == null)
-            throw new Exception($"Pending trx '{pendingId}' not found");
+        var entity = await _context.TblCompanyTransApprovals
+            .FirstOrDefaultAsync(e => e.Id == approvalTrxId);
 
-        var finalizeRow = _context.TblLogPendingFinalizes
-            .SingleOrDefault(e => e.PendingId == pendingId);
-        var isFinalized = finalizeRow != null;
-        finalizeRow ??= new TblLogPendingFinalize { PendingId = pendingId, FinalizeDate = DateTime.Now };
+        return entity?.ToDomain();
+    }
+    public async Task<PendingTransaction?> GetPendingTrxByIdAsync(int pendingTrxId)
+    {
+        var entity = await _context.TblCompanyTransPendings
+            .FirstOrDefaultAsync(e => e.Id == pendingTrxId);
 
-        var cart = _context.Carts.SingleOrDefault(e => e.TransPendingId == pendingId);
-
-        replyCode = replyCode.Trim();
-        int? trxId;
-        switch (replyCode)
-        {
-            case "000" when pendingTrx.TransType == 0 || pendingTrx.TransType == 3:
-            {
-                trxId = await InsertPassedTrxAsync(pendingTrx, replyCode, binCountryIso);
-                finalizeRow.TransPassId = trxId;
-
-                if (cart != null)
-                {
-                    cart.TransPendingId = null;
-                    cart.TransPassId = trxId;
-                    await _context.SaveChangesAsync();
-                }
-
-                break;
-            }
-            case "000" when pendingTrx.TransType == 1:
-            {
-                trxId = await InsertApprovedTrxAsync(pendingTrx, replyCode, binCountryIso);
-                finalizeRow.TransApprovalId = trxId;
-
-                if (cart != null)
-                {
-                    cart.TransPendingId = null;
-                    cart.TransPreAuthId = trxId;
-                    await _context.SaveChangesAsync();
-                }
-
-                break;
-            }
-            case "000":
-                throw new Exception($"Invalid trans type '{pendingTrx.TransType}'");
-            case "553":
-                trxId = pendingId;
-                break;
-            default:
-            {
-                trxId = await InsertFailTrxAsync(pendingTrx, replyCode, message, binCountryIso);
-                finalizeRow.TransFailId = trxId;
-
-                if (cart != null)
-                {
-                    cart.TransPendingId = null;
-                    await _context.SaveChangesAsync();
-                }
-
-                break;
-            }
-        }
-
-        if (replyCode != "553")
-        {
-            if (!isFinalized)
-            {
-                _context.TblLogPendingFinalizes.Add(finalizeRow);
-                await _context.SaveChangesAsync();
-            }
-
-            try
-            {
-                _context.TblCompanyTransPendings.Add(pendingTrx);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(LogTag.WebApi, ex, "Can't remove pending trx {pendingTrx.Id}", pendingTrx.Id);
-            }
-        }
-
-        return new MoveTransactionResult(trxId.Value, pendingTrx.ToDomain());
+        return entity?.ToDomain();
     }
 
-    private async Task<int> InsertPassedTrxAsync(TblCompanyTransPending pendingTrx, string replyCode,
+    public async Task<PendingTransaction?> GetPendingTrxByApprovalNumberAsync(string approvalNumber)
+    {
+        var entity = await _context.TblCompanyTransPendings
+            .FirstOrDefaultAsync(e => e.DebitApprovalNumber == approvalNumber);
+
+        return entity?.ToDomain();
+    }
+
+    public async Task<PendingFinalizeInfo?> GetPendingFinalizeInfoAsync(int pendingTrxId)
+    {
+        var entity = await _context.TblLogPendingFinalizes
+            .FirstOrDefaultAsync(f => f.PendingId == pendingTrxId);
+
+        return entity?.ToDomain();
+    }
+
+    public async Task<TblCompanyTransPending?> GetPendingTrxEntityAsync(int pendingTrxId)
+    {
+        return await _context.TblCompanyTransPendings
+            .FirstOrDefaultAsync(t => t.Id == pendingTrxId);
+    }
+
+    public async Task UpdateApprovalTrxAuthStatusAsync(int approvalTrxId, OperationType opType)
+    {
+        var entity = await _context.TblCompanyTransApprovals
+            .FirstOrDefaultAsync(e => e.Id == approvalTrxId);
+        if (entity == null)
+            throw new Exception($"Approval trx not found '{approvalTrxId}'");
+
+        entity.AuthStatus = (byte)opType;
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdatePendingTrxApprovalNumberAsync(int pendingTrxId, string approvalNumber)
+    {
+        var entity = await _context.TblCompanyTransPendings
+            .FirstOrDefaultAsync(e => e.Id == pendingTrxId);
+        if (entity == null)
+            throw new Exception($"Pending trx not found '{pendingTrxId}'");
+
+        entity.DebitApprovalNumber = approvalNumber;
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdateCartForFinalizedTrxAsync(int pendingId, int? passId, int? approvalId)
+    {
+        var cart = await _context.Carts.FirstOrDefaultAsync(e => e.TransPendingId == pendingId);
+        if (cart == null)
+            return;
+
+        cart.TransPendingId = null;
+        cart.TransPassId = passId;
+        cart.TransPreAuthId = approvalId;
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task AddPendingFinalizeAsync(PendingFinalizeInfo finalizeInfo)
+    {
+        var entity = finalizeInfo.ToEntity();
+        _context.TblLogPendingFinalizes.Add(entity);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<int> AddPassedTrxAsync(TblCompanyTransPending pendingTrx, string replyCode,
         string? binCountryIso)
     {
         var currency = _currencyRepository.Get(pendingTrx.Currency.Value);
@@ -201,7 +190,7 @@ public class TransactionRepository : ITransactionRepository
         return trx.Id;
     }
 
-    private async Task<int> InsertApprovedTrxAsync(TblCompanyTransPending pendingTrx, string replyCode,
+    public async Task<int> AddApprovedTrxAsync(TblCompanyTransPending pendingTrx, string replyCode,
         string? binCountryIso)
     {
         var currency = _currencyRepository.Get(pendingTrx.Currency.Value);
@@ -225,7 +214,6 @@ public class TransactionRepository : ITransactionRepository
             TerminalNumber = pendingTrx.TerminalNumber.EmptyIfNull(),
             DebitReferenceCode = pendingTrx.DebitReferenceCode,
             DebitReferenceNum = pendingTrx.DebitReferenceNum,
-            //PayId = ";0;",
             OrderNumber = pendingTrx.TransOrder.EmptyIfNull(),
             ApprovalNumber = pendingTrx.DebitApprovalNumber.EmptyIfNull(),
             ReferringUrl = "",
@@ -266,7 +254,7 @@ public class TransactionRepository : ITransactionRepository
         return trx.Id;
     }
 
-    private async Task<int> InsertFailTrxAsync(TblCompanyTransPending pendingTrx, string replyCode, string message,
+    public async Task<int> AddFailTrxAsync(TblCompanyTransPending pendingTrx, string replyCode, string message,
         string? binCountryIso)
     {
         var currency = _currencyRepository.Get(pendingTrx.Currency.Value);
@@ -291,7 +279,6 @@ public class TransactionRepository : ITransactionRepository
             TerminalNumber = pendingTrx.TerminalNumber.EmptyIfNull(),
             DebitReferenceCode = pendingTrx.DebitReferenceCode,
             DebitReferenceNum = pendingTrx.DebitReferenceNum,
-            //PayId = ";0;",
             OrderNumber = pendingTrx.TransOrder.EmptyIfNull(),
             ReferringUrl = "",
             PayerIdUsed = "",
@@ -324,49 +311,16 @@ public class TransactionRepository : ITransactionRepository
         return trx.Id;
     }
 
-    public async Task<ApprovalTransaction?> GetApprovalTrxAsync(int approvalTrxId)
+    public async Task RemovePendingTrxAsync(TblCompanyTransPending pendingTrx)
     {
-        var entity = await _context.TblCompanyTransApprovals
-            .FirstOrDefaultAsync(e => e.Id == approvalTrxId);
-
-        return entity?.ToDomain();
-    }
-
-    public async Task<PendingTransaction?> GetPendingTrxByIdAsync(int pendingTrxId)
-    {
-        var entity = await _context.TblCompanyTransPendings
-            .FirstOrDefaultAsync(e => e.Id == pendingTrxId);
-
-        return entity?.ToDomain();
-    }
-
-    public async Task<PendingTransaction?> GetPendingTrxByApprovalNumberAsync(string approvalNumber)
-    {
-        var entity = await _context.TblCompanyTransPendings
-            .FirstOrDefaultAsync(e => e.DebitApprovalNumber == approvalNumber);
-
-        return entity?.ToDomain();
-    }
-
-    public async Task UpdateApprovalTrxAuthStatusAsync(int approvalTrxId, OperationType opType)
-    {
-        var entity = await _context.TblCompanyTransApprovals
-            .FirstOrDefaultAsync(e => e.Id == approvalTrxId);
-        if (entity == null)
-            throw new Exception($"Approval trx not found '{approvalTrxId}'");
-
-        entity.AuthStatus = (byte)opType;
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task UpdatePendingTrxApprovalNumberAsync(int pendingTrxId, string approvalNumber)
-    {
-        var entity = await _context.TblCompanyTransPendings
-            .FirstOrDefaultAsync(e => e.Id == pendingTrxId);
-        if (entity == null)
-            throw new Exception($"Pending trx not found '{pendingTrxId}'");
-
-        entity.DebitApprovalNumber = approvalNumber;
-        await _context.SaveChangesAsync();
+        try
+        {
+            _context.TblCompanyTransPendings.Remove(pendingTrx);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(LogTag.WebApi, ex, "Can't remove pending trx {PendingTrxId}", pendingTrx.Id);
+        }
     }
 }
