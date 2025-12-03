@@ -1,3 +1,4 @@
+using Ezzygate.Application.Transactions;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 
 namespace Ezzygate.Infrastructure.Repositories;
@@ -9,6 +10,7 @@ public class IntegrationDataService : IIntegrationDataService
         ICompanyChargeAdminRepository companyChargeAdminRepository,
         IPaymentMethodRepository paymentMethodRepository,
         ITransactionRepository transactionRepository,
+        ITransactionService transactionService,
         ITerminalRepository terminals,
         IChargeAttemptRepository chargeAttemptRepository,
         IHistoryRepository historyRepository,
@@ -18,6 +20,7 @@ public class IntegrationDataService : IIntegrationDataService
         CompanyChargeAdmins = companyChargeAdminRepository;
         PaymentMethods = paymentMethodRepository;
         Transactions = transactionRepository;
+        TransactionService = transactionService;
         Terminals = terminals;
         ChargeAttempts = chargeAttemptRepository;
         History = historyRepository;
@@ -25,18 +28,12 @@ public class IntegrationDataService : IIntegrationDataService
     }
 
     public IMerchantRepository Merchants { get; }
-
     public ICompanyChargeAdminRepository CompanyChargeAdmins { get; }
-
     public IPaymentMethodRepository PaymentMethods { get; }
-
     public ITransactionRepository Transactions { get; }
-
+    public ITransactionService TransactionService { get; }
     public ITerminalRepository Terminals { get; }
-
     public IChargeAttemptRepository ChargeAttempts { get; }
-
     public IHistoryRepository History { get; }
-
     public IEventPendingRepository EventPendings { get; }
 }

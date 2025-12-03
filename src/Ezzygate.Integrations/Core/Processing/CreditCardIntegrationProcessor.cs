@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Ezzygate.Application.Integrations;
+using Ezzygate.Application.Transactions;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Infrastructure.Mappings;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
@@ -13,17 +14,20 @@ public class CreditCardIntegrationProcessor : ICreditCardIntegrationProcessor
     private readonly ILogger<CreditCardIntegrationProcessor> _logger;
     private readonly IIntegrationProvider _integrationProvider;
     private readonly ITransactionRepository _transactionRepository;
+    private readonly ITransactionService _transactionService;
     private readonly IChargeAttemptRepository _chargeAttemptRepository;
 
     public CreditCardIntegrationProcessor(
         ILogger<CreditCardIntegrationProcessor> logger,
         IIntegrationProvider integrationProvider,
         ITransactionRepository transactionRepository,
+        ITransactionService transactionService,
         IChargeAttemptRepository chargeAttemptRepository)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _integrationProvider = integrationProvider ?? throw new ArgumentNullException(nameof(integrationProvider));
         _transactionRepository = transactionRepository;
+        _transactionService = transactionService;
         _chargeAttemptRepository = chargeAttemptRepository;
     }
 
@@ -65,7 +69,7 @@ public class CreditCardIntegrationProcessor : ICreditCardIntegrationProcessor
                 DebitRefCode = context.DebitRefCode
             };
 
-            var moveResult = await _transactionRepository.MoveTrxAsync(context.LocatedTrx.TrxId, result.Code,
+            var moveResult = await _transactionService.MoveTrxAsync(context.LocatedTrx.TrxId, result.Code,
                 result.Message, context.LocatedTrx.BinCountry);
 
             result.TrxId = moveResult.TrxId;

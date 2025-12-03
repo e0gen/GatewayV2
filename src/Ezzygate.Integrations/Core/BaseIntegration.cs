@@ -57,7 +57,7 @@ public abstract class BaseIntegration : IIntegration
         if (pendingTrx is null)
             throw new Exception($"Finalize pending trx '{ctx.LocatedTrx.TrxId}' not found");
 
-        var (movedTrxId, movedPendingTrx) = await DataService.Transactions.MoveTrxAsync(
+        var (movedTrxId, movedPendingTrx) = await DataService.TransactionService.MoveTrxAsync(
             ctx.LocatedTrx.TrxId,
             result.Code,
             result.Message,
