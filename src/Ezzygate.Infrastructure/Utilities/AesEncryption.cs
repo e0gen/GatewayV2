@@ -1,6 +1,6 @@
 using System.Security.Cryptography;
 
-namespace Ezzygate.Infrastructure.Utils;
+namespace Ezzygate.Infrastructure.Utilities;
 
 public static class AesEncryption
 {

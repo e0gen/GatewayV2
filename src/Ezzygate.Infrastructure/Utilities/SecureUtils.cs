@@ -1,4 +1,4 @@
-namespace Ezzygate.Infrastructure.Security;
+namespace Ezzygate.Infrastructure.Utilities;
 
 public static class SecureUtils
 {

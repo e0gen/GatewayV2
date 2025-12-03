@@ -1,5 +1,5 @@
 using Ezzygate.Infrastructure.Transactions;
-using Ezzygate.Infrastructure.Utils;
+using Ezzygate.Infrastructure.Utilities;
 
 namespace Ezzygate.Integrations.Paysafe;
 

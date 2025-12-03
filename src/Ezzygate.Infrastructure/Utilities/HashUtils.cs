@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Ezzygate.Infrastructure.Utils;
+namespace Ezzygate.Infrastructure.Utilities;
 
 public static class HashUtils
 {

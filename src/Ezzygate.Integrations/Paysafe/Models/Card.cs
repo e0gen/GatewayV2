@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 using Ezzygate.Domain.Interfaces;
-using Ezzygate.Infrastructure.Security;
+using Ezzygate.Infrastructure.Utilities;
 
 namespace Ezzygate.Integrations.Paysafe.Models;
 

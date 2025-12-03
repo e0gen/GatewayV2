@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 using Ezzygate.Domain.Interfaces;
-using Ezzygate.Infrastructure.Security;
+using Ezzygate.Infrastructure.Utilities;
 using Ezzygate.Integrations.QrMoney.Models;
 
 namespace Ezzygate.Integrations.QrMoney.Api;

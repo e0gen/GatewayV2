@@ -1,4 +1,4 @@
-using Ezzygate.Infrastructure.Security;
+using Ezzygate.Infrastructure.Utilities;
 
 namespace Ezzygate.Infrastructure.Tests;
 

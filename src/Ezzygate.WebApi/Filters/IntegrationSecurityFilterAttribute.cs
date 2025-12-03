@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ezzygate.Application.Integrations;
 using Ezzygate.Infrastructure.Extensions;
-using Ezzygate.Infrastructure.Utils;
+using Ezzygate.Infrastructure.Utilities;
 using Ezzygate.WebApi.Models;
 
 namespace Ezzygate.WebApi.Filters;

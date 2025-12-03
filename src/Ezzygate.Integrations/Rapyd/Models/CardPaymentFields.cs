@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using Ezzygate.Domain.Interfaces;
 using Ezzygate.Infrastructure.Extensions;
-using Ezzygate.Infrastructure.Security;
+using Ezzygate.Infrastructure.Utilities;
 
 namespace Ezzygate.Integrations.Rapyd.Models;
 

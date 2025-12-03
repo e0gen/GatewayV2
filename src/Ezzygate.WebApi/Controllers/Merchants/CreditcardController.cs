@@ -6,7 +6,7 @@ using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Infrastructure.Processing;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
-using Ezzygate.Infrastructure.Utils;
+using Ezzygate.Infrastructure.Utilities;
 using Ezzygate.WebApi.Dtos.Merchants;
 using Ezzygate.WebApi.Filters;
 using Ezzygate.WebApi.Models;
