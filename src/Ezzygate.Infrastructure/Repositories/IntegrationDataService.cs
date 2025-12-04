@@ -1,5 +1,5 @@
-using Ezzygate.Application.Transactions;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
+using Ezzygate.Infrastructure.Services;
 
 namespace Ezzygate.Infrastructure.Repositories;
 

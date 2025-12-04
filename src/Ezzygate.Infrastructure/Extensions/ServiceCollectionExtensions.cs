@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Ezzygate.Application.Transactions;
 using Ezzygate.Domain.Services;
 using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Ef;

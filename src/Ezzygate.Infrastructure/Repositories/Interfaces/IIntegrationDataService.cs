@@ -1,4 +1,4 @@
-using Ezzygate.Application.Transactions;
+using Ezzygate.Infrastructure.Services;
 
 namespace Ezzygate.Infrastructure.Repositories.Interfaces;
 

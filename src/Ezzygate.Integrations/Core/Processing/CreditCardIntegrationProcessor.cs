@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Logging;
 using Ezzygate.Application.Integrations;
-using Ezzygate.Application.Transactions;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Infrastructure.Mappings;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
+using Ezzygate.Infrastructure.Services;
 using Ezzygate.Infrastructure.Transactions;
 using Ezzygate.Integrations.Core.Abstractions;
 

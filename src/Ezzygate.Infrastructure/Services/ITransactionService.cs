@@ -1,4 +1,6 @@
-namespace Ezzygate.Application.Transactions;
+using Ezzygate.Application.Transactions;
+
+namespace Ezzygate.Infrastructure.Services;
 
 public interface ITransactionService
 {
