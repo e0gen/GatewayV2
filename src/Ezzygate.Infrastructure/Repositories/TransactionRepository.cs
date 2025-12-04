@@ -323,4 +323,93 @@ public class TransactionRepository : ITransactionRepository
             _logger.Error(LogTag.WebApi, ex, "Can't remove pending trx {PendingTrxId}", pendingTrx.Id);
         }
     }
+
+    public async Task<List<TransactionSearchResult>> SearchTransactionsAsync(
+        int merchantId, TransactionStatusType status, int? transactionId = null, DateTime? from = null, DateTime? to = null)
+    {
+        return status switch
+        {
+            TransactionStatusType.Captured => await SearchCapturedTransactionsAsync(merchantId, transactionId, from, to),
+            TransactionStatusType.Declined => await SearchDeclinedTransactionsAsync(merchantId, transactionId, from, to),
+            TransactionStatusType.Authorized => await SearchAuthorizedTransactionsAsync(merchantId, transactionId, from, to),
+            TransactionStatusType.Pending => await SearchPendingTransactionsAsync(merchantId, transactionId, from, to),
+            _ => []
+        };
+    }
+
+    public async Task<List<TransactionSearchResult>> SearchCapturedTransactionsAsync(
+        int merchantId, int? transactionId, DateTime? from, DateTime? to)
+    {
+        var query = _context.TblCompanyTransPasses
+            .Include(t => t.TransPayerInfo)
+            .Include(t => t.CurrencyNavigation)
+            .Where(t => t.CompanyId == merchantId);
+
+        if (transactionId.HasValue)
+            query = query.Where(t => t.Id == transactionId.Value);
+        if (from.HasValue)
+            query = query.Where(t => t.InsertDate >= from.Value);
+        if (to.HasValue)
+            query = query.Where(t => t.InsertDate <= to.Value);
+
+        var results = await query.ToListAsync();
+        return results.Select(x => x.ToSearchResult()).ToList();
+    }
+
+    public async Task<List<TransactionSearchResult>> SearchDeclinedTransactionsAsync(
+        int merchantId, int? transactionId, DateTime? from, DateTime? to)
+    {
+        var query = _context.TblCompanyTransFails
+            .Include(t => t.TransPayerInfo)
+            .Include(t => t.CurrencyNavigation)
+            .Where(t => t.CompanyId == merchantId);
+
+        if (transactionId.HasValue)
+            query = query.Where(t => t.Id == transactionId.Value);
+        if (from.HasValue)
+            query = query.Where(t => t.InsertDate >= from.Value);
+        if (to.HasValue)
+            query = query.Where(t => t.InsertDate <= to.Value);
+
+        var results = await query.ToListAsync();
+        return results.Select(x => x.ToSearchResult()).ToList();
+    }
+
+    public async Task<List<TransactionSearchResult>> SearchAuthorizedTransactionsAsync(
+        int merchantId, int? transactionId, DateTime? from, DateTime? to)
+    {
+        var query = _context.TblCompanyTransApprovals
+            .Include(t => t.TransPayerInfo)
+            .Include(t => t.CurrencyNavigation)
+            .Where(t => t.CompanyId == merchantId);
+
+        if (transactionId.HasValue)
+            query = query.Where(t => t.Id == transactionId.Value);
+        if (from.HasValue)
+            query = query.Where(t => t.InsertDate >= from.Value);
+        if (to.HasValue)
+            query = query.Where(t => t.InsertDate <= to.Value);
+
+        var results = await query.ToListAsync();
+        return results.Select(x => x.ToSearchResult()).ToList();
+    }
+
+    public async Task<List<TransactionSearchResult>> SearchPendingTransactionsAsync(
+        int merchantId, int? transactionId, DateTime? from, DateTime? to)
+    {
+        var query = _context.TblCompanyTransPendings
+            .Include(t => t.TransPayerInfo)
+            .Include(t => t.TransCurrencyNavigation)
+            .Where(t => t.CompanyId == merchantId);
+
+        if (transactionId.HasValue)
+            query = query.Where(t => t.Id == transactionId.Value);
+        if (from.HasValue)
+            query = query.Where(t => t.InsertDate >= from.Value);
+        if (to.HasValue)
+            query = query.Where(t => t.InsertDate <= to.Value);
+
+        var results = await query.ToListAsync();
+        return results.Select(x => x.ToSearchResult()).ToList();
+    }
 }

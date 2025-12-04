@@ -19,4 +19,10 @@ public interface ITransactionRepository
     Task<int> AddApprovedTrxAsync(TblCompanyTransPending pendingTrx, string replyCode, string? binCountryIso);
     Task<int> AddFailTrxAsync(TblCompanyTransPending pendingTrx, string replyCode, string message, string? binCountryIso);
     Task RemovePendingTrxAsync(TblCompanyTransPending pendingTrx);
+
+    Task<List<TransactionSearchResult>> SearchTransactionsAsync(int merchantId, TransactionStatusType status, int? transactionId = null, DateTime? from = null, DateTime? to = null);
+    Task<List<TransactionSearchResult>> SearchCapturedTransactionsAsync(int merchantId, int? transactionId, DateTime? from, DateTime? to);
+    Task<List<TransactionSearchResult>> SearchDeclinedTransactionsAsync(int merchantId, int? transactionId, DateTime? from, DateTime? to);
+    Task<List<TransactionSearchResult>> SearchAuthorizedTransactionsAsync(int merchantId, int? transactionId, DateTime? from, DateTime? to);
+    Task<List<TransactionSearchResult>> SearchPendingTransactionsAsync(int merchantId, int? transactionId, DateTime? from, DateTime? to);
 }
