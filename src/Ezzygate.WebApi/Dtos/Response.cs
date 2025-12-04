@@ -1,4 +1,4 @@
-using System.Text.RegularExpressions;
+using Ezzygate.Infrastructure.Utilities;
 
 namespace Ezzygate.WebApi.Dtos;
 
@@ -12,7 +12,7 @@ public class Response
     {
         if (string.IsNullOrEmpty(result))
             throw new ArgumentException("Must provide a result");
-        if (!Regex.IsMatch(result, @"^[a-zA-Z]+$"))
+        if (!RegExUtils.LettersOnly().IsMatch(result))
             throw new ArgumentException("Result must contain only letters");
 
         Result = result;
