@@ -73,4 +73,39 @@ public class TransactionService : ITransactionService
 
         return new MoveTransactionResult(trxId.Value, pendingTrx.ToDomain());
     }
+
+    public async Task<PendingLookupResult?> LocatePendingAsync(int pendingTransactionId, int merchantId)
+    {
+        var finalizeInfo = await _transactionRepository.GetPendingFinalizeInfoAsync(pendingTransactionId);
+        if (finalizeInfo != null)
+        {
+            if (finalizeInfo.TransPassId.HasValue)
+            {
+                var results = await _transactionRepository.SearchTransactionsAsync(
+                    merchantId, TransactionStatusType.Captured, finalizeInfo.TransPassId.Value);
+                if (results.Count != 0)
+                    return new PendingLookupResult(TransactionStatusType.Captured, finalizeInfo.TransPassId.Value);
+            }
+
+            if (finalizeInfo.TransFailId.HasValue)
+            {
+                var results = await _transactionRepository.SearchTransactionsAsync(
+                    merchantId, TransactionStatusType.Declined, finalizeInfo.TransFailId.Value);
+                if (results.Count != 0)
+                    return new PendingLookupResult(TransactionStatusType.Declined, finalizeInfo.TransFailId.Value);
+            }
+
+            if (finalizeInfo.TransApprovalId.HasValue)
+            {
+                var results = await _transactionRepository.SearchTransactionsAsync(
+                    merchantId, TransactionStatusType.Authorized, finalizeInfo.TransApprovalId.Value);
+                if (results.Count != 0)
+                    return new PendingLookupResult(TransactionStatusType.Authorized, finalizeInfo.TransApprovalId.Value);
+            }
+        }
+
+        var pendingResults = await _transactionRepository.SearchTransactionsAsync(
+            merchantId, TransactionStatusType.Pending, pendingTransactionId);
+        return pendingResults.Count != 0 ? new PendingLookupResult(TransactionStatusType.Pending, pendingTransactionId) : null;
+    }
 }

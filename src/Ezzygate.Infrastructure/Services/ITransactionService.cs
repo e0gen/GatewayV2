@@ -5,4 +5,5 @@ namespace Ezzygate.Infrastructure.Services;
 public interface ITransactionService
 {
     Task<MoveTransactionResult> MoveTrxAsync(int pendingId, string replyCode, string message, string? binCountryIso);
+    Task<PendingLookupResult?> LocatePendingAsync(int pendingTransactionId, int merchantId);
 }
