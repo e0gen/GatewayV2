@@ -1,5 +1,7 @@
+using Ezzygate.Application.Transactions;
 using Ezzygate.Integrations.Core.Processing;
 using Ezzygate.WebApi.Dtos.Apps.Integration;
+using Ezzygate.WebApi.Dtos.Merchants.Data;
 
 namespace Ezzygate.WebApi.Extensions;
 
@@ -52,6 +54,33 @@ public static class DtoMappingExtensions
             RequestContent = dto.RequestContent,
             FormData = dto.FormData,
             QueryString = dto.QueryString
+        };
+    }
+
+    public static TransactionInfoDto ToTransactionInfoDto(this TransactionSearchResult result)
+    {
+        var fullName = string.Join(" ", new[] { result.PayerFirstName, result.PayerLastName }
+            .Where(s => !string.IsNullOrWhiteSpace(s)));
+
+        return new TransactionInfoDto
+        {
+            Id = result.Id,
+            Status = result.Status,
+            Amount = result.Amount,
+            ApprovalCode = result.ApprovalCode,
+            Card = result.PaymentMethodDisplay,
+            InsertDate = result.InsertDate,
+            Currency = result.CurrencyIso,
+            Installments = result.Installments,
+            Comment = result.Comment,
+            ResponseCode = result.ResponseCode,
+            ResponseMessage = result.ResponseMessage,
+            DebitReferenceCode = result.DebitReferenceCode,
+            OrderId = result.OrderNumber,
+            CardholderName = string.IsNullOrEmpty(fullName) ? null : fullName,
+            PersonalNumber = result.PayerPersonalNumber,
+            Email = result.PayerEmail,
+            Phone = result.PayerPhone
         };
     }
 }
