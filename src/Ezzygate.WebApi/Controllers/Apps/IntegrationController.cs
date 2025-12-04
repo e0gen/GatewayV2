@@ -11,7 +11,7 @@ using Ezzygate.WebApi.Filters;
 namespace Ezzygate.WebApi.Controllers.Apps;
 
 [ApiController]
-[Route("api/apps/Integration")]
+[Route("api/apps/[controller]")]
 public class IntegrationController : ControllerBase
 {
     private readonly ILogger<IntegrationController> _logger;

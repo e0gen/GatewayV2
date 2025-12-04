@@ -7,7 +7,7 @@ using Ezzygate.Integrations.Rapyd;
 namespace Ezzygate.WebApi.Controllers.Apps;
 
 [ApiController]
-[Route("api/apps/callback")]
+[Route("api/apps/[controller]")]
 public class CallbackController : ControllerBase
 {
     private readonly ILogger<CallbackController> _logger;
