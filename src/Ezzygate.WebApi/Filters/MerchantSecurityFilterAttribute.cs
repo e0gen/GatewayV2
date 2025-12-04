@@ -4,18 +4,14 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 using Ezzygate.Infrastructure.Utilities;
-using Ezzygate.WebApi.Models;
+using Ezzygate.WebApi.Dtos;
 
 namespace Ezzygate.WebApi.Filters;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class MerchantSecurityFilterAttribute : FilterBase
 {
-    public MerchantSecurityFilterAttribute() : this(true)
-    {
-    }
-
-    public MerchantSecurityFilterAttribute(bool requireSignature)
+    public MerchantSecurityFilterAttribute(bool requireSignature = true)
     {
         _requireSignature = requireSignature;
     }

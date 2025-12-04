@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Ezzygate.WebApi.Models;
+namespace Ezzygate.WebApi.Dtos;
 
 public class Response
 {

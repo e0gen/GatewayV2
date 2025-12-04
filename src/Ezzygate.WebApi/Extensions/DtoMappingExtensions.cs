@@ -1,5 +1,5 @@
 using Ezzygate.Integrations.Core.Processing;
-using Ezzygate.WebApi.Dtos;
+using Ezzygate.WebApi.Dtos.Apps.Integration;
 
 namespace Ezzygate.WebApi.Extensions;
 

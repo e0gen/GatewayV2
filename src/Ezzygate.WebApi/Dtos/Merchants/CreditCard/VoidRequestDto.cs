@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Ezzygate.WebApi.Dtos.Merchants;
+namespace Ezzygate.WebApi.Dtos.Merchants.CreditCard;
 
-public class CaptureRequestDto
+public class VoidRequestDto
 {
     [Required, MaxLength(3), MinLength(3)]
     public string CurrencyIso { get; set; } = string.Empty;

@@ -4,9 +4,9 @@ using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Integrations.Core.Processing;
 using Ezzygate.Integrations.Ph3a;
 using Ezzygate.WebApi.Dtos;
+using Ezzygate.WebApi.Dtos.Apps.Integration;
 using Ezzygate.WebApi.Extensions;
 using Ezzygate.WebApi.Filters;
-using Ezzygate.WebApi.Models;
 
 namespace Ezzygate.WebApi.Controllers.Apps;
 

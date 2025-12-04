@@ -2,7 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ezzygate.Application.Integrations;
-using Ezzygate.WebApi.Models;
+using Ezzygate.WebApi.Dtos;
 using Serilog;
 
 namespace Ezzygate.WebApi.Filters;

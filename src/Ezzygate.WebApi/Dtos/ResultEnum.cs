@@ -1,4 +1,4 @@
-namespace Ezzygate.WebApi.Models;
+namespace Ezzygate.WebApi.Dtos;
 
 public enum ResultEnum
 {

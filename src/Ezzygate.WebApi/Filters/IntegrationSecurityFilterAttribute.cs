@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Ezzygate.Application.Integrations;
 using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.Infrastructure.Utilities;
-using Ezzygate.WebApi.Models;
+using Ezzygate.WebApi.Dtos;
 
 namespace Ezzygate.WebApi.Filters;
 

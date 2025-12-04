@@ -1,5 +1,5 @@
 using Ezzygate.Application.Transactions;
-using Ezzygate.Infrastructure.Ef.Entities;
+using Ezzygate.Domain.Enums;
 using Ezzygate.Infrastructure.Mappings;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 

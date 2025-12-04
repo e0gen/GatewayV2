@@ -2,7 +2,7 @@ using Ezzygate.Domain.Models;
 using Ezzygate.Infrastructure.Processing.Models;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 
-namespace Ezzygate.WebApi.Dtos.Merchants;
+namespace Ezzygate.WebApi.Dtos.Merchants.CreditCard;
 
 public static class CreditCardDtoFactory
 {

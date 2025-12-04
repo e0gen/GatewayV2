@@ -1,7 +1,7 @@
 using Ezzygate.Domain.Enums;
 using Ezzygate.Integrations.Core.Models;
 
-namespace Ezzygate.WebApi.Dtos;
+namespace Ezzygate.WebApi.Dtos.Apps.Integration;
 
 public class IntegrationProcessRequestDto
 {

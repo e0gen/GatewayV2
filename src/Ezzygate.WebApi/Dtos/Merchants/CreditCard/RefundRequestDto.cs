@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Ezzygate.WebApi.Dtos.Merchants;
+namespace Ezzygate.WebApi.Dtos.Merchants.CreditCard;
 
 public class RefundRequestDto
 {
