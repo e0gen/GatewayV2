@@ -50,14 +50,15 @@ public class DataController : ControllerBase
         if (merchant == null)
             return new Response(ResultEnum.MerchantNotFound);
 
-        var lookupResult = await _transactionService.LocatePendingAsync(request.TransactionId, merchant.Id);
+        var lookupResult = await _transactionService.LocatePendingAsync(request.TransactionId, merchant.Id, cancellationToken);
         if (lookupResult == null)
             return new Response("TransactionNotFound");
 
         var results = await _transactionRepository.SearchTransactionsAsync(
             merchant.Id,
             lookupResult.Status,
-            lookupResult.TransactionId);
+            lookupResult.TransactionId,
+            cancellationToken: cancellationToken);
 
         var trx = results.SingleOrDefault();
         if (trx == null)
@@ -75,7 +76,7 @@ public class DataController : ControllerBase
         if (merchant == null)
             return new Response(ResultEnum.MerchantNotFound);
 
-        var lookupResult = await _transactionService.LocatePendingAsync(request.TransactionId, merchant.Id);
+        var lookupResult = await _transactionService.LocatePendingAsync(request.TransactionId, merchant.Id, cancellationToken);
         if (lookupResult == null)
             return new Response("TransactionNotFound");
 
@@ -104,7 +105,8 @@ public class DataController : ControllerBase
                 request.Status,
                 request.TransactionId,
                 request.From,
-                request.To);
+                request.To,
+                cancellationToken);
         }
         catch (Exception ex)
         {

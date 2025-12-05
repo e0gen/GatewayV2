@@ -70,20 +70,20 @@ public class TransactionRepository : ITransactionRepository
     }
 
     public async Task<List<TransactionSearchResult>> SearchTransactionsAsync(
-        int merchantId, TransactionStatusType status, int? transactionId = null, DateTime? from = null, DateTime? to = null)
+        int merchantId, TransactionStatusType status, int? transactionId = null, DateTime? from = null, DateTime? to = null, CancellationToken cancellationToken = default)
     {
         return status switch
         {
-            TransactionStatusType.Captured => await SearchCapturedTransactionsAsync(merchantId, transactionId, from, to),
-            TransactionStatusType.Declined => await SearchDeclinedTransactionsAsync(merchantId, transactionId, from, to),
-            TransactionStatusType.Authorized => await SearchAuthorizedTransactionsAsync(merchantId, transactionId, from, to),
-            TransactionStatusType.Pending => await SearchPendingTransactionsAsync(merchantId, transactionId, from, to),
+            TransactionStatusType.Captured => await SearchCapturedTransactionsAsync(merchantId, transactionId, from, to, cancellationToken),
+            TransactionStatusType.Declined => await SearchDeclinedTransactionsAsync(merchantId, transactionId, from, to, cancellationToken),
+            TransactionStatusType.Authorized => await SearchAuthorizedTransactionsAsync(merchantId, transactionId, from, to, cancellationToken),
+            TransactionStatusType.Pending => await SearchPendingTransactionsAsync(merchantId, transactionId, from, to, cancellationToken),
             _ => []
         };
     }
 
     public async Task<List<TransactionSearchResult>> SearchCapturedTransactionsAsync(
-        int merchantId, int? transactionId, DateTime? from, DateTime? to)
+        int merchantId, int? transactionId, DateTime? from, DateTime? to, CancellationToken cancellationToken = default)
     {
         var query = _context.TblCompanyTransPasses
             .Include(t => t.TransPayerInfo)
@@ -97,12 +97,12 @@ public class TransactionRepository : ITransactionRepository
         if (to.HasValue)
             query = query.Where(t => t.InsertDate <= to.Value);
 
-        var results = await query.ToListAsync();
+        var results = await query.ToListAsync(cancellationToken);
         return results.Select(x => x.ToSearchResult()).ToList();
     }
 
     public async Task<List<TransactionSearchResult>> SearchDeclinedTransactionsAsync(
-        int merchantId, int? transactionId, DateTime? from, DateTime? to)
+        int merchantId, int? transactionId, DateTime? from, DateTime? to, CancellationToken cancellationToken = default)
     {
         var query = _context.TblCompanyTransFails
             .Include(t => t.TransPayerInfo)
@@ -116,12 +116,12 @@ public class TransactionRepository : ITransactionRepository
         if (to.HasValue)
             query = query.Where(t => t.InsertDate <= to.Value);
 
-        var results = await query.ToListAsync();
+        var results = await query.ToListAsync(cancellationToken);
         return results.Select(x => x.ToSearchResult()).ToList();
     }
 
     public async Task<List<TransactionSearchResult>> SearchAuthorizedTransactionsAsync(
-        int merchantId, int? transactionId, DateTime? from, DateTime? to)
+        int merchantId, int? transactionId, DateTime? from, DateTime? to, CancellationToken cancellationToken = default)
     {
         var query = _context.TblCompanyTransApprovals
             .Include(t => t.TransPayerInfo)
@@ -135,12 +135,12 @@ public class TransactionRepository : ITransactionRepository
         if (to.HasValue)
             query = query.Where(t => t.InsertDate <= to.Value);
 
-        var results = await query.ToListAsync();
+        var results = await query.ToListAsync(cancellationToken);
         return results.Select(x => x.ToSearchResult()).ToList();
     }
 
     public async Task<List<TransactionSearchResult>> SearchPendingTransactionsAsync(
-        int merchantId, int? transactionId, DateTime? from, DateTime? to)
+        int merchantId, int? transactionId, DateTime? from, DateTime? to, CancellationToken cancellationToken = default)
     {
         var query = _context.TblCompanyTransPendings
             .Include(t => t.TransPayerInfo)
@@ -154,7 +154,7 @@ public class TransactionRepository : ITransactionRepository
         if (to.HasValue)
             query = query.Where(t => t.InsertDate <= to.Value);
 
-        var results = await query.ToListAsync();
+        var results = await query.ToListAsync(cancellationToken);
         return results.Select(x => x.ToSearchResult()).ToList();
     }
 }

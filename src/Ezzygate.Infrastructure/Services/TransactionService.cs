@@ -30,7 +30,7 @@ public class TransactionService : ITransactionService
         _logger = logger;
     }
 
-    public async Task<PendingLookupResult?> LocatePendingAsync(int pendingTransactionId, int merchantId)
+    public async Task<PendingLookupResult?> LocatePendingAsync(int pendingTransactionId, int merchantId, CancellationToken cancellationToken = default)
     {
         var finalizeInfo = await _transactionRepository.GetPendingFinalizeInfoAsync(pendingTransactionId);
         if (finalizeInfo != null)
@@ -38,7 +38,7 @@ public class TransactionService : ITransactionService
             if (finalizeInfo.TransPassId.HasValue)
             {
                 var results = await _transactionRepository.SearchTransactionsAsync(
-                    merchantId, TransactionStatusType.Captured, finalizeInfo.TransPassId.Value);
+                    merchantId, TransactionStatusType.Captured, finalizeInfo.TransPassId.Value, cancellationToken: cancellationToken);
                 if (results.Count != 0)
                     return new PendingLookupResult(TransactionStatusType.Captured, finalizeInfo.TransPassId.Value);
             }
@@ -46,7 +46,7 @@ public class TransactionService : ITransactionService
             if (finalizeInfo.TransFailId.HasValue)
             {
                 var results = await _transactionRepository.SearchTransactionsAsync(
-                    merchantId, TransactionStatusType.Declined, finalizeInfo.TransFailId.Value);
+                    merchantId, TransactionStatusType.Declined, finalizeInfo.TransFailId.Value, cancellationToken: cancellationToken);
                 if (results.Count != 0)
                     return new PendingLookupResult(TransactionStatusType.Declined, finalizeInfo.TransFailId.Value);
             }
@@ -54,27 +54,27 @@ public class TransactionService : ITransactionService
             if (finalizeInfo.TransApprovalId.HasValue)
             {
                 var results = await _transactionRepository.SearchTransactionsAsync(
-                    merchantId, TransactionStatusType.Authorized, finalizeInfo.TransApprovalId.Value);
+                    merchantId, TransactionStatusType.Authorized, finalizeInfo.TransApprovalId.Value, cancellationToken: cancellationToken);
                 if (results.Count != 0)
                     return new PendingLookupResult(TransactionStatusType.Authorized, finalizeInfo.TransApprovalId.Value);
             }
         }
 
         var pendingResults = await _transactionRepository.SearchTransactionsAsync(
-            merchantId, TransactionStatusType.Pending, pendingTransactionId);
+            merchantId, TransactionStatusType.Pending, pendingTransactionId, cancellationToken: cancellationToken);
         return pendingResults.Count != 0 ? new PendingLookupResult(TransactionStatusType.Pending, pendingTransactionId) : null;
     }
 
-    public async Task<MoveTransactionResult> MoveTrxAsync(int pendingId, string replyCode, string message, string? binCountryIso)
+    public async Task<MoveTransactionResult> MoveTrxAsync(int pendingId, string replyCode, string message, string? binCountryIso, CancellationToken cancellationToken = default)
     {
         var pendingEntity = await _context.TblCompanyTransPendings
-            .FirstOrDefaultAsync(p => p.Id == pendingId);
+            .FirstOrDefaultAsync(p => p.Id == pendingId, cancellationToken);
 
         if (pendingEntity == null)
             throw new Exception($"Pending trx '{pendingId}' not found");
 
         var finalizeRow = await _context.TblLogPendingFinalizes
-            .FirstOrDefaultAsync(f => f.PendingId == pendingId);
+            .FirstOrDefaultAsync(f => f.PendingId == pendingId, cancellationToken);
         var isFinalized = finalizeRow != null;
         if (!isFinalized)
         {
@@ -86,7 +86,7 @@ public class TransactionService : ITransactionService
         }
 
         var cart = await _context.Carts
-            .FirstOrDefaultAsync(c => c.TransPendingId == pendingId);
+            .FirstOrDefaultAsync(c => c.TransPendingId == pendingId, cancellationToken);
 
         replyCode = replyCode.Trim();
         int? trxId;
@@ -95,28 +95,28 @@ public class TransactionService : ITransactionService
         {
             case "000" when pendingEntity.TransType == 0 || pendingEntity.TransType == 3:
             {
-                trxId = await InsertPassedTrxAsync(pendingEntity, replyCode, binCountryIso);
+                trxId = await InsertPassedTrxAsync(pendingEntity, replyCode, binCountryIso, cancellationToken);
                 finalizeRow!.TransPassId = trxId;
 
                 if (cart != null)
                 {
                     cart.TransPendingId = null;
                     cart.TransPassId = trxId;
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync(cancellationToken);
                 }
 
                 break;
             }
             case "000" when pendingEntity.TransType == 1:
             {
-                trxId = await InsertApprovedTrxAsync(pendingEntity, replyCode, binCountryIso);
+                trxId = await InsertApprovedTrxAsync(pendingEntity, replyCode, binCountryIso, cancellationToken);
                 finalizeRow!.TransApprovalId = trxId;
 
                 if (cart != null)
                 {
                     cart.TransPendingId = null;
                     cart.TransPreAuthId = trxId;
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync(cancellationToken);
                 }
 
                 break;
@@ -128,13 +128,13 @@ public class TransactionService : ITransactionService
                 break;
             default:
             {
-                trxId = await InsertFailTrxAsync(pendingEntity, replyCode, message, binCountryIso);
+                trxId = await InsertFailTrxAsync(pendingEntity, replyCode, message, binCountryIso, cancellationToken);
                 finalizeRow!.TransFailId = trxId;
 
                 if (cart != null)
                 {
                     cart.TransPendingId = null;
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync(cancellationToken);
                 }
 
                 break;
@@ -146,13 +146,13 @@ public class TransactionService : ITransactionService
             if (!isFinalized)
             {
                 _context.TblLogPendingFinalizes.Add(finalizeRow!);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
             }
 
             try
             {
                 _context.TblCompanyTransPendings.Remove(pendingEntity);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
             }
             catch (Exception ex)
             {
@@ -161,10 +161,10 @@ public class TransactionService : ITransactionService
         }
 
         var pendingTrx = pendingEntity.ToDomain();
-        return new MoveTransactionResult(trxId!.Value, pendingTrx);
+        return new MoveTransactionResult(trxId.Value, pendingTrx);
     }
 
-    private async Task<int> InsertPassedTrxAsync(TblCompanyTransPending pendingEntity, string replyCode, string? binCountryIso)
+    private async Task<int> InsertPassedTrxAsync(TblCompanyTransPending pendingEntity, string replyCode, string? binCountryIso, CancellationToken cancellationToken)
     {
         var currency = _currencyRepository.Get(pendingEntity.Currency!.Value);
         var mockDate = DateTime.Parse("1900/01/01 00:00:00");
@@ -245,12 +245,12 @@ public class TransactionService : ITransactionService
         trx.DebitFee = debitFees?.DcfFixedFee ?? 0;
 
         _context.TblCompanyTransPasses.Add(trx);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
         return trx.Id;
     }
 
-    private async Task<int> InsertApprovedTrxAsync(TblCompanyTransPending pendingEntity, string replyCode, string? binCountryIso)
+    private async Task<int> InsertApprovedTrxAsync(TblCompanyTransPending pendingEntity, string replyCode, string? binCountryIso, CancellationToken cancellationToken)
     {
         var currency = _currencyRepository.Get(pendingEntity.Currency!.Value);
 
@@ -308,12 +308,12 @@ public class TransactionService : ITransactionService
         trx.DebitFee = debitFees?.DcfFixedFee ?? 0;
 
         _context.TblCompanyTransApprovals.Add(trx);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
         return trx.Id;
     }
 
-    private async Task<int> InsertFailTrxAsync(TblCompanyTransPending pendingEntity, string replyCode, string message, string? binCountryIso)
+    private async Task<int> InsertFailTrxAsync(TblCompanyTransPending pendingEntity, string replyCode, string message, string? binCountryIso, CancellationToken cancellationToken)
     {
         var currency = _currencyRepository.Get(pendingEntity.Currency!.Value);
 
@@ -364,7 +364,7 @@ public class TransactionService : ITransactionService
         trx.EzzygateFeeTransactionCharge = merchantFees?.CcfFixedFee ?? 0;
 
         _context.TblCompanyTransFails.Add(trx);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
         return trx.Id;
     }
