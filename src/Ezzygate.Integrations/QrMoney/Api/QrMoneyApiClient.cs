@@ -25,7 +25,7 @@ public sealed class QrMoneyApiClient : ApiClient, IQrMoneyApiClient
         request.Headers.Add("X-API-Key", secretKey);
     }
 
-    public async Task<ApiResult<QrMoneyPaymentResponse>> PaymentRequest(TransactionContext ctx)
+    public async Task<ApiResult<QrMoneyPaymentResponse>> PaymentRequestAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         var accountData = ctx.Terminal?.AccountId.Split('|') ?? [];
         if (accountData.Length < 2)
@@ -37,20 +37,20 @@ public sealed class QrMoneyApiClient : ApiClient, IQrMoneyApiClient
         var path = $"/payments/h2h/{accountId}";
         var body = QrMoneyApiFactory.CreatePaymentRequest(ctx, originDomain);
 
-        return await MakeRequestInternalAsync<QrMoneyPaymentResponse>(HttpMethod.Post, path, body, ctx);
+        return await MakeRequestInternalAsync<QrMoneyPaymentResponse>(HttpMethod.Post, path, body, ctx, cancellationToken);
     }
 
-    public async Task<ApiResult<QrMoneyStatusResponse>> StatusRequest(TransactionContext ctx)
+    public async Task<ApiResult<QrMoneyStatusResponse>> StatusRequestAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         var path = $"/payment-requests/status/{ctx.LocatedTrx?.ApprovalNumber}";
 
-        return await MakeRequestInternalAsync<QrMoneyStatusResponse>(HttpMethod.Get, path, null!, ctx);
+        return await MakeRequestInternalAsync<QrMoneyStatusResponse>(HttpMethod.Get, path, null!, ctx, cancellationToken);
     }
 
-    public async Task<ApiResult<EmptyResponse>> RefundRequest(TransactionContext ctx)
+    public async Task<ApiResult<EmptyResponse>> RefundRequestAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         var path = $"/payments/h2h/refund/{ctx.LocatedTrx?.ApprovalNumber}";
 
-        return await MakeRequestInternalAsync<EmptyResponse>(HttpMethod.Get, path, null!, ctx);
+        return await MakeRequestInternalAsync<EmptyResponse>(HttpMethod.Get, path, null!, ctx, cancellationToken);
     }
 }

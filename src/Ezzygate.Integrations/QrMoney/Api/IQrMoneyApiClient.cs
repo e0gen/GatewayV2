@@ -5,7 +5,7 @@ namespace Ezzygate.Integrations.QrMoney.Api;
 
 public interface IQrMoneyApiClient
 {
-    Task<ApiResult<QrMoneyPaymentResponse>> PaymentRequest(TransactionContext ctx);
-    Task<ApiResult<QrMoneyStatusResponse>> StatusRequest(TransactionContext ctx);
-    Task<ApiResult<EmptyResponse>> RefundRequest(TransactionContext ctx);
+    Task<ApiResult<QrMoneyPaymentResponse>> PaymentRequestAsync(TransactionContext ctx, CancellationToken cancellationToken = default);
+    Task<ApiResult<QrMoneyStatusResponse>> StatusRequestAsync(TransactionContext ctx, CancellationToken cancellationToken = default);
+    Task<ApiResult<EmptyResponse>> RefundRequestAsync(TransactionContext ctx, CancellationToken cancellationToken = default);
 }

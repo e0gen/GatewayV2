@@ -55,7 +55,7 @@ public class QrMoneyIntegration : BaseIntegration, ICreditCardIntegration
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(RefundTrxAsync));
         ValidateDebitCompanyId(ctx, DebitCompanyId);
 
-        var refundResult = await _apiClient.RefundRequest(ctx);
+        var refundResult = await _apiClient.RefundRequestAsync(ctx, cancellationToken);
 
         logger.Info($"[RefundRequest] Code: {refundResult.StatusCode} Path: {refundResult.Path}");
         logger.Info($"[RefundRequest] Req: {refundResult.RequestJson}");
@@ -91,7 +91,7 @@ public class QrMoneyIntegration : BaseIntegration, ICreditCardIntegration
             logger.Info($"BrowserTimezoneOffset: {ctx.FormDataParsed.GetValueOrDefault("browserTimezoneOffset")}");
             logger.Info($"BrowserUserAgent: {ctx.FormDataParsed.GetValueOrDefault("browserUserAgent")}");
 
-            var processResult = await _apiClient.PaymentRequest(ctx);
+            var processResult = await _apiClient.PaymentRequestAsync(ctx, cancellationToken);
 
             logger.Info($"[PaymentRequest] Code: {processResult.StatusCode} Path: {processResult.Path}");
             logger.Info($"[PaymentRequest] Req: {processResult.RequestJson}");
@@ -171,7 +171,7 @@ public class QrMoneyIntegration : BaseIntegration, ICreditCardIntegration
             if (log is null)
                 throw new Exception($"Charge attempt log not found for id '{ctx.ChargeAttemptLogId}'");
 
-            var paymentResult = await _apiClient.StatusRequest(ctx);
+            var paymentResult = await _apiClient.StatusRequestAsync(ctx, cancellationToken);
 
             logger.Info($"[GetPaymentStatus] Code: {paymentResult.StatusCode} Path: {paymentResult.Path}");
             logger.Info($"[GetPaymentStatus] Res: {paymentResult.ResponseJson}");
