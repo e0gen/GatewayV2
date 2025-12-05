@@ -62,7 +62,7 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
 
         ValidateDebitCompanyId(ctx, DebitCompanyId);
 
-        var handlerResult = await _apiClient.CreatePaymentHandlerAsync(ctx);
+        var handlerResult = await _apiClient.CreatePaymentHandlerAsync(ctx, cancellationToken);
 
         logger.Info($"[PaymentHandler] Code: {handlerResult.StatusCode} Path: {handlerResult.Path}");
         logger.Info($"[PaymentHandler] Req: {handlerResult.RequestJson}");
@@ -114,7 +114,7 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(CaptureTrxAsync));
         ValidateDebitCompanyId(ctx, DebitCompanyId);
 
-        var settlementResult = await _apiClient.ProcessSettlementAsync(ctx);
+        var settlementResult = await _apiClient.ProcessSettlementAsync(ctx, cancellationToken);
 
         logger.Info($"[ProcessSettlement] Code: {settlementResult.StatusCode} Path: {settlementResult.Path}");
         logger.Info($"[ProcessSettlement] Req: {settlementResult.RequestJson}");
@@ -152,7 +152,7 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(VoidTrxAsync));
         ValidateDebitCompanyId(ctx, DebitCompanyId);
 
-        var voidResult = await _apiClient.VoidAuthorizationAsync(ctx);
+        var voidResult = await _apiClient.VoidAuthorizationAsync(ctx, cancellationToken);
 
         logger.Info($"[VoidAuthorization] Code: {voidResult.StatusCode} Path: {voidResult.Path}");
         logger.Info($"[VoidAuthorization] Req: {voidResult.RequestJson}");
@@ -192,7 +192,7 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
         var integrationResult = ctx.GetIntegrationResult();
         integrationResult.ApprovalNumber = ctx.ApprovalNumber;
 
-        var refundResult = await _apiClient.ProcessRefundAsync(ctx);
+        var refundResult = await _apiClient.ProcessRefundAsync(ctx, cancellationToken);
 
         logger.Info($"[ProcessRefund] Code: {refundResult.StatusCode} Path: {refundResult.Path}");
         logger.Info($"[ProcessRefund] Req: {refundResult.RequestJson}");
@@ -219,7 +219,7 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
             {
                 if (response.Error?.Code == "3406") // Settlement is not completed.
                 {
-                    var cancelResult = await _apiClient.CancelSettlementAsync(ctx);
+                    var cancelResult = await _apiClient.CancelSettlementAsync(ctx, cancellationToken);
                     logger.Info($"[CancelSettlement] Code: {cancelResult.StatusCode} Path: {cancelResult.Path}");
                     logger.Info($"[CancelSettlement] Req: {cancelResult.RequestJson}");
 
@@ -280,7 +280,7 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
             }
             else
             {
-                var paymentResult = await _apiClient.ProcessPaymentAsync(ctx, onlyAuthorize);
+                var paymentResult = await _apiClient.ProcessPaymentAsync(ctx, onlyAuthorize, cancellationToken);
 
                 logger.Info($"[ProcessPayment] Code: {paymentResult.StatusCode} Path: {paymentResult.Path}");
                 logger.Info($"[ProcessPayment] Req: {paymentResult.RequestJson}");

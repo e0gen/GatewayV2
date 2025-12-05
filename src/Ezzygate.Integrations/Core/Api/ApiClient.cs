@@ -26,7 +26,7 @@ public abstract class ApiClient
     }
 
     protected async Task<ApiResult<TResponse>> MakeRequestInternalAsync<TResponse>(
-        HttpMethod method, string path, object body, TransactionContext ctx)
+        HttpMethod method, string path, object body, TransactionContext ctx, CancellationToken cancellationToken = default)
         where TResponse : class
     {
         var client = _httpClientFactory.CreateClient();
@@ -46,8 +46,8 @@ public abstract class ApiClient
         if (method == HttpMethod.Post)
             request.Content = new StringContent(bodyJson, Encoding.UTF8, "application/json");
 
-        var response = await client.SendAsync(request).ConfigureAwait(false);
-        var responseJson = await response.Content.ReadAsStringAsync();
+        var response = await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
+        var responseJson = await response.Content.ReadAsStringAsync(cancellationToken);
 
         TResponse? tResponse = null;
         Exception? tException = null;

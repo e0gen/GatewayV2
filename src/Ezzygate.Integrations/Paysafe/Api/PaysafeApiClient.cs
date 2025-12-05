@@ -27,70 +27,70 @@ public sealed class PaysafeApiClient : ApiClient, IPaysafeApiClient
         client.AddBasicAuth(clientId, clientSecret);
     }
 
-    public async Task<ApiResult<CreatePaymentHandlerResponse>> CreatePaymentHandlerAsync(TransactionContext ctx)
+    public async Task<ApiResult<CreatePaymentHandlerResponse>> CreatePaymentHandlerAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         const string path = "/paymenthub/v1/paymenthandles";
 
         var request = PaysafeApiFactory.CreatePaymentHandlerRequest(ctx);
 
-        return await MakeRequestInternalAsync<CreatePaymentHandlerResponse>(HttpMethod.Post, path, request, ctx);
+        return await MakeRequestInternalAsync<CreatePaymentHandlerResponse>(HttpMethod.Post, path, request, ctx, cancellationToken);
     }
 
-    public async Task<ApiResult<PaymentResponse>> ProcessPaymentAsync(TransactionContext ctx, bool onlyAuthorize)
+    public async Task<ApiResult<PaymentResponse>> ProcessPaymentAsync(TransactionContext ctx, bool onlyAuthorize, CancellationToken cancellationToken = default)
     {
         const string path = "/paymenthub/v1/payments";
 
         var request = PaysafeApiFactory.CreatePaymentRequest(ctx, onlyAuthorize);
 
-        return await MakeRequestInternalAsync<PaymentResponse>(HttpMethod.Post, path, request, ctx);
+        return await MakeRequestInternalAsync<PaymentResponse>(HttpMethod.Post, path, request, ctx, cancellationToken);
     }
 
-    public async Task<ApiResult<SettlementResponse>> ProcessSettlementAsync(TransactionContext ctx)
+    public async Task<ApiResult<SettlementResponse>> ProcessSettlementAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         var paymentId = ctx.ApprovalNumber;
         var path = $"/paymenthub/v1/payments/{paymentId}/settlements";
 
         var request = PaysafeApiFactory.CreateSettlementRequest(ctx);
 
-        return await MakeRequestInternalAsync<SettlementResponse>(HttpMethod.Post, path, request, ctx);
+        return await MakeRequestInternalAsync<SettlementResponse>(HttpMethod.Post, path, request, ctx, cancellationToken);
     }
 
-    public async Task<ApiResult<VoidAuthorizationResponse>> VoidAuthorizationAsync(TransactionContext ctx)
+    public async Task<ApiResult<VoidAuthorizationResponse>> VoidAuthorizationAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         var paymentId = ctx.ApprovalNumber;
         var path = $"/paymenthub/v1/payments/{paymentId}/voidauths";
 
         var request = PaysafeApiFactory.CreateVoidAuthorizationRequest(ctx);
 
-        return await MakeRequestInternalAsync<VoidAuthorizationResponse>(HttpMethod.Post, path, request, ctx);
+        return await MakeRequestInternalAsync<VoidAuthorizationResponse>(HttpMethod.Post, path, request, ctx, cancellationToken);
     }
 
-    public async Task<ApiResult<SettlementResponse>> GetSettlementAsync(TransactionContext ctx)
+    public async Task<ApiResult<SettlementResponse>> GetSettlementAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         var settlementId = ctx.ApprovalNumber;
         var path = $"/paymenthub/v1/settlements/{settlementId}";
 
-        return await MakeRequestInternalAsync<SettlementResponse>(HttpMethod.Get, path, null!, ctx);
+        return await MakeRequestInternalAsync<SettlementResponse>(HttpMethod.Get, path, null!, ctx, cancellationToken);
     }
 
-    public async Task<ApiResult<EmptyResponse>> CancelSettlementAsync(TransactionContext ctx)
+    public async Task<ApiResult<EmptyResponse>> CancelSettlementAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         var settlementId = ctx.ApprovalNumber;
         var path = $"/paymenthub/v1/settlements/{settlementId}";
 
         var request = PaysafeApiFactory.CreateCancelSettlementRequest();
 
-        return await MakeRequestInternalAsync<EmptyResponse>(HttpMethod.Put, path, request, ctx);
+        return await MakeRequestInternalAsync<EmptyResponse>(HttpMethod.Put, path, request, ctx, cancellationToken);
     }
 
-    public async Task<ApiResult<RefundResponse>> ProcessRefundAsync(TransactionContext ctx)
+    public async Task<ApiResult<RefundResponse>> ProcessRefundAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         var settlementId = ctx.ApprovalNumber;
         var path = $"/paymenthub/v1/settlements/{settlementId}/refunds";
 
         var request = PaysafeApiFactory.CreateRefundRequest(ctx);
 
-        return await MakeRequestInternalAsync<RefundResponse>(HttpMethod.Post, path, request, ctx);
+        return await MakeRequestInternalAsync<RefundResponse>(HttpMethod.Post, path, request, ctx, cancellationToken);
     }
 }
 
