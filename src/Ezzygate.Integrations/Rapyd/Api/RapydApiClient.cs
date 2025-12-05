@@ -38,8 +38,8 @@ public sealed class RapydApiClient : ApiClient, IRapydApiClient
         request.Headers.Add("access_key", accessKey);
     }
 
-    public async Task<ApiResult<RapydResponse<PaymentData>>> ProcessRequest(TransactionContext ctx,
-        string midCountry, bool capture, PaymentMethodEnum method)
+    public async Task<ApiResult<RapydResponse<PaymentData>>> ProcessRequestAsync(TransactionContext ctx,
+        string midCountry, bool capture, PaymentMethodEnum method, CancellationToken cancellationToken = default)
     {
         const string path = "/v1/payments";
         var methodType = method == PaymentMethodEnum.CCMastercard
@@ -48,32 +48,32 @@ public sealed class RapydApiClient : ApiClient, IRapydApiClient
 
         var body = RapydApiFactory.CreateProcessRequest(ctx, capture, methodType);
 
-        return await MakeRequestInternalAsync<RapydResponse<PaymentData>>(HttpMethod.Post, path, body, ctx);
+        return await MakeRequestInternalAsync<RapydResponse<PaymentData>>(HttpMethod.Post, path, body, ctx, cancellationToken);
     }
 
-    public async Task<ApiResult<RapydResponse<RefundData>>> RefundRequest(TransactionContext ctx)
+    public async Task<ApiResult<RapydResponse<RefundData>>> RefundRequestAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         const string path = "/v1/refunds";
 
         var body = RapydApiFactory.CreateRefundRequest(ctx);
 
-        return await MakeRequestInternalAsync<RapydResponse<RefundData>>(HttpMethod.Post, path, body, ctx);
+        return await MakeRequestInternalAsync<RapydResponse<RefundData>>(HttpMethod.Post, path, body, ctx, cancellationToken);
     }
 
-    public async Task<ApiResult<RapydResponse<PaymentData>>> CaptureRequest(TransactionContext ctx)
+    public async Task<ApiResult<RapydResponse<PaymentData>>> CaptureRequestAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         var path = $"/v1/payments/{ctx.ApprovalNumber}/capture";
 
         var body = RapydApiFactory.CreateCaptureRequest(ctx);
 
-        return await MakeRequestInternalAsync<RapydResponse<PaymentData>>(HttpMethod.Post, path, body, ctx);
+        return await MakeRequestInternalAsync<RapydResponse<PaymentData>>(HttpMethod.Post, path, body, ctx, cancellationToken);
     }
 
-    public async Task<ApiResult<RapydResponse<PaymentData>>> StatusRequest(TransactionContext ctx)
+    public async Task<ApiResult<RapydResponse<PaymentData>>> StatusRequestAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         var path = $"/v1/payments/{ctx.LocatedTrx.ApprovalNumber}";
 
-        return await MakeRequestInternalAsync<RapydResponse<PaymentData>>(HttpMethod.Get, path, null, ctx);
+        return await MakeRequestInternalAsync<RapydResponse<PaymentData>>(HttpMethod.Get, path, null, ctx, cancellationToken);
     }
 
     // public string GetMethodsByCountry(TransactionContext ctx)

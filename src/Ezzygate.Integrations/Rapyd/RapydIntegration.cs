@@ -69,7 +69,7 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(CaptureTrxAsync));
         ValidateDebitCompanyId(ctx, DebitCompanyId);
 
-        var captureResult = await _apiClient.CaptureRequest(ctx);
+        var captureResult = await _apiClient.CaptureRequestAsync(ctx, cancellationToken);
 
         logger.Info($"[CaptureRequest] Code: {captureResult.StatusCode} Path: {captureResult.Path}");
         logger.Info($"[CaptureRequest] Req: {captureResult.RequestJson}");
@@ -93,7 +93,7 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(RefundTrxAsync));
         ValidateDebitCompanyId(ctx, DebitCompanyId);
 
-        var refundResult = await _apiClient.RefundRequest(ctx);
+        var refundResult = await _apiClient.RefundRequestAsync(ctx, cancellationToken);
 
         logger.Info($"[RefundRequest] Code: {refundResult.StatusCode} Path: {refundResult.Path}");
         logger.Info($"[RefundRequest] Req: {refundResult.RequestJson}");
@@ -137,7 +137,7 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
 
         ValidateDebitCompanyId(ctx, DebitCompanyId);
 
-        var processResult = await _apiClient.ProcessRequest(ctx, midCountry, capture, cc.PaymentMethodId);
+        var processResult = await _apiClient.ProcessRequestAsync(ctx, midCountry, capture, cc.PaymentMethodId, cancellationToken);
 
         logger.Info($"[ProcessRequest] Code: {processResult.StatusCode} Path: {processResult.Path}");
         logger.Info($"[ProcessRequest] Req: {processResult.RequestJson}");
@@ -207,7 +207,7 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
                 return await AutoFinalizeTrxAsync(ctx, cancellationToken);
             }
 
-            var paymentResult = await _apiClient.StatusRequest(ctx);
+            var paymentResult = await _apiClient.StatusRequestAsync(ctx, cancellationToken);
 
             logger.Info($"[GetPayment] Code: {paymentResult.StatusCode} Path: {paymentResult.Path}");
             logger.Info($"[GetPayment] Res: {paymentResult.ResponseJson}");

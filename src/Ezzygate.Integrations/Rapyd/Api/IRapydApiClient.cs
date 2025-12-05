@@ -7,11 +7,11 @@ namespace Ezzygate.Integrations.Rapyd.Api;
 
 public interface IRapydApiClient
 {
-    Task<ApiResult<RapydResponse<PaymentData>>> ProcessRequest(TransactionContext ctx,
-        string midCountry, bool capture, PaymentMethodEnum method);
+    Task<ApiResult<RapydResponse<PaymentData>>> ProcessRequestAsync(TransactionContext ctx,
+        string midCountry, bool capture, PaymentMethodEnum method, CancellationToken cancellationToken = default);
 
-    Task<ApiResult<RapydResponse<RefundData>>> RefundRequest(TransactionContext ctx);
-    Task<ApiResult<RapydResponse<PaymentData>>> CaptureRequest(TransactionContext ctx);
-    Task<ApiResult<RapydResponse<PaymentData>>> StatusRequest(TransactionContext ctx);
+    Task<ApiResult<RapydResponse<RefundData>>> RefundRequestAsync(TransactionContext ctx, CancellationToken cancellationToken = default);
+    Task<ApiResult<RapydResponse<PaymentData>>> CaptureRequestAsync(TransactionContext ctx, CancellationToken cancellationToken = default);
+    Task<ApiResult<RapydResponse<PaymentData>>> StatusRequestAsync(TransactionContext ctx, CancellationToken cancellationToken = default);
     RapydResponse<PaymentData>? RestorePaymentDataResponse(string responseBody);
 }
