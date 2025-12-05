@@ -20,7 +20,7 @@ public class PendingTransaction
 
     public string PaymentMethodDisplay { get; set; }
 
-    public string Ipaddress { get; set; }
+    public string IpAddress { get; set; }
 
     public string ReplyCode { get; set; }
 

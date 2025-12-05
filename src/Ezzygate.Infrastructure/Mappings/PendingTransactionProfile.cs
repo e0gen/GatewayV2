@@ -24,7 +24,7 @@ public static class PendingTransactionProfile
             PayForText = entity.PayforText,
             CustomerId = entity.CustomerId,
             PaymentMethodDisplay = entity.PaymentMethodDisplay,
-            Ipaddress = entity.Ipaddress,
+            IpAddress = entity.IpAddress,
             TerminalNumber = entity.TerminalNumber,
             DebitReferenceCode = entity.DebitReferenceCode,
             DebitReferenceNum = entity.DebitReferenceNum,

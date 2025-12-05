@@ -38,7 +38,7 @@ public partial class TblCompanyTransPending
 
     [Column("IPAddress")]
     [StringLength(50)]
-    public string Ipaddress { get; set; } = null!;
+    public string IpAddress { get; set; } = null!;
 
     [Column("replyCode")]
     [StringLength(50)]

@@ -243,7 +243,7 @@ public class TransactionContextFactory : ITransactionContextFactory
             Amount = trx.TransAmount,
             Payments = trx.TransPayments,
             OrderId = trx.OrderNumber,
-            ClientIp = trx.Ipaddress,
+            ClientIp = trx.IpAddress,
             TransType = trx.TransType,
             CreditType = trx.TransCreditType,
             PayFor = trx.PayforText ?? string.Empty,

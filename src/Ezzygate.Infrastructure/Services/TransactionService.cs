@@ -65,7 +65,7 @@ public class TransactionService : ITransactionService
         return pendingResults.Count != 0 ? new PendingLookupResult(TransactionStatusType.Pending, pendingTransactionId) : null;
     }
 
-    public async Task<MoveTransactionResult> MoveTrxAsync(int pendingId, string replyCode, string message, string? binCountryIso, CancellationToken cancellationToken = default)
+    public async Task<MoveTransactionResult> MoveTrxAsync(int pendingId, string replyCode, string? message, string? binCountryIso, CancellationToken cancellationToken = default)
     {
         var pendingEntity = await _context.TblCompanyTransPendings
             .FirstOrDefaultAsync(p => p.Id == pendingId, cancellationToken);
@@ -191,7 +191,7 @@ public class TransactionService : ITransactionService
             PayforText = pendingEntity.PayforText,
             CustomerId = pendingEntity.CustomerId,
             PaymentMethodDisplay = pendingEntity.PaymentMethodDisplay.EmptyIfNull(),
-            Ipaddress = pendingEntity.Ipaddress.EmptyIfNull(),
+            Ipaddress = pendingEntity.IpAddress.EmptyIfNull(),
             TerminalNumber = pendingEntity.TerminalNumber.EmptyIfNull(),
             DebitReferenceCode = pendingEntity.DebitReferenceCode,
             DebitReferenceNum = pendingEntity.DebitReferenceNum,
@@ -269,7 +269,7 @@ public class TransactionService : ITransactionService
             PayforText = pendingEntity.PayforText,
             CustomerId = pendingEntity.CustomerId,
             PaymentMethodDisplay = pendingEntity.PaymentMethodDisplay.EmptyIfNull(),
-            Ipaddress = pendingEntity.Ipaddress.EmptyIfNull(),
+            Ipaddress = pendingEntity.IpAddress.EmptyIfNull(),
             TerminalNumber = pendingEntity.TerminalNumber.EmptyIfNull(),
             DebitReferenceCode = pendingEntity.DebitReferenceCode,
             DebitReferenceNum = pendingEntity.DebitReferenceNum,
@@ -313,7 +313,7 @@ public class TransactionService : ITransactionService
         return trx.Id;
     }
 
-    private async Task<int> InsertFailTrxAsync(TblCompanyTransPending pendingEntity, string replyCode, string message, string? binCountryIso, CancellationToken cancellationToken)
+    private async Task<int> InsertFailTrxAsync(TblCompanyTransPending pendingEntity, string replyCode, string? message, string? binCountryIso, CancellationToken cancellationToken)
     {
         var currency = _currencyRepository.Get(pendingEntity.Currency!.Value);
 
@@ -333,7 +333,7 @@ public class TransactionService : ITransactionService
             PayforText = pendingEntity.PayforText,
             CustomerId = pendingEntity.CustomerId,
             PaymentMethodDisplay = pendingEntity.PaymentMethodDisplay.EmptyIfNull(),
-            Ipaddress = pendingEntity.Ipaddress.EmptyIfNull(),
+            Ipaddress = pendingEntity.IpAddress.EmptyIfNull(),
             TerminalNumber = pendingEntity.TerminalNumber.EmptyIfNull(),
             DebitReferenceCode = pendingEntity.DebitReferenceCode,
             DebitReferenceNum = pendingEntity.DebitReferenceNum,

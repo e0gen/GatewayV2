@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using Ezzygate.Application.Integrations;
 using Ezzygate.Application.Transactions;
 using Ezzygate.Domain.Enums;
+using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Infrastructure.Notifications;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
@@ -59,7 +60,7 @@ public abstract class BaseIntegration : IIntegration
 
         var (movedTrxId, movedPendingTrx) = await DataService.TransactionService.MoveTrxAsync(
             ctx.LocatedTrx.TrxId,
-            result.Code,
+            result.Code.NotNull(),
             result.Message,
             ctx.LocatedTrx.BinCountry,
             cancellationToken);

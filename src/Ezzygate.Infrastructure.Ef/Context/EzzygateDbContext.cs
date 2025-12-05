@@ -2756,7 +2756,7 @@ public partial class EzzygateDbContext : DbContext
             entity.Property(e => e.DebitReferenceCode).HasDefaultValue("");
             entity.Property(e => e.Id).HasComputedColumnSql("([companyTransPending_id])", false);
             entity.Property(e => e.InsertDate).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.Ipaddress).HasDefaultValue("");
+            entity.Property(e => e.IpAddress).HasDefaultValue("");
             entity.Property(e => e.Is3Dsecure).HasDefaultValue(false);
             entity.Property(e => e.OrderNumber).HasDefaultValue("");
             entity.Property(e => e.PayerIdUsed).HasDefaultValue("");
