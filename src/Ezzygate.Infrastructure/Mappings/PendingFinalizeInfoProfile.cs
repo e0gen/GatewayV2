@@ -16,18 +16,4 @@ public static class PendingFinalizeInfoProfile
             entity.TransFailId,
             entity.TransApprovalId);
     }
-
-    public static TblLogPendingFinalize ToEntity(this PendingFinalizeInfo info)
-    {
-        ArgumentNullException.ThrowIfNull(info);
-
-        return new TblLogPendingFinalize
-        {
-            PendingId = info.PendingId,
-            FinalizeDate = info.FinalizeDate,
-            TransPassId = info.TransPassId,
-            TransFailId = info.TransFailId,
-            TransApprovalId = info.TransApprovalId
-        };
-    }
 }

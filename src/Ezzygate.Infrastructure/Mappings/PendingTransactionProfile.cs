@@ -11,15 +11,32 @@ public static class PendingTransactionProfile
 
         return new PendingTransaction
         {
-            CompanyId = entity.CompanyId.Value,
+            Id = entity.Id,
+            CompanyTransPendingId = entity.CompanyTransPendingId,
+            CompanyId = entity.CompanyId ?? 0,
+            DebitCompanyId = entity.DebitCompanyId,
             TransType = entity.TransType,
             TransAmount = entity.TransAmount,
-            Currency = entity.Currency,
-            OrderNumber = entity.OrderNumber,
+            TransCreditType = entity.TransCreditType,
             TransPayments = entity.TransPayments,
-            Comment = entity.Comment,
-            CompanyTransPendingId = entity.CompanyTransPendingId,
+            Currency = entity.Currency,
+            TransSourceId = entity.TransSourceId,
+            PayForText = entity.PayforText,
+            CustomerId = entity.CustomerId,
+            PaymentMethodDisplay = entity.PaymentMethodDisplay,
+            Ipaddress = entity.Ipaddress,
+            TerminalNumber = entity.TerminalNumber,
+            DebitReferenceCode = entity.DebitReferenceCode,
+            DebitReferenceNum = entity.DebitReferenceNum,
+            TransOrder = entity.TransOrder,
             DebitApprovalNumber = entity.DebitApprovalNumber,
+            OrderNumber = entity.OrderNumber,
+            TransPayerInfoId = entity.TransPayerInfoId,
+            CreditCardId = entity.CreditCardId,
+            PaymentMethod = entity.PaymentMethod,
+            TransPaymentMethodId = entity.TransPaymentMethodId,
+            IsTestOnly = entity.IsTestOnly,
+            Comment = entity.Comment
         };
     }
 }
