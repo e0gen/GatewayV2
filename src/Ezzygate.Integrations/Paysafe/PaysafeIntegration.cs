@@ -31,19 +31,18 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
 
     public override string Tag => "Paysafe";
 
-    public override Task<IntegrationResult> ProcessTransactionAsync(TransactionContext ctx,
-        CancellationToken cancellationToken = default)
+    public override Task<IntegrationResult> ProcessTransactionAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         switch (ctx.OpType)
         {
             case OperationType.Finalize:
                 return FinalizeTrxAsync(ctx, cancellationToken);
             case OperationType.Refund:
-                return RefundTrxAsync(ctx);
+                return RefundTrxAsync(ctx, cancellationToken);
             case OperationType.AuthorizationCapture:
-                return CaptureTrxAsync(ctx);
+                return CaptureTrxAsync(ctx, cancellationToken);
             case OperationType.AuthorizationRelease:
-                return VoidTrxAsync(ctx);
+                return VoidTrxAsync(ctx, cancellationToken);
             case OperationType.Authorization:
             case OperationType.Authorization3DS:
             case OperationType.Sale:
@@ -51,13 +50,13 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
             case OperationType.RecurringInit:
             case OperationType.RecurringInit3DS:
             case OperationType.RecurringSale:
-                return ProcessTrxAsync(ctx);
+                return ProcessTrxAsync(ctx, cancellationToken);
             default:
                 throw new Exception("Operation not supported");
         }
     }
 
-    private async Task<IntegrationResult> ProcessTrxAsync(TransactionContext ctx)
+    private async Task<IntegrationResult> ProcessTrxAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(ProcessTrxAsync));
 
@@ -71,7 +70,7 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
 
         await DataService.ChargeAttempts.UpdateAsync(id => id == ctx.ChargeAttemptLogId, u => u
             .SetInnerRequest(handlerResult.RequestJson)
-            .SetInnerResponse(handlerResult.ResponseJson));
+            .SetInnerResponse(handlerResult.ResponseJson), cancellationToken);
 
         if (handlerResult.Response is null)
             throw new Exception("Failed to parse payment handler response", handlerResult.Exception);
@@ -110,7 +109,7 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
         return integrationResult;
     }
 
-    private async Task<IntegrationResult> CaptureTrxAsync(TransactionContext ctx)
+    private async Task<IntegrationResult> CaptureTrxAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(CaptureTrxAsync));
         ValidateDebitCompanyId(ctx, DebitCompanyId);
@@ -148,7 +147,7 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
         return integrationResult;
     }
 
-    private async Task<IntegrationResult> VoidTrxAsync(TransactionContext ctx)
+    private async Task<IntegrationResult> VoidTrxAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(VoidTrxAsync));
         ValidateDebitCompanyId(ctx, DebitCompanyId);
@@ -185,7 +184,7 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
         return integrationResult;
     }
 
-    private async Task<IntegrationResult> RefundTrxAsync(TransactionContext ctx)
+    private async Task<IntegrationResult> RefundTrxAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(RefundTrxAsync));
         ValidateDebitCompanyId(ctx, DebitCompanyId);
@@ -242,8 +241,7 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
         return integrationResult;
     }
 
-    private async Task<IntegrationResult> FinalizeTrxAsync(TransactionContext ctx,
-        CancellationToken cancellationToken = default)
+    private async Task<IntegrationResult> FinalizeTrxAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(FinalizeTrxAsync));
         logger.Info($"Source: {(ctx.IsAutomatedRequest ? "Webhook" : "Redirect")}");
@@ -277,8 +275,8 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
                 paymentResponse = ctx.AutomatedPayload as PaymentResponse;
 
                 await DataService.ChargeAttempts.UpdateAsync(id => id == ctx.ChargeAttemptLogId, u => u
-                        .SetInnerRequest($"Callback: {ctx.IsAutomatedRequest}\n{log.InnerRequest}\n{ctx.GetFinalizeUrl(ctx.FinalizeType)}")
-                        .SetInnerResponse($"{ctx.AutomatedStatus}\n{log.InnerRequest}"), cancellationToken);
+                    .SetInnerRequest($"Callback: {ctx.IsAutomatedRequest}\n{log.InnerRequest}\n{ctx.GetFinalizeUrl(ctx.FinalizeType)}")
+                    .SetInnerResponse($"{ctx.AutomatedStatus}\n{log.InnerRequest}"), cancellationToken);
             }
             else
             {
@@ -308,16 +306,14 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
             }
 
             var integrationResult = ctx.GetIntegrationResult();
-            var status = paymentResponse.Status;
+            var status = paymentResponse.Status.NotNull();
             var errorMessage = paymentResponse.Error?.ToMessage();
 
-            logger.Info(
-                $"Status: {status} TransType: {ctx.LocatedTrx?.TransType} Approval number: {ctx.ApprovalNumber}");
+            logger.Info($"Status: {status} TransType: {ctx.LocatedTrx?.TransType} Approval number: {ctx.ApprovalNumber}");
 
             // Decide reply code according to Paysafe status list
             var successStatuses = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "COMPLETED" };
-            var pendingStatuses = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-                { "RECEIVED", "PROCESSING", "PENDING", "HELD" };
+            var pendingStatuses = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "RECEIVED", "PROCESSING", "PENDING", "HELD" };
             var isSuccess = successStatuses.Contains(status);
             var isPending = pendingStatuses.Contains(status);
 

@@ -31,27 +31,26 @@ public class QrMoneyIntegration : BaseIntegration, ICreditCardIntegration
 
     public override string Tag => "QrMoney";
 
-    public override Task<IntegrationResult> ProcessTransactionAsync(TransactionContext ctx,
-        CancellationToken cancellationToken = default)
+    public override Task<IntegrationResult> ProcessTransactionAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         switch (ctx.OpType)
         {
             case OperationType.Finalize:
                 return FinalizeTrxAsync(ctx, cancellationToken);
             case OperationType.Refund:
-                return RefundTrxAsync(ctx);
+                return RefundTrxAsync(ctx, cancellationToken);
             case OperationType.Sale:
             case OperationType.Sale3DS:
             case OperationType.RecurringInit:
             case OperationType.RecurringInit3DS:
             case OperationType.RecurringSale:
-                return ProcessTrxAsync(ctx);
+                return ProcessTrxAsync(ctx, cancellationToken);
             default:
                 throw new Exception("Operation not supported");
         }
     }
 
-    private async Task<IntegrationResult> RefundTrxAsync(TransactionContext ctx)
+    private async Task<IntegrationResult> RefundTrxAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(RefundTrxAsync));
         ValidateDebitCompanyId(ctx, DebitCompanyId);
@@ -74,7 +73,7 @@ public class QrMoneyIntegration : BaseIntegration, ICreditCardIntegration
         return integrationResult;
     }
 
-    private async Task<IntegrationResult> ProcessTrxAsync(TransactionContext ctx)
+    private async Task<IntegrationResult> ProcessTrxAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(ProcessTrxAsync));
         try
@@ -100,7 +99,7 @@ public class QrMoneyIntegration : BaseIntegration, ICreditCardIntegration
 
             await DataService.ChargeAttempts.UpdateAsync(id => id == ctx.ChargeAttemptLogId, u => u
                 .SetInnerRequest(processResult.RequestJson)
-                .SetInnerResponse(processResult.ResponseJson));
+                .SetInnerResponse(processResult.ResponseJson), cancellationToken);
 
             var integrationResult = ctx.GetIntegrationResult();
 
@@ -153,8 +152,7 @@ public class QrMoneyIntegration : BaseIntegration, ICreditCardIntegration
         }
     }
 
-    private async Task<IntegrationResult> FinalizeTrxAsync(TransactionContext ctx,
-        CancellationToken cancellationToken = default)
+    private async Task<IntegrationResult> FinalizeTrxAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(FinalizeTrxAsync));
         logger.Info($"Source: {(ctx.IsAutomatedRequest ? "Webhook" : "Redirect")}");

@@ -40,32 +40,31 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
 
     public override string Tag => "Rapyd";
 
-    public override Task<IntegrationResult> ProcessTransactionAsync(TransactionContext ctx,
-        CancellationToken cancellationToken = default)
+    public override Task<IntegrationResult> ProcessTransactionAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         switch (ctx.OpType)
         {
             case OperationType.Finalize:
                 return FinalizeTrxAsync(ctx, cancellationToken);
             case OperationType.Refund:
-                return RefundTrxAsync(ctx);
+                return RefundTrxAsync(ctx, cancellationToken);
             case OperationType.AuthorizationCapture:
-                return CaptureTrxAsync(ctx);
+                return CaptureTrxAsync(ctx, cancellationToken);
             case OperationType.Authorization:
             case OperationType.Authorization3DS:
-                return ProcessTrxAsync(ctx, false);
+                return ProcessTrxAsync(ctx, false, cancellationToken);
             case OperationType.Sale:
             case OperationType.Sale3DS:
             case OperationType.RecurringInit:
             case OperationType.RecurringInit3DS:
             case OperationType.RecurringSale:
-                return ProcessTrxAsync(ctx);
+                return ProcessTrxAsync(ctx, cancellationToken: cancellationToken);
             default:
                 throw new Exception("Operation not supported");
         }
     }
 
-    private async Task<IntegrationResult> CaptureTrxAsync(TransactionContext ctx)
+    private async Task<IntegrationResult> CaptureTrxAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(CaptureTrxAsync));
         ValidateDebitCompanyId(ctx, DebitCompanyId);
@@ -89,7 +88,7 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
         return integrationResult;
     }
 
-    private async Task<IntegrationResult> RefundTrxAsync(TransactionContext ctx)
+    private async Task<IntegrationResult> RefundTrxAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(RefundTrxAsync));
         ValidateDebitCompanyId(ctx, DebitCompanyId);
@@ -113,7 +112,7 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
         return integrationResult;
     }
 
-    private async Task<IntegrationResult> ProcessTrxAsync(TransactionContext ctx, bool capture = true)
+    private async Task<IntegrationResult> ProcessTrxAsync(TransactionContext ctx, bool capture = true, CancellationToken cancellationToken = default)
     {
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(ProcessTrxAsync));
 
@@ -125,7 +124,7 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
         if (guid < 0)
             guid *= -1;
 
-        var cc = await _creditCardService.FromCardNumberAsync(ctx.CardNumber);
+        var cc = await _creditCardService.FromCardNumberAsync(ctx.CardNumber, cancellationToken);
         if (cc.PaymentMethodId != PaymentMethodEnum.CCMastercard &&
             cc.PaymentMethodId != PaymentMethodEnum.CCVisa)
             return new IntegrationResult { Code = "99", Message = "Invalid Card" };
@@ -146,7 +145,7 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
 
         await DataService.ChargeAttempts.UpdateAsync(id => id == ctx.ChargeAttemptLogId, u => u
             .SetInnerRequest(processResult.RequestJson)
-            .SetInnerResponse(processResult.ResponseJson));
+            .SetInnerResponse(processResult.ResponseJson), cancellationToken);
 
         if (processResult.Response is null)
             throw new Exception("Failed to parse process response", processResult.Exception);
@@ -183,8 +182,7 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
         return integrationResult;
     }
 
-    private async Task<IntegrationResult> FinalizeTrxAsync(TransactionContext ctx,
-        CancellationToken cancellationToken = default)
+    private async Task<IntegrationResult> FinalizeTrxAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
         using var logger = _logger.GetScopedForIntegration(Tag, nameof(FinalizeTrxAsync));
         logger.Info($"Source: {(ctx.IsAutomatedRequest ? "Webhook" : "Redirect")}");
