@@ -57,12 +57,12 @@ public static class DtoMappingExtensions
         };
     }
 
-    public static TransactionInfoDto ToTransactionInfoDto(this TransactionSearchResult result)
+    public static TransactionInfoResponseDto ToTransactionInfoResponseDto(this TransactionSearchResult result)
     {
         var fullName = string.Join(" ", new[] { result.PayerFirstName, result.PayerLastName }
             .Where(s => !string.IsNullOrWhiteSpace(s)));
 
-        return new TransactionInfoDto
+        return new TransactionInfoResponseDto
         {
             Id = result.Id,
             Status = result.Status,

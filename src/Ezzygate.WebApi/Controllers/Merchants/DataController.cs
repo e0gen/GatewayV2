@@ -63,7 +63,7 @@ public class DataController : ControllerBase
         if (trx == null)
             return new Response("TransactionNotFound");
 
-        var response = trx.ToTransactionInfoDto();
+        var response = trx.ToTransactionInfoResponseDto();
         return new Response(ResultEnum.Success, response);
     }
 
@@ -90,7 +90,7 @@ public class DataController : ControllerBase
 
     [HttpPost("Transactions")]
     [MerchantSecurityFilter]
-    public async Task<Response> Transactions([FromBody] TransactionsRequestDto request, CancellationToken cancellationToken)
+    public async Task<Response> Transactions([FromBody] TransactionInfoRequestDto request, CancellationToken cancellationToken)
     {
         var merchant = HttpContext.GetMerchant();
         if (merchant == null)
@@ -112,7 +112,7 @@ public class DataController : ControllerBase
             return new Response(ResultEnum.GeneralError);
         }
 
-        var responseResults = results.Select(x => x.ToTransactionInfoDto()).ToList();
+        var responseResults = results.Select(x => x.ToTransactionInfoResponseDto()).ToList();
 
         _logger.LogInformation(
             "Transactions search: merchant id:{MerchantId}, type:{Status}, from:{From}, to:{To}, count:{Count}",

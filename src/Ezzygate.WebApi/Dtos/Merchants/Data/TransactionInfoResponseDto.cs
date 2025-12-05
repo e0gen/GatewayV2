@@ -1,6 +1,6 @@
 namespace Ezzygate.WebApi.Dtos.Merchants.Data;
 
-public class TransactionInfoDto
+public class TransactionInfoResponseDto
 {
     public int Id { get; set; }
     public string Status { get; set; } = string.Empty;

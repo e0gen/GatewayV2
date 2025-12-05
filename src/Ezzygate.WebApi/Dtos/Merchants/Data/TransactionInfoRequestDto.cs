@@ -3,7 +3,7 @@ using Ezzygate.Domain.Enums;
 
 namespace Ezzygate.WebApi.Dtos.Merchants.Data;
 
-public class TransactionsRequestDto
+public class TransactionInfoRequestDto
 {
     public int? TransactionId { get; set; }
     
