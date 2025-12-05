@@ -5,12 +5,12 @@ namespace Ezzygate.Infrastructure.Repositories.Interfaces;
 
 public interface ITransactionRepository
 {
-    Task<ApprovalTransaction?> GetApprovalTrxAsync(int approvalTrxId);
-    Task<PendingTransaction?> GetPendingTrxByIdAsync(int pendingTrxId);
-    Task<PendingTransaction?> GetPendingTrxByApprovalNumberAsync(string approvalNumber);
-    Task<PendingFinalizeInfo?> GetPendingFinalizeInfoAsync(int pendingTrxId);
-    Task UpdateApprovalTrxAuthStatusAsync(int approvalTrxId, OperationType opType);
-    Task UpdatePendingTrxApprovalNumberAsync(int pendingTrxId, string approvalNumber);
+    Task<ApprovalTransaction?> GetApprovalTrxAsync(int approvalTrxId, CancellationToken cancellationToken = default);
+    Task<PendingTransaction?> GetPendingTrxByIdAsync(int pendingTrxId, CancellationToken cancellationToken = default);
+    Task<PendingTransaction?> GetPendingTrxByApprovalNumberAsync(string approvalNumber, CancellationToken cancellationToken = default);
+    Task<PendingFinalizeInfo?> GetPendingFinalizeInfoAsync(int pendingTrxId, CancellationToken cancellationToken = default);
+    Task UpdateApprovalTrxAuthStatusAsync(int approvalTrxId, OperationType opType, CancellationToken cancellationToken = default);
+    Task UpdatePendingTrxApprovalNumberAsync(int pendingTrxId, string approvalNumber, CancellationToken cancellationToken = default);
 
     Task<List<TransactionSearchResult>> SearchTransactionsAsync(int merchantId, TransactionStatusType status, int? transactionId = null, DateTime? from = null, DateTime? to = null, CancellationToken cancellationToken = default);
     Task<List<TransactionSearchResult>> SearchCapturedTransactionsAsync(int merchantId, int? transactionId, DateTime? from, DateTime? to, CancellationToken cancellationToken = default);

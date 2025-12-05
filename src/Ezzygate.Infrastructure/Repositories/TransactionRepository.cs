@@ -16,57 +16,57 @@ public class TransactionRepository : ITransactionRepository
         _context = context;
     }
 
-    public async Task<ApprovalTransaction?> GetApprovalTrxAsync(int approvalTrxId)
+    public async Task<ApprovalTransaction?> GetApprovalTrxAsync(int approvalTrxId, CancellationToken cancellationToken = default)
     {
         var entity = await _context.TblCompanyTransApprovals
-            .FirstOrDefaultAsync(e => e.Id == approvalTrxId);
+            .FirstOrDefaultAsync(e => e.Id == approvalTrxId, cancellationToken: cancellationToken);
 
         return entity?.ToDomain();
     }
-    public async Task<PendingTransaction?> GetPendingTrxByIdAsync(int pendingTrxId)
+    public async Task<PendingTransaction?> GetPendingTrxByIdAsync(int pendingTrxId, CancellationToken cancellationToken = default)
     {
         var entity = await _context.TblCompanyTransPendings
-            .FirstOrDefaultAsync(e => e.Id == pendingTrxId);
+            .FirstOrDefaultAsync(e => e.Id == pendingTrxId, cancellationToken: cancellationToken);
 
         return entity?.ToDomain();
     }
 
-    public async Task<PendingTransaction?> GetPendingTrxByApprovalNumberAsync(string approvalNumber)
+    public async Task<PendingTransaction?> GetPendingTrxByApprovalNumberAsync(string approvalNumber, CancellationToken cancellationToken = default)
     {
         var entity = await _context.TblCompanyTransPendings
-            .FirstOrDefaultAsync(e => e.DebitApprovalNumber == approvalNumber);
+            .FirstOrDefaultAsync(e => e.DebitApprovalNumber == approvalNumber, cancellationToken: cancellationToken);
 
         return entity?.ToDomain();
     }
 
-    public async Task<PendingFinalizeInfo?> GetPendingFinalizeInfoAsync(int pendingTrxId)
+    public async Task<PendingFinalizeInfo?> GetPendingFinalizeInfoAsync(int pendingTrxId, CancellationToken cancellationToken = default)
     {
         var entity = await _context.TblLogPendingFinalizes
-            .FirstOrDefaultAsync(f => f.PendingId == pendingTrxId);
+            .FirstOrDefaultAsync(f => f.PendingId == pendingTrxId, cancellationToken: cancellationToken);
 
         return entity?.ToDomain();
     }
 
-    public async Task UpdateApprovalTrxAuthStatusAsync(int approvalTrxId, OperationType opType)
+    public async Task UpdateApprovalTrxAuthStatusAsync(int approvalTrxId, OperationType opType, CancellationToken cancellationToken = default)
     {
         var entity = await _context.TblCompanyTransApprovals
-            .FirstOrDefaultAsync(e => e.Id == approvalTrxId);
+            .FirstOrDefaultAsync(e => e.Id == approvalTrxId, cancellationToken: cancellationToken);
         if (entity == null)
             throw new Exception($"Approval trx not found '{approvalTrxId}'");
 
         entity.AuthStatus = (byte)opType;
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task UpdatePendingTrxApprovalNumberAsync(int pendingTrxId, string approvalNumber)
+    public async Task UpdatePendingTrxApprovalNumberAsync(int pendingTrxId, string approvalNumber, CancellationToken cancellationToken = default)
     {
         var entity = await _context.TblCompanyTransPendings
-            .FirstOrDefaultAsync(e => e.Id == pendingTrxId);
+            .FirstOrDefaultAsync(e => e.Id == pendingTrxId, cancellationToken: cancellationToken);
         if (entity == null)
             throw new Exception($"Pending trx not found '{pendingTrxId}'");
 
         entity.DebitApprovalNumber = approvalNumber;
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<List<TransactionSearchResult>> SearchTransactionsAsync(

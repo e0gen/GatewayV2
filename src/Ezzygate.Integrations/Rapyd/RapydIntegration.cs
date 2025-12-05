@@ -196,7 +196,7 @@ public class RapydIntegration : BaseIntegration, ICreditCardIntegration
             ctx.TransType = ctx.CreditType;
             ctx.DebitRefNum = ctx.Terminal.TerminalNumber;
 
-            var pendingTrx = await DataService.Transactions.GetPendingTrxByIdAsync(ctx.LocatedTrx.TrxId);
+            var pendingTrx = await DataService.Transactions.GetPendingTrxByIdAsync(ctx.LocatedTrx.TrxId, cancellationToken);
             if (pendingTrx == null)
                 throw new Exception($"Finalize pending trx '{ctx.LocatedTrx.TrxId}' not found");
             var log = await DataService.ChargeAttempts.GetByIdAsync(ctx.ChargeAttemptLogId);

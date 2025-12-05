@@ -42,7 +42,7 @@ public abstract class BaseIntegration : IIntegration
         return Task.CompletedTask;
     }
 
-    protected void ValidateDebitCompanyId(TransactionContext ctx, int debitCompanyId)
+    protected static void ValidateDebitCompanyId(TransactionContext ctx, int debitCompanyId)
     {
         if (ctx.DebitCompany?.Id != debitCompanyId)
             throw new Exception("Invalid debit company");
@@ -53,7 +53,7 @@ public abstract class BaseIntegration : IIntegration
         IntegrationResult result,
         CancellationToken cancellationToken = default)
     {
-        var pendingTrx = await DataService.Transactions.GetPendingTrxByIdAsync(ctx.LocatedTrx.TrxId);
+        var pendingTrx = await DataService.Transactions.GetPendingTrxByIdAsync(ctx.LocatedTrx.TrxId, cancellationToken);
         if (pendingTrx is null)
             throw new Exception($"Finalize pending trx '{ctx.LocatedTrx.TrxId}' not found");
 
@@ -61,14 +61,15 @@ public abstract class BaseIntegration : IIntegration
             ctx.LocatedTrx.TrxId,
             result.Code,
             result.Message,
-            ctx.LocatedTrx.BinCountry);
+            ctx.LocatedTrx.BinCountry,
+            cancellationToken);
 
         result.TrxId = movedTrxId;
         result.TrxType = movedPendingTrx.TransType;
         result.CardStorageId = movedPendingTrx.CcStorageId;
         result.ApprovalNumber ??= movedPendingTrx.DebitApprovalNumber;
 
-        await SendNotificationAsync(movedPendingTrx, result);
+        await SendNotificationAsync(movedPendingTrx, result, cancellationToken);
 
         await DataService.ChargeAttempts
             .UpdateByTransactionAsync((trxId, reply) => trxId == ctx.LocatedTrx.TrxId && reply == "553", u => u
@@ -160,7 +161,7 @@ public abstract class BaseIntegration : IIntegration
         }
     }
 
-    protected async Task SendNotificationAsync(PendingTransaction pendingTrx, IntegrationResult integrationResult)
+    protected async Task SendNotificationAsync(PendingTransaction pendingTrx, IntegrationResult integrationResult, CancellationToken cancellationToken = default)
     {
         var notificationUrl = await DataService.CompanyChargeAdmins.GetNotifyProcessUrlAsync(pendingTrx.CompanyId);
 
@@ -199,6 +200,7 @@ public abstract class BaseIntegration : IIntegration
                 40,
                 notificationResult.MerchantId,
                 notificationResult.TransactionId,
-                notificationResult.LogXml);
+                notificationResult.LogXml, 
+                cancellationToken);
     }
 }

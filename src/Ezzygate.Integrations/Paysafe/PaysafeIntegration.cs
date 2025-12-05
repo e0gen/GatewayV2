@@ -253,7 +253,7 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
             if (!ctx.CheckFinalizeUrl() && !ctx.IsAutomatedRequest)
                 return new IntegrationResult { Code = "500", Message = "Return URL signature mismatch" };
 
-            var pendingTrx = await DataService.Transactions.GetPendingTrxByIdAsync(ctx.LocatedTrx.TrxId);
+            var pendingTrx = await DataService.Transactions.GetPendingTrxByIdAsync(ctx.LocatedTrx.TrxId, cancellationToken);
             if (pendingTrx == null)
                 throw new Exception($"Finalize pending trx '{ctx.LocatedTrx.TrxId}' not found");
             var log = await DataService.ChargeAttempts.GetByIdAsync(ctx.ChargeAttemptLogId);
@@ -304,7 +304,7 @@ public class PaysafeIntegration : BaseIntegration, ICreditCardIntegration
             {
                 ctx.ApprovalNumber = paymentResponse.Id;
                 await DataService.Transactions.UpdatePendingTrxApprovalNumberAsync(ctx.LocatedTrx.TrxId,
-                    paymentResponse.Id);
+                    paymentResponse.Id, cancellationToken);
             }
 
             var integrationResult = ctx.GetIntegrationResult();

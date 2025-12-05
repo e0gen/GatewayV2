@@ -70,7 +70,7 @@ public class CreditCardIntegrationProcessor : ICreditCardIntegrationProcessor
             };
 
             var moveResult = await _transactionService.MoveTrxAsync(context.LocatedTrx.TrxId, result.Code,
-                result.Message, context.LocatedTrx.BinCountry);
+                result.Message, context.LocatedTrx.BinCountry, cancellationToken);
 
             result.TrxId = moveResult.TrxId;
             result.TrxType = moveResult.PendingTrx.TransType;
@@ -122,11 +122,11 @@ public class CreditCardIntegrationProcessor : ICreditCardIntegrationProcessor
                 throw new Exception("No pre-auth id");
 
             var preAuthIdInt = int.Parse(preAuthId);
-            var trx = await _transactionRepository.GetApprovalTrxAsync(preAuthIdInt);
+            var trx = await _transactionRepository.GetApprovalTrxAsync(preAuthIdInt, cancellationToken);
             if (trx == null)
                 throw new Exception($"Pre-auth trx not found '{preAuthIdInt}'");
 
-            await _transactionRepository.UpdateApprovalTrxAuthStatusAsync(preAuthIdInt, context.OpType);
+            await _transactionRepository.UpdateApprovalTrxAuthStatusAsync(preAuthIdInt, context.OpType, cancellationToken);
         }
 
         return result;

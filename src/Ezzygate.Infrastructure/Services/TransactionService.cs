@@ -32,7 +32,7 @@ public class TransactionService : ITransactionService
 
     public async Task<PendingLookupResult?> LocatePendingAsync(int pendingTransactionId, int merchantId, CancellationToken cancellationToken = default)
     {
-        var finalizeInfo = await _transactionRepository.GetPendingFinalizeInfoAsync(pendingTransactionId);
+        var finalizeInfo = await _transactionRepository.GetPendingFinalizeInfoAsync(pendingTransactionId, cancellationToken);
         if (finalizeInfo != null)
         {
             if (finalizeInfo.TransPassId.HasValue)
