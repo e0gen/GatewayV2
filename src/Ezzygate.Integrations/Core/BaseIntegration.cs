@@ -29,7 +29,7 @@ public abstract class BaseIntegration : IIntegration
 
     public abstract string Tag { get; }
 
-    public abstract Task<IntegrationResult> ProcessTransactionAsync(TransactionContext context,
+    public abstract Task<IntegrationResult> ProcessTransactionAsync(TransactionContext ctx,
         CancellationToken cancellationToken = default);
 
     public virtual Task<string> GetNotificationResponseAsync(TransactionContext context,
@@ -49,35 +49,33 @@ public abstract class BaseIntegration : IIntegration
             throw new Exception("Invalid debit company");
     }
 
-    protected async Task CompleteFinalizationAsync(
-        TransactionContext ctx,
-        IntegrationResult result,
-        CancellationToken cancellationToken = default)
+    protected async Task<MoveTransactionResult> CompleteFinalizationAsync(TransactionContext ctx,
+        IntegrationResult result, CancellationToken cancellationToken = default)
     {
         var pendingTrx = await DataService.Transactions.GetPendingTrxByIdAsync(ctx.LocatedTrx.TrxId, cancellationToken);
         if (pendingTrx is null)
             throw new Exception($"Finalize pending trx '{ctx.LocatedTrx.TrxId}' not found");
 
-        var (movedTrxId, movedPendingTrx) = await DataService.TransactionService.MoveTrxAsync(
+        var moveResult = await DataService.TransactionService.MoveTrxAsync(
             ctx.LocatedTrx.TrxId,
             result.Code.NotNull(),
             result.Message,
             ctx.LocatedTrx.BinCountry,
             cancellationToken);
 
-        result.TrxId = movedTrxId;
-        result.TrxType = movedPendingTrx.TransType;
-        result.CardStorageId = movedPendingTrx.CcStorageId;
-        result.ApprovalNumber ??= movedPendingTrx.DebitApprovalNumber;
+        result.TrxId = moveResult.TrxId;
+        result.TrxType = moveResult.PendingTrx.TransType;
+        result.CardStorageId = moveResult.PendingTrx.CcStorageId;
+        result.ApprovalNumber ??= moveResult.PendingTrx.DebitApprovalNumber;
 
-        await SendNotificationAsync(movedPendingTrx, result, cancellationToken);
+        await SendNotificationAsync(moveResult.PendingTrx, result, cancellationToken);
 
         await DataService.ChargeAttempts
             .UpdateByTransactionAsync((trxId, reply) => trxId == ctx.LocatedTrx.TrxId && reply == "553", u => u
-                .SetTransaction(movedTrxId, result.Code, result.Message), cancellationToken);
+                .SetTransaction(moveResult.TrxId, result.Code, result.Message), cancellationToken);
 
-        await UpdatePendingEventsAsync(movedTrxId, result.Code, movedPendingTrx.Id,
-            movedPendingTrx.TransType, movedPendingTrx.TransCreditType, movedPendingTrx.CompanyId);
+        await UpdatePendingEventsAsync(moveResult.TrxId, result.Code, moveResult.PendingTrx.Id,
+            moveResult.PendingTrx.TransType, moveResult.PendingTrx.TransCreditType, moveResult.PendingTrx.CompanyId);
 
         if (ctx.IsAutomatedRequest)
         {
@@ -85,6 +83,8 @@ public abstract class BaseIntegration : IIntegration
                 .UpdateAsync(id => id == ctx.ChargeAttemptLogId, u => u
                     .SetRedirectFlag(false), cancellationToken);
         }
+
+        return moveResult;
     }
 
     protected async Task<IntegrationResult> AutoFinalizeTrxAsync(TransactionContext ctx,
@@ -201,7 +201,7 @@ public abstract class BaseIntegration : IIntegration
                 40,
                 notificationResult.MerchantId,
                 notificationResult.TransactionId,
-                notificationResult.LogXml, 
+                notificationResult.LogXml,
                 cancellationToken);
     }
 }
