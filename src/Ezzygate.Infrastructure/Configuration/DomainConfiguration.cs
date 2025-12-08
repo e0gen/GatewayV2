@@ -32,6 +32,7 @@ public sealed class DomainConfiguration
     public bool SaveCui { get; set; }
     public bool UsePublicPage { get; set; }
     public bool MultiFactorAdmin { get; set; }
+    public bool DisablePostRedirectUrl { get; set; } = false;
     
     // Database Connections
     public string Sql1ConnectionString { get; set; } = string.Empty;

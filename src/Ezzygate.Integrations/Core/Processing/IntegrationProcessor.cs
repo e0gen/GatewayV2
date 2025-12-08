@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Ezzygate.Application.Integrations;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Domain.Models;
@@ -16,18 +15,18 @@ public sealed class IntegrationProcessor : IIntegrationProcessor
     private readonly ILogger<IntegrationProcessor> _logger;
     private readonly ITransactionContextFactory _transactionContextFactory;
     private readonly ICreditCardIntegrationProcessor _creditCardProcessor;
-    private readonly IOptions<IntegrationSettings> _integrationSettings;
+    private readonly DomainConfiguration _domainConfiguration;
 
     public IntegrationProcessor(
         ILogger<IntegrationProcessor> logger,
         ITransactionContextFactory transactionContextFactory,
         ICreditCardIntegrationProcessor creditCardProcessor,
-        IOptions<IntegrationSettings> integrationSettings)
+        DomainConfiguration domainConfiguration)
     {
         _logger = logger;
         _transactionContextFactory = transactionContextFactory;
         _creditCardProcessor = creditCardProcessor;
-        _integrationSettings = integrationSettings;
+        _domainConfiguration = domainConfiguration;
     }
 
     public async Task<IntegrationResult> ProcessAsync(ProcessRequest request,
@@ -101,7 +100,7 @@ public sealed class IntegrationProcessor : IIntegrationProcessor
 
             var result = await _creditCardProcessor.ProcessTransactionAsync(ctx, cancellationToken);
 
-            if (_integrationSettings.Value.DisablePostRedirectUrl)
+            if (_domainConfiguration.DisablePostRedirectUrl)
                 result.RedirectUrl = null;
 
             return result;

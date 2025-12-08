@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Ezzygate.Application.Integrations;
 using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Locking;
@@ -15,20 +14,20 @@ public sealed class IntegrationFinalizer : IIntegrationFinalizer
     private readonly ITransactionContextFactory _transactionContextFactory;
     private readonly ICreditCardIntegrationProcessor _integrationProcessor;
     private readonly IDistributedLockService _distributedLockService;
-    private readonly IOptions<IntegrationSettings> _integrationSettings;
+    private readonly DomainConfiguration _domainConfiguration;
 
     public IntegrationFinalizer(
         ILogger<IntegrationFinalizer> logger,
         ITransactionContextFactory transactionContextFactory,
         ICreditCardIntegrationProcessor integrationProcessor,
         IDistributedLockService distributedLockService,
-        IOptions<IntegrationSettings> integrationSettings)
+        DomainConfiguration domainConfiguration)
     {
         _logger = logger;
         _transactionContextFactory = transactionContextFactory;
         _integrationProcessor = integrationProcessor;
         _distributedLockService = distributedLockService;
-        _integrationSettings = integrationSettings;
+        _domainConfiguration = domainConfiguration;
     }
 
     public async Task<IntegrationResult> FinalizeAsync(FinalizeRequest request,
@@ -71,7 +70,7 @@ public sealed class IntegrationFinalizer : IIntegrationFinalizer
 
             var result = await _integrationProcessor.ProcessTransactionAsync(ctx, cancellationToken);
 
-            if (_integrationSettings.Value.DisablePostRedirectUrl)
+            if (_domainConfiguration.DisablePostRedirectUrl)
                 result.RedirectUrl = null;
 
             return result;

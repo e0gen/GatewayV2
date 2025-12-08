@@ -48,7 +48,6 @@ public static class ServiceCollectionExtensions
         IConfiguration configuration)
     {
         services.Configure<ApplicationConfiguration>(configuration.GetSection(ApplicationConfiguration.SectionName));
-        services.Configure<IntegrationSettings>(configuration.GetSection(IntegrationSettings.SectionName));
 
         return services;
     }
