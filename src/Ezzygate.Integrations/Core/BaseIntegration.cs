@@ -204,4 +204,74 @@ public abstract class BaseIntegration : IIntegration
                 notificationResult.LogXml,
                 cancellationToken);
     }
+
+    protected async Task<int?> CreateRecurringAsync(string resultCode, TransactionContext ctx, int movedTrxId, int pendingTrxType,
+        int chargeAttemptLogId, CancellationToken cancellationToken = default)
+    {
+        if (resultCode != "000")
+            return null;
+
+        var chargeAttempt = await DataService.ChargeAttempts.GetByIdAsync(chargeAttemptLogId);
+        if (chargeAttempt == null)
+            return null;
+
+        var queryString = chargeAttempt.QueryString;
+        if (string.IsNullOrWhiteSpace(queryString))
+            return null;
+
+        if (!queryString.Contains("recurring", StringComparison.OrdinalIgnoreCase))
+            return null;
+
+        var recurringParams = new List<string>();
+        var clientIp = string.Empty;
+        var comment = string.Empty;
+
+        var splitParams = queryString.Split('|');
+        foreach (var splitParam in splitParams)
+        {
+            var splitValue = splitParam.Split('=');
+            var paramName = splitValue[0].ToLowerInvariant();
+
+            if (paramName.Contains("recurring"))
+            {
+                recurringParams.Add($"{splitParam}&");
+                continue;
+            }
+
+            if (paramName.Contains("clientip") && splitValue.Length == 2)
+            {
+                clientIp = splitValue[1];
+                continue;
+            }
+
+            if (paramName.Contains("comment") && splitValue.Length == 2)
+            {
+                comment = splitValue[1];
+            }
+        }
+
+        var sqlParam = string.Join(string.Empty, recurringParams);
+        if (string.IsNullOrWhiteSpace(sqlParam.Trim()))
+            return null;
+
+        var isPassTrx = pendingTrxType is 0 or 3;
+        var isApprovalTrx = pendingTrxType == 1;
+        var terminalId = ctx.Terminal!.Id;
+
+        var recurringId = await DataService.Recurring.RecurringPreCreateSeries(
+            isPassTrx, movedTrxId, sqlParam, comment, terminalId,
+            clientIp, -1, string.Empty, cancellationToken);
+
+        if (recurringId is null or <= 0)
+            return null;
+
+        if (isPassTrx)
+            await DataService.Transactions.UpdatePassTrxRecurringAsync(
+                movedTrxId, recurringId.Value, 1, cancellationToken);
+        else if (isApprovalTrx)
+            await DataService.Transactions.UpdateApprovalTrxRecurringAsync(
+                movedTrxId, recurringId.Value, 1, cancellationToken);
+
+        return recurringId;
+    }
 }
