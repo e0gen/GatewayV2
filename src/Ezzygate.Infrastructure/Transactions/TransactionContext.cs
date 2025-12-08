@@ -182,6 +182,13 @@ public class TransactionContext
     }
     public string GetMerchantUrl() => _domainConfiguration.MerchantUrl;
 
+    public string Get3dsAuthUrl(string approveUrl, string declineUrl)
+    {
+        var baseUrl = _domainConfiguration.ProcessUrl;
+        const string fileName = "remoteCharge_ccDebitGeneric3DSAuth.asp";
+        var finalizeUrl = $"{baseUrl}{fileName}?approveUrl={approveUrl.ToEncodedUrl()}&declineUrl={declineUrl.ToEncodedUrl()}";
+        return finalizeUrl;
+    }
     public string GetCollectUrl(string actionUrl, string? integrationTag = null)
     {
         var baseUrl = _domainConfiguration.ProcessUrl;
