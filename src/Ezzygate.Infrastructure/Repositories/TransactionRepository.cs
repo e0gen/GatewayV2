@@ -69,6 +69,32 @@ public class TransactionRepository : ITransactionRepository
         await _context.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task UpdateApprovalTrxRecurringAsync(int transactionId, int recurringSeriesId, int chargeNumber = 1, CancellationToken cancellationToken = default)
+    {
+        var entity = await _context.TblCompanyTransApprovals
+            .FirstOrDefaultAsync(t => t.Id == transactionId, cancellationToken);
+
+        if (entity != null)
+        {
+            entity.RecurringSeries = recurringSeriesId;
+            entity.RecurringChargeNumber = chargeNumber;
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+    }
+
+    public async Task UpdatePassTrxRecurringAsync(int transactionId, int recurringSeriesId, int chargeNumber = 1, CancellationToken cancellationToken = default)
+    {
+        var entity = await _context.TblCompanyTransPasses
+            .FirstOrDefaultAsync(t => t.Id == transactionId, cancellationToken);
+
+        if (entity != null)
+        {
+            entity.RecurringSeries = recurringSeriesId;
+            entity.RecurringChargeNumber = chargeNumber;
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+    }
+
     public async Task<List<TransactionSearchResult>> SearchTransactionsAsync(
         int merchantId, TransactionStatusType status, int? transactionId = null, DateTime? from = null, DateTime? to = null, CancellationToken cancellationToken = default)
     {

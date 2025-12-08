@@ -11,6 +11,8 @@ public interface ITransactionRepository
     Task<PendingFinalizeInfo?> GetPendingFinalizeInfoAsync(int pendingTrxId, CancellationToken cancellationToken = default);
     Task UpdateApprovalTrxAuthStatusAsync(int approvalTrxId, OperationType opType, CancellationToken cancellationToken = default);
     Task UpdatePendingTrxApprovalNumberAsync(int pendingTrxId, string approvalNumber, CancellationToken cancellationToken = default);
+    Task UpdateApprovalTrxRecurringAsync(int transactionId, int recurringSeriesId, int chargeNumber = 1, CancellationToken cancellationToken = default);
+    Task UpdatePassTrxRecurringAsync(int transactionId, int recurringSeriesId, int chargeNumber = 1, CancellationToken cancellationToken = default);
 
     Task<List<TransactionSearchResult>> SearchTransactionsAsync(int merchantId, TransactionStatusType status, int? transactionId = null, DateTime? from = null, DateTime? to = null, CancellationToken cancellationToken = default);
     Task<List<TransactionSearchResult>> SearchCapturedTransactionsAsync(int merchantId, int? transactionId, DateTime? from, DateTime? to, CancellationToken cancellationToken = default);
