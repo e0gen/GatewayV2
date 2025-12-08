@@ -14,7 +14,8 @@ public class IntegrationDataService : IIntegrationDataService
         ITerminalRepository terminals,
         IChargeAttemptRepository chargeAttemptRepository,
         IHistoryRepository historyRepository,
-        IEventPendingRepository eventPendingRepository)
+        IEventPendingRepository eventPendingRepository,
+        IRecurringRepository recurringRepository)
     {
         Merchants = merchantRepository;
         CompanyChargeAdmins = companyChargeAdminRepository;
@@ -25,6 +26,7 @@ public class IntegrationDataService : IIntegrationDataService
         ChargeAttempts = chargeAttemptRepository;
         History = historyRepository;
         EventPendings = eventPendingRepository;
+        Recurring = recurringRepository;
     }
 
     public IMerchantRepository Merchants { get; }
@@ -36,4 +38,5 @@ public class IntegrationDataService : IIntegrationDataService
     public IChargeAttemptRepository ChargeAttempts { get; }
     public IHistoryRepository History { get; }
     public IEventPendingRepository EventPendings { get; }
+    public IRecurringRepository Recurring { get; }
 }

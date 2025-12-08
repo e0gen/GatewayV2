@@ -78,6 +78,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ITransactionService, TransactionService>();
         services.AddScoped<IHistoryRepository, HistoryRepository>();
         services.AddScoped<IEventPendingRepository, EventPendingRepository>();
+        services.AddScoped<IRecurringRepository, RecurringRepository>();
         services.AddScoped<IIntegrationDataService, IntegrationDataService>();
         services.AddScoped<ICreditCardBinRepository, CreditCardBinRepository>();
         services.AddScoped<ICreditCardService, CreditCardService>();

@@ -13,4 +13,5 @@ public interface IIntegrationDataService
     IChargeAttemptRepository ChargeAttempts { get; }
     IHistoryRepository History { get; }
     IEventPendingRepository EventPendings { get; }
+    IRecurringRepository Recurring { get; }
 }
