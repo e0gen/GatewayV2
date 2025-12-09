@@ -1,6 +1,5 @@
 namespace Ezzygate.Infrastructure.Configuration;
 
-[Obsolete("Legacy")]
 public class ScheduledTask
 {
     public string GroupId { get; set; } = string.Empty;
@@ -13,7 +12,6 @@ public class ScheduledTask
     public ScheduleInfo Schedule { get; set; } = new();
 }
 
-[Obsolete("Legacy")]
 public class ScheduleInfo
 {
     public string Interval { get; set; } = string.Empty; // Minute, Hour, Day, Week, Month
