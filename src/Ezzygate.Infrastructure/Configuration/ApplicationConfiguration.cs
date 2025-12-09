@@ -51,8 +51,6 @@ public class ApplicationConfiguration
     public string FullVersion { get; set; } = string.Empty;
     
     // Collections
-    public List<DomainConfiguration> Domains { get; set; } = new();
-
-    [Obsolete("Legacy")]
-    public List<ScheduledTask> ScheduledTasks { get; set; } = new();
+    public List<DomainConfiguration> Domains { get; set; } = [];
+    public List<ScheduledTask> ScheduledTasks { get; set; } = [];
 }
