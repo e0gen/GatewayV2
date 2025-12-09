@@ -49,6 +49,9 @@ public static class ServiceCollectionExtensions
     {
         services.Configure<ApplicationConfiguration>(configuration.GetSection(ApplicationConfiguration.SectionName));
 
+        services.AddScoped<IDomainConfigurationProvider, DomainConfigurationProvider>();
+        services.AddScoped(sp => sp.GetRequiredService<IDomainConfigurationProvider>().GetCurrentDomainConfiguration());
+
         return services;
     }
 
