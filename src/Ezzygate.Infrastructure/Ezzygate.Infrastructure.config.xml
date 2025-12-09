@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<application>
+		<parameter key="isProduction" value="false"/>
+		<parameter key="numericFormat" value="#,#"/>
+		<parameter key="amountFormat" value="#,0.00"/>
+		<parameter key="enableTaskScheduler" value="false"/>
+		<parameter key="enableQueuedTasks" value="false"/>
+		<parameter key="enableEmail" value="true"/>
+		<parameter key="smtpHost" value="localhost"/>
+		<parameter key="smtpPort" value="25"/>
+		<parameter key="smtpUserName" value=""/>
+		<parameter key="smtpPassword" value=""/>
+		<parameter key="mailAddressFrom" value="lavi@netpay-intl.com"/>
+		<parameter key="maxImmediateReportSize" value="10"/>
+		<parameter key="maxFiledReportSize" value="10000"/>
+		<parameter key="errorNetConnectionString" isEncrypted="false" value="Data Source=40.30.0.10\OBLDEVSQL2017;Initial Catalog=GW_OBLDEV_Errors;Persist Security Info=False;User ID=IUSR_GWOBLDEV;Password=IUSR#GW"/>
+		<parameter key="logsPhisicalBasePath" value="C:\Dev\Ezzygate\Files\Logs\"/>
+		<parameter key="sftpExecutablePath" value="C:\Program Files (x86)\WinSCP\WinSCP.com"/>
+		<parameter key="pgpExecutablePath" value="C:\Program Files (x86)\GNU\GnuPG\gpg2.exe"/>
+		<parameter key="commonApplicationFiles" value="~\..\Nas\FilesAppCommon\" />
+	</application>
+	<domains>
+		<domain fileName="~/../Nas/Dev.Infrastructure.config.xml">
+			<parameter key="host" value="OBL" />
+			<parameter key="legalName" value="OBL" />
+			<parameter key="themeFolder" value="Tmp_OBL" />
+			<parameter key="DataPath" value="\FilesOBL\" />
+			<parameter key="PublicDataVirtualPath" value="Data/" />
+			<parameter key="MultiFactor_Admin" value="true" />
+			<parameter key="disablePostRedirectUrl" value="false" />
+			<parameter key="fraudDetectionAlertRecipients" value="sharontk@gmail.com" />
+			<parameter key="FraudDetectionOperationMode" value="NoActions" />
+			<parameter key="ActiveMerchantReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="BnsTransactionsWithoutEpaReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="IrregularityReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="DetectPhotocopyWithRefundRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+		</domain>
+		<domain fileName="~/../Nas/Dev.Infrastructure.config.xml">
+			<parameter key="host" value="Servicenet" />
+			<parameter key="legalName" value="Servicenet" />
+			<parameter key="themeFolder" value="Tmp_Servicenet" />
+			<parameter key="DataPath" value="\FilesServicenet\" />
+			<parameter key="PublicDataVirtualPath" value="Data/" />
+			<parameter key="MultiFactor_Admin" value="true" />
+			<parameter key="disablePostRedirectUrl" value="false" />
+			<parameter key="fraudDetectionAlertRecipients" value="sharontk@gmail.com" />
+			<parameter key="FraudDetectionOperationMode" value="NoActions" />
+			<parameter key="ActiveMerchantReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="BnsTransactionsWithoutEpaReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="IrregularityReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="DetectPhotocopyWithRefundRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+		</domain>
+		<domain fileName="~/../Nas/Dev.Infrastructure.config.xml">
+			<parameter key="host" value="default" />
+			<parameter key="legalName" value="Ezzygate International" />
+			<parameter key="themeFolder" value="Tmp_Ezzygateintl" />
+			<parameter key="DataPath" value="\FilesEzzygate\" />
+			<parameter key="PublicDataVirtualPath" value="Data/" />
+			<parameter key="MultiFactor_Admin" value="true" />
+			<parameter key="disablePostRedirectUrl" value="false" />
+			<parameter key="fraudDetectionAlertRecipients" value="sharontk@gmail.com" />
+			<parameter key="FraudDetectionOperationMode" value="NoActions" />
+			<parameter key="ActiveMerchantReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="BnsTransactionsWithoutEpaReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="IrregularityReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="DetectPhotocopyWithRefundRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="FreshdeskApiKey" value="0e2fdc92-684d-48ce-9d6f-93b051b16741" />
+		</domain>
+		<domain fileName="~/../Nas/Dev.Infrastructure.config.xml">
+			<parameter key="host" value="Alfia" />
+			<parameter key="legalName" value="Alfia" />
+			<parameter key="themeFolder" value="Tmp_Alfia" />
+			<parameter key="DataPath" value="\FilesAlfia\" />
+			<parameter key="PublicDataVirtualPath" value="Data/" />
+			<parameter key="MultiFactor_Admin" value="true" />
+			<parameter key="disablePostRedirectUrl" value="false" />
+			<parameter key="fraudDetectionAlertRecipients" value="sharontk@gmail.com" />
+			<parameter key="FraudDetectionOperationMode" value="NoActions" />
+			<parameter key="ActiveMerchantReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="BnsTransactionsWithoutEpaReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="IrregularityReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="DetectPhotocopyWithRefundRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+		</domain>
+		<domain fileName="~/../Nas/Dev.Infrastructure.config.xml">
+			<parameter key="host" value="EzzygateBrasil" />
+			<parameter key="legalName" value="Ezzygate Brasil" />
+			<parameter key="themeFolder" value="Tmp_EzzygateBrasil" />
+			<parameter key="DataPath" value="\FilesEzzygateBrasil\" />
+			<parameter key="PublicDataVirtualPath" value="Data/" />
+			<parameter key="MultiFactor_Admin" value="true" />
+			<parameter key="disablePostRedirectUrl" value="false" />
+			<parameter key="fraudDetectionAlertRecipients" value="sharontk@gmail.com" />
+			<parameter key="FraudDetectionOperationMode" value="NoActions" />
+			<parameter key="ActiveMerchantReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="BnsTransactionsWithoutEpaReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="IrregularityReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="DetectPhotocopyWithRefundRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="isHebrewVisible" value="false"/>
+		</domain>
+		<domain fileName="~/../Nas/Dev.Infrastructure.config.xml">
+			<parameter key="host" value="PBTPay" />
+			<parameter key="legalName" value="PBTPay" />
+			<parameter key="themeFolder" value="Tmp_PBTPay" />
+			<parameter key="DataPath" value="\FilesPBTPay\" />
+			<parameter key="PublicDataVirtualPath" value="Data/" />
+			<parameter key="MultiFactor_Admin" value="true" />
+			<parameter key="disablePostRedirectUrl" value="false" />
+			<parameter key="fraudDetectionAlertRecipients" value="sharontk@gmail.com" />
+			<parameter key="FraudDetectionOperationMode" value="NoActions" />
+			<parameter key="ActiveMerchantReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="BnsTransactionsWithoutEpaReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="IrregularityReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="DetectPhotocopyWithRefundRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+		</domain>
+		<domain fileName="~/../Nas/Dev.Infrastructure.config.xml">
+			<parameter key="host" value="Tenfore" />
+			<parameter key="legalName" value="Tenfore" />
+			<parameter key="themeFolder" value="Tmp_Tenfore" />
+			<parameter key="DataPath" value="\FilesTenfore\" />
+			<parameter key="PublicDataVirtualPath" value="Data/" />
+			<parameter key="MultiFactor_Admin" value="true" />
+			<parameter key="disablePostRedirectUrl" value="false" />
+			<parameter key="fraudDetectionAlertRecipients" value="sharontk@gmail.com" />
+			<parameter key="FraudDetectionOperationMode" value="NoActions" />
+			<parameter key="ActiveMerchantReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="BnsTransactionsWithoutEpaReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="IrregularityReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="DetectPhotocopyWithRefundRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+		</domain>
+		<domain fileName="~/../Nas/Dev.Infrastructure.config.xml">
+			<parameter key="host" value="Platinum" />
+			<parameter key="legalName" value="Platinum" />
+			<parameter key="themeFolder" value="Tmp_Platinum" />
+			<parameter key="DataPath" value="\FilesPlatinum\" />
+			<parameter key="PublicDataVirtualPath" value="Data/" />
+			<parameter key="MultiFactor_Admin" value="true" />
+			<parameter key="disablePostRedirectUrl" value="false" />
+			<parameter key="fraudDetectionAlertRecipients" value="sharontk@gmail.com" />
+			<parameter key="FraudDetectionOperationMode" value="NoActions" />
+			<parameter key="ActiveMerchantReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="BnsTransactionsWithoutEpaReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="IrregularityReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+			<parameter key="DetectPhotocopyWithRefundRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
+		</domain>
+	</domains>
+	<scheduledTasks>
+		<task groupID="epa" description="fetch epa files" tag="Epa" assemblyName="Ezzygate.Bll" typeName="Ezzygate.Bll.BankHandler.EpaHandlerManager" methodName="ExecFetch" args="">
+			<scheduleInfo interval="Hour" every="4"  />
+		</task>
+		<task groupID="CHB" description="fetch chb files" tag="Epa" assemblyName="Ezzygate.Bll" typeName="Ezzygate.Bll.BankHandler.ChbHandlerManager" methodName="ExecFetch" args="">
+			<scheduleInfo interval="Hour" every="4" />
+		</task>
+		<task groupID="reports" description="creates risk daily reports" tag="Reports" assemblyName="Ezzygate.Bll" typeName="Ezzygate.Bll.Reports.FiledReports" methodName="CreateDailyReports" args="">
+			<scheduleInfo interval="Day" hour="14" minute="55"  />
+		</task>
+		<task groupID="update" description="updates currencies" tag="Updates" assemblyName="Ezzygate.Bll" typeName="Ezzygate.Bll.Updates" methodName="UpdateCurrencies" args="">
+			<scheduleInfo interval="Day" hour="19" minute="10"  />
+		</task>
+		<task groupID="Emails" description="Fetch pop emails" tag="Updates" assemblyName="Ezzygate.Emails" typeName="Ezzygate.Emails.Execute" methodName="FetchAll" args="">
+			<scheduleInfo interval="Minute" every="10"  />
+		</task>
+		<task groupID="Orange" description="Sync Orange Data" tag="Updates" assemblyName="Ezzygate.Bll" typeName="Ezzygate.Bll.ThirdParty.Orange" methodName="executePending" args="localhost">
+			<scheduleInfo interval="Minute" every="2" />
+		</task>
+		<task groupID="update" description="Auto Debit Refund" tag="Updates" assemblyName="Ezzygate.Bll" typeName="Ezzygate.Bll.Updates" methodName="ExecDebitRefund" args="localhost">
+			<scheduleInfo interval="Hour" every="2" />
+		</task>
+		<task groupID="update" description="Auto Settlement create" tag="Updates" assemblyName="Ezzygate.Bll" typeName="Ezzygate.Bll.Settlements.MerchantSettings" methodName="ExecCreateAllDomains" args="">
+			<scheduleInfo interval="Day" every="1"  />
+		</task>
+	</scheduledTasks>
+</configuration>
