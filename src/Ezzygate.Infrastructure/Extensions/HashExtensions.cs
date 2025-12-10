@@ -46,17 +46,13 @@ public static class HashExtensions
 
     private static string ToString(this byte[] source, HashResultFormat format = HashResultFormat.Base64)
     {
-        switch (format)
+        return format switch
         {
-            case HashResultFormat.Base64:
-                return source.ToBase64();
-            case HashResultFormat.Hexadecimal:
-                return BitConverter.ToString(source);
-            case HashResultFormat.HexadecimalLowerCaseNoDash:
-                return BitConverter.ToString(source).ToLower().Replace("-", "");
-            default:
-                return "";
-        }
+            HashResultFormat.Base64 => source.ToBase64(),
+            HashResultFormat.Hexadecimal => BitConverter.ToString(source),
+            HashResultFormat.HexadecimalLowerCaseNoDash => Convert.ToHexStringLower(source),
+            _ => ""
+        };
     }
 
     public static byte[] FromBase64(this string source)
