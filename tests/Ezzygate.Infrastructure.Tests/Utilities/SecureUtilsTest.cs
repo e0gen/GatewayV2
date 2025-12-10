@@ -1,6 +1,6 @@
 using Ezzygate.Infrastructure.Utilities;
 
-namespace Ezzygate.Infrastructure.Tests;
+namespace Ezzygate.Infrastructure.Tests.Utilities;
 
 [TestFixture]
 public class SecureUtilsTest
