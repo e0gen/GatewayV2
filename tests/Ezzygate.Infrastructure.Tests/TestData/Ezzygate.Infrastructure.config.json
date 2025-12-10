@@ -1,0 +1,76 @@
+{
+  "Application": {
+    "IsProduction": false,
+    "NumericFormat": "#,#",
+    "AmountFormat": "#,0.00",
+    "EnableTaskScheduler": false,
+    "EnableQueuedTasks": false,
+    "EnableEmail": true,
+    "SmtpHost": "localhost",
+    "SmtpPort": 25,
+    "SmtpUserName": "testuser",
+    "SmtpPassword": "testpass",
+    "MailAddressFrom": "test@netpay-intl.com",
+    "MaxImmediateReportSize": 10,
+    "MaxFiledReportSize": 10000,
+    "ErrorNetConnectionString": "Data Source=TestServer;Initial Catalog=TestDB",
+    "IsErrorNetConnectionStringEncrypted": false,
+    "LogsPhysicalBasePath": "C:\\Logs\\",
+    "SftpExecutablePath": "C:\\WinSCP\\WinSCP.com",
+    "PgpExecutablePath": "C:\\GnuPG\\gpg2.exe",
+    "CommonApplicationFiles": "C:\\CommonFiles\\",
+    "Domains": [
+      {
+        "Host": "TestDomain",
+        "LegalName": "Test Domain Legal",
+        "ThemeFolder": "Tmp_Test",
+        "DataPath": "\\FilesTest\\",
+        "PublicDataVirtualPath": "Data/",
+        "MultiFactorAdmin": true,
+        "DisablePostRedirectUrl": false,
+        "FraudDetectionAlertRecipients": "alert@test.com",
+        "FraudDetectionOperationMode": "TestMode",
+        "IsHebrewVisible": true,
+        "FreshdeskApiKey": "test-api-key-123"
+      },
+      {
+        "Host": "default",
+        "LegalName": "Default Domain",
+        "ThemeFolder": "Tmp_Default",
+        "DataPath": "\\FilesDefault\\",
+        "PublicDataVirtualPath": "Public/",
+        "MultiFactorAdmin": false,
+        "DisablePostRedirectUrl": true
+      }
+    ],
+    "ScheduledTasks": [
+      {
+        "GroupId": "test",
+        "Description": "test task",
+        "Tag": "Test",
+        "AssemblyName": "Test.Assembly",
+        "TypeName": "Test.Type",
+        "MethodName": "TestMethod",
+        "Args": "arg1",
+        "Schedule": {
+          "Interval": "Hour",
+          "Every": 2
+        }
+      },
+      {
+        "GroupId": "daily",
+        "Description": "daily task",
+        "Tag": "Daily",
+        "AssemblyName": "Daily.Assembly",
+        "TypeName": "Daily.Type",
+        "MethodName": "DailyMethod",
+        "Args": "",
+        "Schedule": {
+          "Interval": "Day",
+          "Hour": 10,
+          "Minute": 30
+        }
+      }
+    ]
+  }
+}
