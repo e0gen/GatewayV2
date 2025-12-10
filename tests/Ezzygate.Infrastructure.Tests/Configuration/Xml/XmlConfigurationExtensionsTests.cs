@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Configuration.Xml;
 
-namespace Ezzygate.Infrastructure.Tests.Configuration;
+namespace Ezzygate.Infrastructure.Tests.Configuration.Xml;
 
 [TestFixture]
 public class XmlConfigurationExtensionsTests

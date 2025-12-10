@@ -4,13 +4,13 @@ namespace Ezzygate.Infrastructure.Configuration.Xml;
 
 public static class XmlConfigurationExtensions
 {
-    private const string LegacyInfrastructureXmlConfigFile = "Ezzygate.Infrastructure.config.xml";
+    private const string XmlInfrastructureXmlConfigFile = "Ezzygate.Infrastructure.config.xml";
 
     public static IConfigurationBuilder AddXmlInfrastructureConfigurationSource(
         this IConfigurationBuilder builder,
         string? basePath = null)
     {
-        var xmlConfigPath = ResolveConfigPath(LegacyInfrastructureXmlConfigFile, basePath);
+        var xmlConfigPath = ResolveConfigPath(XmlInfrastructureXmlConfigFile, basePath);
 
         if (File.Exists(xmlConfigPath))
             return builder.AddXmlInfrastructureConfiguration(xmlConfigPath);
@@ -22,12 +22,13 @@ public static class XmlConfigurationExtensions
     {
         var configPath = string.IsNullOrEmpty(basePath) ? fileName : Path.Combine(basePath, fileName);
 
-        if (File.Exists(configPath) || !string.IsNullOrEmpty(basePath))
-            return configPath;
+        if (!string.IsNullOrEmpty(basePath) || File.Exists(configPath))
+            return Path.GetFullPath(configPath);
+
         var appBasePath = AppContext.BaseDirectory;
         var appConfigPath = Path.Combine(appBasePath, fileName);
 
-        return File.Exists(appConfigPath) ? appConfigPath : configPath;
+        return File.Exists(appConfigPath) ? appConfigPath : Path.GetFullPath(configPath);
     }
 
     private static IConfigurationBuilder AddXmlInfrastructureConfiguration(

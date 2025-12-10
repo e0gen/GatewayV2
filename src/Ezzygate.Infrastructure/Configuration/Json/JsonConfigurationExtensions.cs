@@ -22,11 +22,12 @@ public static class JsonConfigurationExtensions
     {
         var configPath = string.IsNullOrEmpty(basePath) ? fileName : Path.Combine(basePath, fileName);
 
-        if (File.Exists(configPath) || !string.IsNullOrEmpty(basePath))
-            return configPath;
+        if (!string.IsNullOrEmpty(basePath) || File.Exists(configPath))
+            return Path.GetFullPath(configPath);
+
         var appBasePath = AppContext.BaseDirectory;
         var appConfigPath = Path.Combine(appBasePath, fileName);
 
-        return File.Exists(appConfigPath) ? appConfigPath : configPath;
+        return File.Exists(appConfigPath) ? appConfigPath : Path.GetFullPath(configPath);
     }
 }
