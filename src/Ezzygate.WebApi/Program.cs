@@ -1,6 +1,6 @@
 using Asp.Versioning;
 using Ezzygate.Application;
-using Ezzygate.Infrastructure.Configuration.Json;
+using Ezzygate.Infrastructure.Configuration.Xml;
 using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Integrations.Extensions;
@@ -40,7 +40,7 @@ builder.Services.AddApiVersioning(options =>
     setup.SubstituteApiVersionInUrl = true;
 });
 
-builder.Configuration.AddInfrastructureConfigurationSource();
+builder.Configuration.AddXmlInfrastructureConfigurationSource();
 
 builder.Services.AddInfrastructure(builder.Configuration, builder.Environment);
 builder.Services.AddInfrastructureConfiguration(builder.Configuration);

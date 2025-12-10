@@ -6,7 +6,7 @@ public static class JsonConfigurationExtensions
 {
     private const string InfrastructureJsonConfigFile = "Ezzygate.Infrastructure.config.json";
 
-    public static IConfigurationBuilder AddInfrastructureConfigurationSource(
+    public static IConfigurationBuilder AddJsonInfrastructureConfigurationSource(
         this IConfigurationBuilder builder,
         string? basePath = null)
     {
