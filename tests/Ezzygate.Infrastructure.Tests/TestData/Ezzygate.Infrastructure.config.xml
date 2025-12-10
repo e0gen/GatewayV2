@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<application>
+		<parameter key="isProduction" value="false"/>
+		<parameter key="numericFormat" value="#,#"/>
+		<parameter key="amountFormat" value="#,0.00"/>
+		<parameter key="enableTaskScheduler" value="false"/>
+		<parameter key="enableQueuedTasks" value="false"/>
+		<parameter key="enableEmail" value="true"/>
+		<parameter key="smtpHost" value="localhost"/>
+		<parameter key="smtpPort" value="25"/>
+		<parameter key="smtpUserName" value="testuser"/>
+		<parameter key="smtpPassword" value="testpass"/>
+		<parameter key="mailAddressFrom" value="test@netpay-intl.com"/>
+		<parameter key="maxImmediateReportSize" value="10"/>
+		<parameter key="maxFiledReportSize" value="10000"/>
+		<parameter key="errorNetConnectionString" isEncrypted="false" value="Data Source=TestServer;Initial Catalog=TestDB"/>
+		<parameter key="logsPhisicalBasePath" value="C:\Logs\"/>
+		<parameter key="sftpExecutablePath" value="C:\WinSCP\WinSCP.com"/>
+		<parameter key="pgpExecutablePath" value="C:\GnuPG\gpg2.exe"/>
+		<parameter key="commonApplicationFiles" value="C:\CommonFiles\" />
+	</application>
+	<domains>
+		<domain>
+			<parameter key="host" value="TestDomain" />
+			<parameter key="legalName" value="Test Domain Legal" />
+			<parameter key="themeFolder" value="Tmp_Test" />
+			<parameter key="DataPath" value="\FilesTest\" />
+			<parameter key="PublicDataVirtualPath" value="Data/" />
+			<parameter key="MultiFactor_Admin" value="true" />
+			<parameter key="disablePostRedirectUrl" value="false" />
+			<parameter key="fraudDetectionAlertRecipients" value="alert@test.com" />
+			<parameter key="FraudDetectionOperationMode" value="TestMode" />
+			<parameter key="isHebrewVisible" value="true"/>
+			<parameter key="FreshdeskApiKey" value="test-api-key-123" />
+		</domain>
+		<domain>
+			<parameter key="host" value="default" />
+			<parameter key="legalName" value="Default Domain" />
+			<parameter key="themeFolder" value="Tmp_Default" />
+			<parameter key="DataPath" value="\FilesDefault\" />
+			<parameter key="PublicDataVirtualPath" value="Public/" />
+			<parameter key="MultiFactor_Admin" value="false" />
+			<parameter key="disablePostRedirectUrl" value="true" />
+		</domain>
+	</domains>
+	<scheduledTasks>
+		<task groupID="test" description="test task" tag="Test" assemblyName="Test.Assembly" typeName="Test.Type" methodName="TestMethod" args="arg1">
+			<scheduleInfo interval="Hour" every="2" />
+		</task>
+		<task groupID="daily" description="daily task" tag="Daily" assemblyName="Daily.Assembly" typeName="Daily.Type" methodName="DailyMethod" args="">
+			<scheduleInfo interval="Day" hour="10" minute="30" />
+		</task>
+	</scheduledTasks>
+</configuration>

@@ -17,38 +17,14 @@ namespace Ezzygate.Infrastructure.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    private const string InfrastructureConfigFile = "Ezzygate.Infrastructure.json";
-
-    public static IConfigurationBuilder AddInfrastructureConfigurationSource(
-        this IConfigurationBuilder builder,
-        string? basePath = null)
-    {
-        var configPath = string.IsNullOrEmpty(basePath)
-            ? InfrastructureConfigFile
-            : Path.Combine(basePath, InfrastructureConfigFile);
-
-        if (!File.Exists(configPath) && string.IsNullOrEmpty(basePath))
-        {
-            var appBasePath = AppContext.BaseDirectory;
-            var appConfigPath = Path.Combine(appBasePath, InfrastructureConfigFile);
-
-            if (File.Exists(appConfigPath))
-            {
-                configPath = appConfigPath;
-            }
-        }
-
-        builder.AddJsonFile(configPath, optional: false, reloadOnChange: true);
-
-        return builder;
-    }
-
     public static IServiceCollection AddInfrastructureConfiguration(
         this IServiceCollection services,
         IConfiguration configuration)
     {
         services.Configure<ApplicationConfiguration>(configuration.GetSection(ApplicationConfiguration.SectionName));
-        services.Configure<IntegrationSettings>(configuration.GetSection(IntegrationSettings.SectionName));
+
+        services.AddScoped<IDomainConfigurationProvider, DomainConfigurationProvider>();
+        services.AddScoped(sp => sp.GetRequiredService<IDomainConfigurationProvider>().GetCurrentDomainConfiguration());
 
         return services;
     }
