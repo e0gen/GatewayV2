@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Ezzygate.Application.Configuration;
 using Ezzygate.Domain.Services;
 using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Ef;
@@ -32,8 +33,8 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration,
         IHostEnvironment environment)
     {
-        services.AddEzzygateDbContext(configuration, environment);
-        services.AddErrorsDbContext(configuration, environment);
+        services.AddEzzygateDbContext();
+        services.AddErrorsDbContext();
 
         if (environment.IsDevelopment())
             services.AddSingleton<IDistributedLockService, MySqlDistributedLockService>();
