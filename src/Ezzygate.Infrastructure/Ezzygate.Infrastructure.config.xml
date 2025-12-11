@@ -21,7 +21,7 @@
 		<parameter key="commonApplicationFiles" value="~\..\Nas\FilesAppCommon\" />
 	</application>
 	<domains>
-		<domain>
+		<domain fileName="~/../env/Dev.Infrastructure.config.xml">
 			<parameter key="host" value="OBL" />
 			<parameter key="legalName" value="OBL" />
 			<parameter key="themeFolder" value="Tmp_OBL" />
@@ -36,7 +36,7 @@
 			<parameter key="IrregularityReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
 			<parameter key="DetectPhotocopyWithRefundRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
 		</domain>
-		<domain>
+		<domain fileName="~/../env/Dev.Infrastructure.config.xml">
 			<parameter key="host" value="Servicenet" />
 			<parameter key="legalName" value="Servicenet" />
 			<parameter key="themeFolder" value="Tmp_Servicenet" />
@@ -51,7 +51,7 @@
 			<parameter key="IrregularityReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
 			<parameter key="DetectPhotocopyWithRefundRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
 		</domain>
-		<domain>
+		<domain fileName="~/../env/Dev.Infrastructure.config.xml">
 			<parameter key="host" value="default" />
 			<parameter key="legalName" value="Ezzygate International" />
 			<parameter key="themeFolder" value="Tmp_Ezzygateintl" />
@@ -67,7 +67,7 @@
 			<parameter key="DetectPhotocopyWithRefundRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
 			<parameter key="FreshdeskApiKey" value="0e2fdc92-684d-48ce-9d6f-93b051b16741" />
 		</domain>
-		<domain>
+		<domain fileName="~/../env/Dev.Infrastructure.config.xml">
 			<parameter key="host" value="Alfia" />
 			<parameter key="legalName" value="Alfia" />
 			<parameter key="themeFolder" value="Tmp_Alfia" />
@@ -82,7 +82,7 @@
 			<parameter key="IrregularityReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
 			<parameter key="DetectPhotocopyWithRefundRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
 		</domain>
-		<domain>
+		<domain fileName="~/../Nas/Dev.Infrastructure.config.xml">
 			<parameter key="host" value="EzzygateBrasil" />
 			<parameter key="legalName" value="Ezzygate Brasil" />
 			<parameter key="themeFolder" value="Tmp_EzzygateBrasil" />
@@ -98,7 +98,7 @@
 			<parameter key="DetectPhotocopyWithRefundRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
 			<parameter key="isHebrewVisible" value="false"/>
 		</domain>
-		<domain>
+		<domain fileName="~/../env/Dev.Infrastructure.config.xml">
 			<parameter key="host" value="PBTPay" />
 			<parameter key="legalName" value="PBTPay" />
 			<parameter key="themeFolder" value="Tmp_PBTPay" />
@@ -113,7 +113,7 @@
 			<parameter key="IrregularityReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
 			<parameter key="DetectPhotocopyWithRefundRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
 		</domain>
-		<domain>
+		<domain fileName="~/../env/Dev.Infrastructure.config.xml">
 			<parameter key="host" value="Tenfore" />
 			<parameter key="legalName" value="Tenfore" />
 			<parameter key="themeFolder" value="Tmp_Tenfore" />
@@ -128,7 +128,7 @@
 			<parameter key="IrregularityReportRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
 			<parameter key="DetectPhotocopyWithRefundRecipients" value="adam@netpay-intl.com,elena@netpay-intl.com" />
 		</domain>
-		<domain>
+		<domain fileName="~/../env/Dev.Infrastructure.config.xml">
 			<parameter key="host" value="Platinum" />
 			<parameter key="legalName" value="Platinum" />
 			<parameter key="themeFolder" value="Tmp_Platinum" />

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+	<domain>
+		<parameter key="host" value="default"/>
+		<parameter key="shortCode" value="NP"/>
+		<parameter key="brandName" value="Ezzygate LTD"/>
+		<parameter key="legalName" value="Ezzygate International"/>
+		<parameter key="encryptionKeyNumber" value="9"/>
+		<parameter key="forceSSL" value="false"/>
+		<parameter key="netpayAdminsNTGroupName" value=""/>
+		<parameter key="themeFolder" value="Tmp_netpayintl"/>
+		<parameter key="isHebrewVisible" value="true"/>
+		<parameter key="enableEpa" value="false"/>
+		<parameter key="SaveCui" value="true"/>
+		
+		<parameter key="smtpHost" value="smtp-relay.localhost"/>
+		<parameter key="smtpPort" value="587"/>
+		<parameter key="smtpUserName" value="demo@localhost"/>
+		<parameter key="smtpPassword" value="password"/>
+		
+		<parameter key="adminUrl" value="https://localhost:5001/"/>
+		<parameter key="merchantUrl" value="https://localhost:5002/"/>
+		<parameter key="reportsUrl" value="https://localhost:5003/"/>
+		<parameter key="devCentertUrl" value="https://localhost:5002/WebSite/DeveloperDocs.aspx"/>
+		<parameter key="processUrl" value="https://localhost:5005/member/"/>
+		<parameter key="processV2Url" value="https://localhost:5006/"/>
+		<parameter key="WebServicesUrl" value="https://localhost:5007/"/>
+		<parameter key="WebApiUrl" value="https://localhost:5008/"/>
+		<parameter key="partnersUrl" value="https://localhost:5009/"/>
+		<parameter key="cartUrl" value="https://localhost:5010/Cart/"/>
+		<parameter key="shopUrl" value="https://localhost:5011/{0}/" />
+		<parameter key="usePublicPage" value="false" />
+		<parameter key="walletUrl" value="https://localhost:5012/"/>
+		<parameter key="contentUrl" value="http://localhost:5013"/>
+		<parameter key="websiteUrl" value="http://localhost:5014"/>
+		<parameter key="signupUrl" value="hhttps://localhost:5002/WebSite/Register.aspx"/>
+		<parameter key="miniVtUrl" value="https://localhost:5015"/>
+
+		<parameter key="sql1ConnectionString" isEncrypted="false" value="Server=(localdb)\mssqllocaldb;Database=EzzygateDb;Trusted_Connection=true;MultipleActiveResultSets=true"/>
+		<parameter key="sql2ConnectionString" isEncrypted="false" value="Server=(localdb)\mssqllocaldb;Database=EzzygateDb;Trusted_Connection=true;MultipleActiveResultSets=true"/>
+		<parameter key="reportsConnectionString" isEncrypted="false" value="Server=(localdb)\mssqllocaldb;Database=EzzygateReportsDb;Trusted_Connection=true;MultipleActiveResultSets=true"/>
+		<parameter key="sqlArchiveConnectionString" isEncrypted="false" value=""/>
+		<parameter key="analysisServicesConnectionString" isEncrypted="false" value=""/>
+		<parameter key="integrationServicesEzzygateConnectionString" isEncrypted="false" value=""/>
+		<parameter key="integrationServicesReportsConnectionString" isEncrypted="false" value=""/>
+		<parameter key="CRMConnectionString" isEncrypted="false" value=""/>
+
+		<parameter key="CRMEmailTemplatePath" value=""/>
+		<parameter key="DataPath" value="F:\IIS_GW_Files\FilesStage\" />
+		<parameter key="commonPhisicalPath" value="F:\IIS_GW_Files\FilesAppCommon\"/>
+		<parameter key="PublicDataVirtualPath" value="/Data/" />
+
+		<parameter key="mailNameFrom" value="DevPay"/>
+		<parameter key="mailAddressFrom" value="support@localhost"/>
+		<parameter key="mailAddressFromChb" value="support@localhost"/>
+		<parameter key="mailNameTo" value="Transactorpay"/>
+		<parameter key="mailAddressTo" value="support@localhost"/>
+
+		<parameter key="CustomerService_Email" value="" />
+		<parameter key="CustomerService_Phone" value="" />
+		<parameter key="CustomerService_USPhone" value="" />
+		<parameter key="CustomerService_Fax" value="" />
+		<parameter key="CustomerService_Skype" value="" />
+
+		<parameter key="TechnicalSupport_Email" value="" />
+		<parameter key="TechnicalSupport_Phone" value="" />
+		<parameter key="TechnicalSupport_Fax" value="" />
+		<parameter key="TechnicalSupport_Skype" value="" />
+
+		<parameter key="SocialMedia_Facebook" value="" />
+		<parameter key="SocialMedia_GooglePlus" value="" />
+		<parameter key="SocialMedia_Youtube" value="" />
+		<parameter key="SocialMedia_LinkedIn" value="" />
+		<parameter key="SocialMedia_Twitter" value="" />
+	
+		<parameter key="Identity_Address" value="" />
+		<parameter key="Identity_City" value="" />
+		<parameter key="Identity_Zipcode" value="" />
+		<parameter key="Identity_Country" value="" />
+
+		<parameter key="payoneerPartnerID" value=""/>
+		<parameter key="payoneerUsername" value=""/>
+		<parameter key="payoneerPassword" value=""/>
+		<parameter key="payoneerProgramID" value=""/>
+		<parameter key="payoneerServiceBase" value=""/>
+
+		<parameter key="SmsServiceProvider" value="" />
+		<parameter key="SmsServiceUserName" value="" />
+		<parameter key="SmsServicePassword" value="" />
+		<parameter key="SmsServiceFrom" value="" />
+
+		<parameter key="FacebookShopsAppID" value="" />
+		<parameter key="FacebookShopsSecretID" value="" />
+		<parameter key="FacebookShopsNamespace" value="" />
+		
+		<parameter key="ZohoCRMAuth" value="" />
+		<parameter key="FreshdeskApiKey" value="" />
+		<parameter key="GoogleAnalyitics" value=""/>	
+		
+		<parameter key="ServiceUser" value="AppServiceUser" />
+		<parameter key="ServiceUserPassword" isEncrypted="false" value="" />
+
+		<parameter key="FinanceLevel1Group" value="Finance" />
+		<parameter key="FinanceLevel2Group" value="" />
+			
+		<parameter key="LoginManager" value="None" />
+		<parameter key="LoginManager_ConnectionString" value="" />
+			
+		<!-- Fraud Detection Services, operation mode, values: NoActions, AlertsOnly, AllActions -->
+		<parameter key="FraudDetectionOperationMode" value="NoActions" />
+		<!-- Fraud detection services alerts recipiants emaills, comma delimited -->
+		<parameter key="fraudDetectionAlertRecipients" value="support@localhost" />
+			
+		<!--Monitoring recipients emails, comma delimited  -->
+		<parameter key="ActiveMerchantReportRecipients" value="" />
+		<parameter key="BnsTransactionsWithoutEpaReportRecipients" value="" />
+		<parameter key="IrregularityReportRecipients" value="" />
+		<parameter key="DetectPhotocopyWithRefundRecipients" value="" />
+
+		<!-- Crypto -->
+		<parameter key="SettlementWalletAddress" value="" />
+		
+		<!-- Mobile API keys -->
+		<parameter key="WebApisMobileManualSecurityKey" value="" />
+		<parameter key="WebApisMobileSecurityKey" value= "" />
+		<parameter key="WebApisMobileJwtSecretKey" value="" />
+	</domain>
