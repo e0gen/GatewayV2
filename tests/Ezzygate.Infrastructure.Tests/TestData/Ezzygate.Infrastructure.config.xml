@@ -21,7 +21,7 @@
 		<parameter key="commonApplicationFiles" value="C:\CommonFiles\" />
 	</application>
 	<domains>
-		<domain>
+		<domain fileName="Test.Environment.config.xml">
 			<parameter key="host" value="TestDomain" />
 			<parameter key="legalName" value="Test Domain Legal" />
 			<parameter key="themeFolder" value="Tmp_Test" />
@@ -42,6 +42,11 @@
 			<parameter key="PublicDataVirtualPath" value="Public/" />
 			<parameter key="MultiFactor_Admin" value="false" />
 			<parameter key="disablePostRedirectUrl" value="true" />
+		</domain>
+		<domain fileName="NonExistent.Environment.config.xml">
+			<parameter key="host" value="MissingEnvDomain" />
+			<parameter key="legalName" value="Missing Env Domain Legal" />
+			<parameter key="themeFolder" value="Tmp_MissingEnv" />
 		</domain>
 	</domains>
 	<scheduledTasks>

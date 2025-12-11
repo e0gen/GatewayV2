@@ -83,7 +83,7 @@ public class XmlConfigurationExtensionsTests
     {
         var config = GetApplicationConfiguration();
 
-        Assert.That(config.Domains, Has.Count.EqualTo(2));
+        Assert.That(config.Domains, Has.Count.EqualTo(3));
     }
 
     [Test]

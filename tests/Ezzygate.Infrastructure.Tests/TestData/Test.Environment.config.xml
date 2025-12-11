@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<domain>
+	<parameter key="host" value="default"/>
+	<parameter key="shortCode" value="TEST"/>
+	<parameter key="brandName" value="TestBrand"/>
+	<parameter key="legalName" value="Test Environment Legal Name"/>
+	<parameter key="encryptionKeyNumber" value="5"/>
+	<parameter key="forceSSL" value="true"/>
+	<parameter key="themeFolder" value="Tmp_TestEnv"/>
+	<parameter key="isHebrewVisible" value="true"/>
+	<parameter key="enableEpa" value="false"/>
+	<parameter key="SaveCui" value="true"/>
+	
+	<parameter key="smtpHost" value="smtp.test-environment.local"/>
+	<parameter key="smtpPort" value="587"/>
+	<parameter key="smtpUserName" value="env-user@test.local"/>
+	<parameter key="smtpPassword" value="env-password"/>
+	
+	<parameter key="adminUrl" value="https://admin.test-env.local/"/>
+	<parameter key="merchantUrl" value="https://merchant.test-env.local/"/>
+	<parameter key="reportsUrl" value="https://reports.test-env.local/"/>
+	<parameter key="WebApiUrl" value="https://api.test-env.local/"/>
+	
+	<parameter key="sql1ConnectionString" isEncrypted="false" value="Data Source=EnvTestServer;Initial Catalog=EnvTestDB"/>
+	<parameter key="sql2ConnectionString" isEncrypted="false" value="Data Source=EnvTestServer;Initial Catalog=EnvTestDB2"/>
+	
+	<parameter key="DataPath" value="F:\TestEnv\Files\" />
+	<parameter key="commonPhisicalPath" value="F:\TestEnv\CommonFiles\"/>
+	<parameter key="PublicDataVirtualPath" value="/EnvData/" />
+	
+	<parameter key="mailNameFrom" value="TestEnv"/>
+	<parameter key="mailAddressFrom" value="noreply@test-env.local"/>
+	
+	<parameter key="FraudDetectionOperationMode" value="AlertsOnly" />
+	<parameter key="fraudDetectionAlertRecipients" value="fraud@test-env.local" />
+	
+	<parameter key="FreshdeskApiKey" value="env-freshdesk-key-456" />
+</domain>

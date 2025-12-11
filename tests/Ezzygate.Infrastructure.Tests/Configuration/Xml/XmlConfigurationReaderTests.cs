@@ -61,7 +61,7 @@ public class XmlConfigurationReaderTests
     {
         var config = XmlConfigurationReader.ReadXmlConfiguration(_testConfigPath);
 
-        Assert.That(config.Domains, Has.Count.EqualTo(2));
+        Assert.That(config.Domains, Has.Count.EqualTo(3));
     }
 
     [Test]
@@ -127,6 +127,129 @@ public class XmlConfigurationReaderTests
         {
             Assert.That(task.Schedule.Hour, Is.EqualTo(10));
             Assert.That(task.Schedule.Minute, Is.EqualTo(30));
+        });
+    }
+
+    [Test]
+    public void ReadXmlConfiguration_DomainWithEnvFile_LoadsValuesFromEnvironmentFile()
+    {
+        var config = XmlConfigurationReader.ReadXmlConfiguration(_testConfigPath);
+        var domain = config.Domains[0];
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(domain.ShortCode, Is.EqualTo("TEST"));
+            Assert.That(domain.BrandName, Is.EqualTo("TestBrand"));
+            Assert.That(domain.EncryptionKeyNumber, Is.EqualTo(5));
+        });
+    }
+
+    [Test]
+    public void ReadXmlConfiguration_DomainWithEnvFile_LoadsConnectionStringsFromEnvironmentFile()
+    {
+        var config = XmlConfigurationReader.ReadXmlConfiguration(_testConfigPath);
+        var domain = config.Domains[0];
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(domain.Sql1ConnectionString, Is.EqualTo("Data Source=EnvTestServer;Initial Catalog=EnvTestDB"));
+            Assert.That(domain.Sql2ConnectionString, Is.EqualTo("Data Source=EnvTestServer;Initial Catalog=EnvTestDB2"));
+        });
+    }
+
+    [Test]
+    public void ReadXmlConfiguration_DomainWithEnvFile_LoadsUrlsFromEnvironmentFile()
+    {
+        var config = XmlConfigurationReader.ReadXmlConfiguration(_testConfigPath);
+        var domain = config.Domains[0];
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(domain.AdminUrl, Is.EqualTo("https://admin.test-env.local/"));
+            Assert.That(domain.MerchantUrl, Is.EqualTo("https://merchant.test-env.local/"));
+            Assert.That(domain.ReportsUrl, Is.EqualTo("https://reports.test-env.local/"));
+            Assert.That(domain.WebApiUrl, Is.EqualTo("https://api.test-env.local/"));
+        });
+    }
+
+    [Test]
+    public void ReadXmlConfiguration_DomainWithEnvFile_LoadsSmtpFromEnvironmentFile()
+    {
+        var config = XmlConfigurationReader.ReadXmlConfiguration(_testConfigPath);
+        var domain = config.Domains[0];
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(domain.SmtpHost, Is.EqualTo("smtp.test-environment.local"));
+            Assert.That(domain.SmtpPort, Is.EqualTo("587"));
+            Assert.That(domain.SmtpUserName, Is.EqualTo("env-user@test.local"));
+        });
+    }
+
+    [Test]
+    public void ReadXmlConfiguration_DomainWithEnvFile_InlineValuesOverrideEnvironmentFile()
+    {
+        var config = XmlConfigurationReader.ReadXmlConfiguration(_testConfigPath);
+        var domain = config.Domains[0];
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(domain.Host, Is.EqualTo("TestDomain"));
+            Assert.That(domain.LegalName, Is.EqualTo("Test Domain Legal"));
+            Assert.That(domain.ThemeFolder, Is.EqualTo("Tmp_Test"));
+            Assert.That(domain.FreshdeskApiKey, Is.EqualTo("test-api-key-123"));
+        });
+    }
+
+    [Test]
+    public void ReadXmlConfiguration_DomainWithEnvFile_InlineBooleanOverridesEnvironmentFile()
+    {
+        var config = XmlConfigurationReader.ReadXmlConfiguration(_testConfigPath);
+        var domain = config.Domains[0];
+
+        Assert.That(domain.IsHebrewVisible, Is.True);
+        Assert.That(domain.EnableEpa, Is.False);
+        Assert.That(domain.ForceSsl, Is.True);
+    }
+
+    [Test]
+    public void ReadXmlConfiguration_DomainWithEnvFile_InlinePathOverridesEnvironmentFile()
+    {
+        var config = XmlConfigurationReader.ReadXmlConfiguration(_testConfigPath);
+        var domain = config.Domains[0];
+
+        Assert.That(domain.DataPath, Is.EqualTo(@"\FilesTest\"));
+        Assert.That(domain.PublicDataVirtualPath, Is.EqualTo("Data/"));
+    }
+
+    [Test]
+    public void ReadXmlConfiguration_DomainWithoutEnvFile_OnlyUsesInlineValues()
+    {
+        var config = XmlConfigurationReader.ReadXmlConfiguration(_testConfigPath);
+        var domain = config.Domains[1];
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(domain.Host, Is.EqualTo("default"));
+            Assert.That(domain.LegalName, Is.EqualTo("Default Domain"));
+            Assert.That(domain.ShortCode, Is.Empty.Or.Null);
+            Assert.That(domain.BrandName, Is.Empty.Or.Null);
+            Assert.That(domain.Sql1ConnectionString, Is.Empty.Or.Null);
+        });
+    }
+
+    [Test]
+    public void ReadXmlConfiguration_DomainWithMissingEnvFile_LoadsInlineValues()
+    {
+        var config = XmlConfigurationReader.ReadXmlConfiguration(_testConfigPath);
+        var domain = config.Domains[2];
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(domain.Host, Is.EqualTo("MissingEnvDomain"));
+            Assert.That(domain.LegalName, Is.EqualTo("Missing Env Domain Legal"));
+            Assert.That(domain.ThemeFolder, Is.EqualTo("Tmp_MissingEnv"));
+            Assert.That(domain.ShortCode, Is.Empty.Or.Null);
         });
     }
 }
