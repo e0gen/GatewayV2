@@ -1,6 +1,6 @@
 using Ezzygate.Domain.Models;
 
-namespace Ezzygate.Domain.Services;
+namespace Ezzygate.Application.Interfaces;
 
 public interface ICreditCardService
 {

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Ezzygate.Application.Configuration;
+using Ezzygate.Application.Interfaces;
 
 namespace Ezzygate.Infrastructure.Configuration;
 

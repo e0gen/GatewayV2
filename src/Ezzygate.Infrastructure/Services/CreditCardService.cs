@@ -1,6 +1,6 @@
+using Ezzygate.Application.Interfaces;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Domain.Models;
-using Ezzygate.Domain.Services;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 
 namespace Ezzygate.Infrastructure.Services;

@@ -1,4 +1,4 @@
-namespace Ezzygate.Domain.Interfaces;
+namespace Ezzygate.Application.Interfaces;
 
 public interface ISensitiveData
 {

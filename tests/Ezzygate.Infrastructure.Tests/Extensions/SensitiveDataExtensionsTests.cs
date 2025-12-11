@@ -1,4 +1,4 @@
-using Ezzygate.Domain.Interfaces;
+using Ezzygate.Application.Interfaces;
 using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.Infrastructure.Utilities;
 

@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-using Ezzygate.Domain.Interfaces;
+using Ezzygate.Application.Interfaces;
 
 namespace Ezzygate.Integrations.Rapyd.Api;
 

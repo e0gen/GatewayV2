@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ezzygate.Application.Configuration;
-using Ezzygate.Domain.Services;
+using Ezzygate.Application.Interfaces;
 using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Ef;
 using Ezzygate.Infrastructure.Locking;
@@ -36,10 +36,7 @@ public static class ServiceCollectionExtensions
         services.AddEzzygateDbContext();
         services.AddErrorsDbContext();
 
-        if (environment.IsDevelopment())
-            services.AddSingleton<IDistributedLockService, MySqlDistributedLockService>();
-        else
-            services.AddSingleton<IDistributedLockService, SqlServerDistributedLockService>();
+        services.AddDistributedLockService(environment);
 
         services.AddScoped<IMerchantRepository, MerchantRepository>();
         services.AddScoped<IMobileDeviceRepository, MobileDeviceRepository>();
@@ -65,6 +62,13 @@ public static class ServiceCollectionExtensions
         services.AddMemoryCache();
 
         return services;
+    }
+    private static void AddDistributedLockService(this IServiceCollection services, IHostEnvironment environment)
+    {
+        if (environment.IsDevelopment())
+            services.AddSingleton<IDistributedLockService, MySqlDistributedLockService>();
+        else
+            services.AddSingleton<IDistributedLockService, SqlServerDistributedLockService>();
     }
 
     public static IServiceCollection AddDelayedTaskScheduler(this IServiceCollection services)

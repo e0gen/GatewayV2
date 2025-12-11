@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Ezzygate.Application.Integrations;
+using Ezzygate.Application.Interfaces;
 using Ezzygate.Domain.Enums;
-using Ezzygate.Domain.Services;
 using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Infrastructure.Notifications;
