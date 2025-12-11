@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Ezzygate.Application.Configuration;
 using Ezzygate.Application.Integrations;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Domain.Models;
-using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Infrastructure.Transactions;
 using Ezzygate.Integrations.Core.Abstractions;

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.WebUtilities;
+using Ezzygate.Application.Configuration;
 using Ezzygate.Application.Integrations;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Domain.Models;
-using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Extensions;
 
 namespace Ezzygate.Infrastructure.Transactions;

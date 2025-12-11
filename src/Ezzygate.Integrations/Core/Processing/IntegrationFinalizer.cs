@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
+using Ezzygate.Application.Configuration;
 using Ezzygate.Application.Integrations;
-using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Locking;
 using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Infrastructure.Transactions;

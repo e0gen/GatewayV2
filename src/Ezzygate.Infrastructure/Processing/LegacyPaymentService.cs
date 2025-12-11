@@ -2,8 +2,8 @@ using System.Collections.Specialized;
 using System.Text;
 using System.Web;
 using Microsoft.Extensions.Logging;
+using Ezzygate.Application.Configuration;
 using Ezzygate.Domain.Enums;
-using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Infrastructure.Processing.Models;
 

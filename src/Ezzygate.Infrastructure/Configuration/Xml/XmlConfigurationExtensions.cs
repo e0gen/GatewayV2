@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using Ezzygate.Application.Configuration;
 
 namespace Ezzygate.Infrastructure.Configuration.Xml;
 

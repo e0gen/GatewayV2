@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Ezzygate.Infrastructure.Configuration;
+using Ezzygate.Application.Configuration;
 using Ezzygate.Infrastructure.Configuration.Json;
 
 namespace Ezzygate.Infrastructure.Tests.Configuration.Json;

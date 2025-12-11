@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Ezzygate.Application.Configuration;
 using Ezzygate.Domain.Enums;
 using Ezzygate.Domain.Models;
-using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Ef.Context;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
 

@@ -1,4 +1,5 @@
 using System.Xml.Linq;
+using Ezzygate.Application.Configuration;
 
 namespace Ezzygate.Infrastructure.Configuration.Xml;
 

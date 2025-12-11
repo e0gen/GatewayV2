@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Ezzygate.Infrastructure.Configuration;
+namespace Ezzygate.Application.Configuration;
 
 public sealed class DomainConfiguration
 {

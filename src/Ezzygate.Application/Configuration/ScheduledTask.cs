@@ -1,4 +1,4 @@
-namespace Ezzygate.Infrastructure.Configuration;
+namespace Ezzygate.Application.Configuration;
 
 public class ScheduledTask
 {
