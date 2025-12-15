@@ -1,14 +1,18 @@
 using System.Xml.Linq;
 using Ezzygate.Application.Configuration;
+using Ezzygate.Infrastructure.Cryptography;
 
 namespace Ezzygate.Infrastructure.Configuration.Xml;
 
 public static class XmlConfigurationReader
 {
-    public static ApplicationConfiguration ReadXmlConfiguration(string xmlFilePath)
+    public static ApplicationConfiguration ReadXmlConfiguration(string xmlFilePath,
+        IConfigurationDecryptor? decryptor = null)
     {
         if (!File.Exists(xmlFilePath))
             throw new FileNotFoundException($"XML configuration file not found: {xmlFilePath}", xmlFilePath);
+
+        decryptor ??= NullConfigurationDecryptor.Instance;
 
         var basePath = Path.GetDirectoryName(xmlFilePath) ?? string.Empty;
         var document = XDocument.Load(xmlFilePath);
@@ -23,7 +27,7 @@ public static class XmlConfigurationReader
 
         var domainsElement = root.Element("domains");
         if (domainsElement != null)
-            config.Domains = ParseDomains(domainsElement, basePath).ToList();
+            config.Domains = ParseDomains(domainsElement, basePath, decryptor).ToList();
 
         var scheduledTasksElement = root.Element("scheduledTasks");
         if (scheduledTasksElement != null)
@@ -35,7 +39,10 @@ public static class XmlConfigurationReader
     private static void ParseApplicationParameters(XElement applicationElement, ApplicationConfiguration config)
     {
         var parameters = applicationElement.Elements("parameter")
-            .ToDictionary(p => p.Attribute("key")?.Value ?? string.Empty, GetParameterValue, StringComparer.OrdinalIgnoreCase);
+            .ToDictionary(
+                p => p.Attribute("key")?.Value ?? string.Empty,
+                p => p.Attribute("value")?.Value ?? string.Empty,
+                StringComparer.OrdinalIgnoreCase);
 
         config.IsProduction = GetBool(parameters, "isProduction");
         config.NumericFormat = GetString(parameters, "numericFormat", "#,#");
@@ -61,7 +68,8 @@ public static class XmlConfigurationReader
         config.SecurityProtocols = GetString(parameters, "securityProtocols", "Tls11,Tls12");
     }
 
-    private static IEnumerable<DomainConfiguration> ParseDomains(XElement domainsElement, string basePath)
+    private static IEnumerable<DomainConfiguration> ParseDomains(XElement domainsElement, string basePath,
+        IConfigurationDecryptor decryptor)
     {
         foreach (var domainElement in domainsElement.Elements("domain"))
         {
@@ -76,25 +84,38 @@ public static class XmlConfigurationReader
                     var externalDoc = XDocument.Load(externalFilePath);
                     var externalRoot = externalDoc.Root;
                     if (externalRoot != null)
-                        ParseDomainParameters(externalRoot, domain);
+                        ParseDomainParameters(externalRoot, domain, decryptor);
                 }
             }
 
-            ParseDomainParameters(domainElement, domain);
+            ParseDomainParameters(domainElement, domain, decryptor);
 
             yield return domain;
         }
     }
 
-    private static void ParseDomainParameters(XElement element, DomainConfiguration domain)
+    private static void ParseDomainParameters(XElement element, DomainConfiguration domain,
+        IConfigurationDecryptor decryptor)
     {
-        var parameters = element.Elements("parameter")
-            .ToDictionary(p => p.Attribute("key")?.Value ?? string.Empty, GetParameterValue, StringComparer.OrdinalIgnoreCase);
+        var parameterElements = element.Elements("parameter").ToList();
 
-        // Get encryption key first as it may be needed for decryption
-        var encryptionKeyNumber = GetInt(parameters, "encryptionKeyNumber", 0);
-        if (encryptionKeyNumber != 0)
-            domain.EncryptionKeyNumber = encryptionKeyNumber;
+        var encryptionKeyNumber = 0;
+        var encryptionKeyElement = parameterElements.FirstOrDefault(p => 
+            p.Attribute("key")?.Value.Equals("encryptionKeyNumber", StringComparison.OrdinalIgnoreCase) == true);
+        if (encryptionKeyElement != null)
+        {
+            var keyValue = encryptionKeyElement.Attribute("value")?.Value;
+            if (!string.IsNullOrEmpty(keyValue) && int.TryParse(keyValue, out var keyNum))
+            {
+                encryptionKeyNumber = keyNum;
+                domain.EncryptionKeyNumber = encryptionKeyNumber;
+            }
+        }
+
+        var parameters = parameterElements.ToDictionary(
+            p => p.Attribute("key")?.Value ?? string.Empty,
+            p => GetParameterValue(p, encryptionKeyNumber, decryptor),
+            StringComparer.OrdinalIgnoreCase);
 
         // Basic Information
         if (parameters.TryGetValue("host", out var host))
@@ -337,11 +358,29 @@ public static class XmlConfigurationReader
         }
     }
 
-    private static string GetParameterValue(XElement paramElement)
+    private static string GetParameterValue(XElement paramElement,
+        int encryptionKeyNumber, IConfigurationDecryptor decryptor)
     {
         var value = paramElement.Attribute("value")?.Value ?? string.Empty;
-        // Note: In legacy code, encrypted values are decrypted using EncryptionKeyNumber
-        // For now, we return raw values. Decryption should be handled separately if needed.
+        var isEncryptedValue = paramElement.Attribute("isEncrypted")?.Value;
+
+        var isEncrypted = !string.IsNullOrEmpty(isEncryptedValue) &&
+                            (isEncryptedValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+                             isEncryptedValue.Equals("1", StringComparison.OrdinalIgnoreCase)) &&
+                            encryptionKeyNumber > 0;
+
+        if (!isEncrypted || !decryptor.IsAvailable)
+            return value;
+
+        try
+        {
+            value = decryptor.DecryptHex(encryptionKeyNumber, value);
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException($"Failed to decrypt parameter '{paramElement.Attribute("key")?.Value}' with key {encryptionKeyNumber}. ");
+        }
+
         return value;
     }
 
