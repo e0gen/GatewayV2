@@ -21,6 +21,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Ezzygate.Application\Ezzygate.Application.csproj" />
         <ProjectReference Include="..\Ezzygate.Domain\Ezzygate.Domain.csproj" />
+        <ProjectReference Include="..\Ezzygate.Infrastructure.Win32\Ezzygate.Infrastructure.Win32.csproj" />
         <ProjectReference Include="..\Ezzygate.Infrastructure\Ezzygate.Infrastructure.csproj" />
         <ProjectReference Include="..\Ezzygate.Integrations\Ezzygate.Integrations.csproj" />
         <ProjectReference Include="..\Ezzygate.Shared\Ezzygate.Shared.csproj" />

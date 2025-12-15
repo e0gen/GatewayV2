@@ -4,6 +4,7 @@ using Ezzygate.Infrastructure.Configuration.Xml;
 using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Integrations.Extensions;
+using Ezzygate.WebApi.Extensions;
 using Ezzygate.WebApi.Middleware;
 using Serilog;
 
@@ -40,7 +41,10 @@ builder.Services.AddApiVersioning(options =>
     setup.SubstituteApiVersionInUrl = true;
 });
 
-builder.Configuration.AddXmlInfrastructureConfigurationSource();
+builder.Services.AddPlatformCryptographyServices();
+
+var configDecryptor = CryptographyExtensions.CreatePlatformConfigurationDecryptor();
+builder.Configuration.AddXmlInfrastructureConfigurationSource(null, configDecryptor);
 
 builder.Services.AddInfrastructure(builder.Configuration, builder.Environment);
 builder.Services.AddInfrastructureConfiguration(builder.Configuration);
