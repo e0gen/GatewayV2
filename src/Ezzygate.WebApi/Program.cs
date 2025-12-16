@@ -43,8 +43,7 @@ builder.Services.AddApiVersioning(options =>
 
 builder.Services.AddPlatformCryptographyServices();
 
-var configDecryptor = CryptographyExtensions.CreatePlatformConfigurationDecryptor();
-builder.Configuration.AddXmlInfrastructureConfigurationSource(null, configDecryptor);
+builder.Configuration.AddXmlInfrastructureConfigurationSource();
 
 builder.Services.AddInfrastructure(builder.Configuration, builder.Environment);
 builder.Services.AddInfrastructureConfiguration(builder.Configuration);

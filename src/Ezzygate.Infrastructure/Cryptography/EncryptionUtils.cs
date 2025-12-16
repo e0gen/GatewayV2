@@ -1,13 +1,10 @@
 using System.Text;
-using Ezzygate.Infrastructure.Configuration;
 
 namespace Ezzygate.Infrastructure.Cryptography;
 
-public class ConfigurationDecryptor : IConfigurationDecryptor
+public static class EncryptionUtils
 {
-    public bool IsAvailable => CryptographyContext.IsInitialized;
-
-    public string DecryptHex(int keyIndex, string encryptedHexValue)
+    public static string DecryptHex(int keyIndex, string encryptedHexValue)
     {
         if (string.IsNullOrEmpty(encryptedHexValue))
             return encryptedHexValue;
@@ -16,7 +13,7 @@ public class ConfigurationDecryptor : IConfigurationDecryptor
         return key.Decrypt(new Blob { Hex = encryptedHexValue }).Text;
     }
 
-    public string Decrypt(int keyIndex, byte[]? source)
+    public static string Decrypt(int keyIndex, byte[]? source)
     {
         if (source == null) return null!;
         if (source.Length == 0) return string.Empty;
@@ -25,7 +22,7 @@ public class ConfigurationDecryptor : IConfigurationDecryptor
         return key.Decrypt(new Blob(source)).Text;
     }
 
-    public byte[] Encrypt(int keyIndex, string? source)
+    public static byte[] Encrypt(int keyIndex, string? source)
     {
         if (source == null) return null!;
         if (source.Length == 0) return [];
@@ -34,7 +31,7 @@ public class ConfigurationDecryptor : IConfigurationDecryptor
         return key.Encrypt(new Blob(source)).Bytes;
     }
 
-    public byte[] Encrypt(int keyIndex, byte[]? source)
+    public static byte[] Encrypt(int keyIndex, byte[]? source)
     {
         if (source == null) return null!;
         if (source.Length == 0) return [];
@@ -43,7 +40,7 @@ public class ConfigurationDecryptor : IConfigurationDecryptor
         return key.Encrypt(new Blob(source)).Bytes;
     }
 
-    public string EncryptHex(int keyIndex, string? source)
+    public static string EncryptHex(int keyIndex, string? source)
     {
         if (source == null) return null!;
         if (source.Length == 0) return string.Empty;

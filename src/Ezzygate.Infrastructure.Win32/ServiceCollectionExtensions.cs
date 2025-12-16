@@ -1,6 +1,5 @@
 using System.Runtime.Versioning;
 using Microsoft.Extensions.DependencyInjection;
-using Ezzygate.Infrastructure.Configuration;
 using Ezzygate.Infrastructure.Cryptography;
 using Ezzygate.Infrastructure.Win32.Cryptography.Providers;
 
@@ -13,12 +12,5 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services, Action<CryptographyConfiguration>? configureOptions = null)
     {
         return services.AddCryptographyServices<WindowsCryptographyProviderFactory>(configureOptions);
-    }
-
-    [SupportedOSPlatform("windows")]
-    public static IConfigurationDecryptor CreateWindowsConfigurationDecryptor(CryptographyConfiguration? config = null)
-    {
-        return CryptographyServiceCollectionExtensions.CreateConfigurationDecryptor(
-            new WindowsCryptographyProviderFactory(), config);
     }
 }

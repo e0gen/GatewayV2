@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Configuration;
 using Ezzygate.Application.Configuration;
-using Ezzygate.Infrastructure.Cryptography;
 
 namespace Ezzygate.Infrastructure.Configuration.Xml;
 
@@ -10,13 +9,12 @@ public static class XmlConfigurationExtensions
 
     public static IConfigurationBuilder AddXmlInfrastructureConfigurationSource(
         this IConfigurationBuilder builder,
-        string? basePath = null,
-        IConfigurationDecryptor? decryptor = null)
+        string? basePath = null)
     {
         var xmlConfigPath = ResolveConfigPath(XmlInfrastructureXmlConfigFile, basePath);
 
         if (File.Exists(xmlConfigPath))
-            return builder.AddXmlInfrastructureConfiguration(xmlConfigPath, decryptor);
+            return builder.AddXmlInfrastructureConfiguration(xmlConfigPath);
 
         throw new FileNotFoundException($"Infrastructure configuration file not found: {xmlConfigPath}");
     }
@@ -36,10 +34,9 @@ public static class XmlConfigurationExtensions
 
     private static IConfigurationBuilder AddXmlInfrastructureConfiguration(
         this IConfigurationBuilder builder,
-        string xmlConfigPath,
-        IConfigurationDecryptor? decryptor)
+        string xmlConfigPath)
     {
-        var appConfig = XmlConfigurationReader.ReadXmlConfiguration(xmlConfigPath, decryptor);
+        var appConfig = XmlConfigurationReader.ReadXmlConfiguration(xmlConfigPath);
         var configDict = ConvertToConfigurationDictionary(appConfig);
         builder.AddInMemoryCollection(configDict);
         return builder;

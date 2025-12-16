@@ -6,13 +6,10 @@ namespace Ezzygate.Infrastructure.Configuration.Xml;
 
 public static class XmlConfigurationReader
 {
-    public static ApplicationConfiguration ReadXmlConfiguration(string xmlFilePath,
-        IConfigurationDecryptor? decryptor = null)
+    public static ApplicationConfiguration ReadXmlConfiguration(string xmlFilePath)
     {
         if (!File.Exists(xmlFilePath))
             throw new FileNotFoundException($"XML configuration file not found: {xmlFilePath}", xmlFilePath);
-
-        decryptor ??= NullConfigurationDecryptor.Instance;
 
         var basePath = Path.GetDirectoryName(xmlFilePath) ?? string.Empty;
         var document = XDocument.Load(xmlFilePath);
@@ -27,7 +24,7 @@ public static class XmlConfigurationReader
 
         var domainsElement = root.Element("domains");
         if (domainsElement != null)
-            config.Domains = ParseDomains(domainsElement, basePath, decryptor).ToList();
+            config.Domains = ParseDomains(domainsElement, basePath).ToList();
 
         var scheduledTasksElement = root.Element("scheduledTasks");
         if (scheduledTasksElement != null)
@@ -68,8 +65,7 @@ public static class XmlConfigurationReader
         config.SecurityProtocols = GetString(parameters, "securityProtocols", "Tls11,Tls12");
     }
 
-    private static IEnumerable<DomainConfiguration> ParseDomains(XElement domainsElement, string basePath,
-        IConfigurationDecryptor decryptor)
+    private static IEnumerable<DomainConfiguration> ParseDomains(XElement domainsElement, string basePath)
     {
         foreach (var domainElement in domainsElement.Elements("domain"))
         {
@@ -84,23 +80,22 @@ public static class XmlConfigurationReader
                     var externalDoc = XDocument.Load(externalFilePath);
                     var externalRoot = externalDoc.Root;
                     if (externalRoot != null)
-                        ParseDomainParameters(externalRoot, domain, decryptor);
+                        ParseDomainParameters(externalRoot, domain);
                 }
             }
 
-            ParseDomainParameters(domainElement, domain, decryptor);
+            ParseDomainParameters(domainElement, domain);
 
             yield return domain;
         }
     }
 
-    private static void ParseDomainParameters(XElement element, DomainConfiguration domain,
-        IConfigurationDecryptor decryptor)
+    private static void ParseDomainParameters(XElement element, DomainConfiguration domain)
     {
         var parameterElements = element.Elements("parameter").ToList();
 
         var encryptionKeyNumber = 0;
-        var encryptionKeyElement = parameterElements.FirstOrDefault(p => 
+        var encryptionKeyElement = parameterElements.FirstOrDefault(p =>
             p.Attribute("key")?.Value.Equals("encryptionKeyNumber", StringComparison.OrdinalIgnoreCase) == true);
         if (encryptionKeyElement != null)
         {
@@ -114,7 +109,7 @@ public static class XmlConfigurationReader
 
         var parameters = parameterElements.ToDictionary(
             p => p.Attribute("key")?.Value ?? string.Empty,
-            p => GetParameterValue(p, encryptionKeyNumber, decryptor),
+            p => GetParameterValue(p, encryptionKeyNumber),
             StringComparer.OrdinalIgnoreCase);
 
         // Basic Information
@@ -358,23 +353,22 @@ public static class XmlConfigurationReader
         }
     }
 
-    private static string GetParameterValue(XElement paramElement,
-        int encryptionKeyNumber, IConfigurationDecryptor decryptor)
+    private static string GetParameterValue(XElement paramElement, int encryptionKeyNumber)
     {
         var value = paramElement.Attribute("value")?.Value ?? string.Empty;
         var isEncryptedValue = paramElement.Attribute("isEncrypted")?.Value;
 
         var isEncrypted = !string.IsNullOrEmpty(isEncryptedValue) &&
-                            (isEncryptedValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-                             isEncryptedValue.Equals("1", StringComparison.OrdinalIgnoreCase)) &&
-                            encryptionKeyNumber > 0;
+                          (isEncryptedValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+                           isEncryptedValue.Equals("1", StringComparison.OrdinalIgnoreCase)) &&
+                          encryptionKeyNumber > 0;
 
-        if (!isEncrypted || !decryptor.IsAvailable)
+        if (!isEncrypted || !CryptographyContext.IsInitialized)
             return value;
 
         try
         {
-            value = decryptor.DecryptHex(encryptionKeyNumber, value);
+            value = EncryptionUtils.DecryptHex(encryptionKeyNumber, value);
         }
         catch (Exception ex)
         {

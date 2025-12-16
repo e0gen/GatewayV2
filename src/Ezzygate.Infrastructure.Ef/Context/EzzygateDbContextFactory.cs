@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Ezzygate.Application.Configuration;
 using Ezzygate.Application.Interfaces;
 
 namespace Ezzygate.Infrastructure.Ef.Context;
