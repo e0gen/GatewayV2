@@ -53,7 +53,7 @@ public static class CryptographyContext
         }
     }
 
-    internal static void Reset()
+    public static void Reset()
     {
         lock (InitLock)
         {
