@@ -268,4 +268,50 @@ public class HashUtilsTests
             Assert.That(sha256, Is.Not.EqualTo(sha512));
         });
     }
+    
+    [Test]
+    public void GetHashKey_WithDefaultLength_ReturnsTenCharacters()
+    {
+        var result = HashUtils.GetHashKey();
+
+        Assert.That(result, Has.Length.EqualTo(10));
+    }
+    
+    [Test]
+    [TestCase(0)]
+    [TestCase(1)]
+    [TestCase(5)]
+    [TestCase(10)]
+    [TestCase(20)]
+    [TestCase(1000)]
+    public void GetHashKey_WithValidLength_ReturnsCorrectLength(int length)
+    {
+
+        var result = HashUtils.GetHashKey(length);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Has.Length.EqualTo(length));
+            Assert.That(result, Does.Match($"^[0-9A-Z]{{{length}}}$"));
+        });
+    }
+    
+    [Test]
+    public void GetHashKey_WithNegativeLength_ThrowsArgumentOutOfRangeException()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => HashUtils.GetHashKey(-1));
+    }
+    
+    [Test]
+    public void GetHashKey_GeneratesDifferentValues()
+    {
+        const int length = 20;
+        const int iterations = 10;
+        var results = new HashSet<string>();
+
+        for (var i = 0; i < iterations; i++)
+            results.Add(HashUtils.GetHashKey(length));
+
+        Assert.That(results, Has.Count.EqualTo(iterations));
+    }
 }

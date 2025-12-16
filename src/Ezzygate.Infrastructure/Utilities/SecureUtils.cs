@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Ezzygate.Infrastructure.Utilities;
 
 public static class SecureUtils
@@ -99,5 +101,47 @@ public static class SecureUtils
             addressSpan[..2].CopyTo(span);
             span[2..].Fill('*');
         });
+    }
+    
+    private const string EncryptionCodeWord = "blackhorse";
+    public static string? DecodeCvv(string? cvv)
+    {
+        if (cvv == null) return null;
+        if (cvv.Length <= 3) return string.Empty;
+
+        var result = new StringBuilder();
+        for (var cvvIdx = 3; cvvIdx < cvv.Length; cvvIdx++)
+        {
+            var currentChar = cvv[cvvIdx];
+            var codeWordIdx = EncryptionCodeWord.IndexOf(currentChar);
+            if (codeWordIdx >= 0)
+                result.Append(codeWordIdx);
+        }
+
+        return result.ToString();
+    }
+    public static string? EncodeCvv(string? cvv)
+    {
+        if (cvv == null) return null;
+
+        var random = new Random();
+        var paddedCvv = new StringBuilder();
+
+        for (var i = 0; i < 3; i++)
+            paddedCvv.Append(random.Next(10));
+
+        paddedCvv.Append(cvv);
+
+        var encoded = new StringBuilder();
+        for (var i = 0; i < paddedCvv.Length; i++)
+        {
+            var c = paddedCvv[i];
+            if (c is < '0' or > '9')
+                continue;
+            var digit = c - '0';
+            encoded.Append(EncryptionCodeWord[digit]);
+        }
+
+        return encoded.ToString();
     }
 }

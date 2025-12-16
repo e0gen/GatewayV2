@@ -480,4 +480,142 @@ public class SecureUtilsTest
         Assert.That(maskedName.Length, Is.EqualTo(largeName.Length));
         Assert.That(maskedAddress.Length, Is.EqualTo(largeAddress.Length));
     }
+
+    [Test]
+    public void EncodeCvv_WithNull_ReturnsNull()
+    {
+        var result = SecureUtils.EncodeCvv(null);
+        Assert.That(result, Is.Null);
+    }
+
+    [Test]
+    public void DecodeCvv_WithNull_ReturnsNull()
+    {
+        var result = SecureUtils.DecodeCvv(null);
+        Assert.That(result, Is.Null);
+    }
+
+    [TestCase("123")]
+    [TestCase("456")]
+    [TestCase("789")]
+    public void EncodeCvv_WithValidCvv_ReturnsEncodedStringWithCorrectLength(string cvv)
+    {
+        var encoded = SecureUtils.EncodeCvv(cvv);
+
+        Assert.That(encoded, Is.Not.Null);
+        Assert.That(encoded.Length, Is.EqualTo(6));
+    }
+
+    [Test]
+    public void DecodeCvv_WithEmptyString_ReturnsEmpty()
+    {
+        var result = SecureUtils.DecodeCvv("");
+        Assert.That(result, Is.EqualTo(string.Empty));
+    }
+
+    [TestCase("a")]
+    [TestCase("ab")]
+    [TestCase("abc")]
+    public void DecodeCvv_WithLengthThreeOrLess_ReturnsEmpty(string input)
+    {
+        var result = SecureUtils.DecodeCvv(input);
+        Assert.That(result, Is.EqualTo(string.Empty));
+    }
+
+    [Test]
+    public void DecodeCvv_SkipsFirstThreeCharacters()
+    {
+        var encoded = SecureUtils.EncodeCvv("123");
+        var decoded = SecureUtils.DecodeCvv(encoded);
+
+        Assert.That(decoded, Is.EqualTo("123"));
+    }
+
+    [Test]
+    public void EncodeCvv_WithNonNumericCharacters_SkipsThem()
+    {
+        var encoded = SecureUtils.EncodeCvv("1a2b3");
+        var decoded = SecureUtils.DecodeCvv(encoded);
+
+        Assert.That(decoded, Is.EqualTo("123"));
+    }
+
+    [Test]
+    public void EncodeAndDecode_RoundTrip_ReturnsOriginalCvv()
+    {
+        var original = "123";
+        var encoded = SecureUtils.EncodeCvv(original);
+        var decoded = SecureUtils.DecodeCvv(encoded);
+
+        Assert.That(decoded, Is.EqualTo(original));
+    }
+
+    [TestCase("456")]
+    [TestCase("789")]
+    [TestCase("000")]
+    [TestCase("999")]
+    [TestCase("1234")]
+    public void EncodeAndDecode_RoundTrip_WithVariousCvvs(string original)
+    {
+        var encoded = SecureUtils.EncodeCvv(original);
+        var decoded = SecureUtils.DecodeCvv(encoded);
+
+        Assert.That(decoded, Is.EqualTo(original));
+    }
+
+    [Test]
+    public void EncodeCvv_AddsPaddingCharacters()
+    {
+        var encoded1 = SecureUtils.EncodeCvv("123");
+        var encoded2 = SecureUtils.EncodeCvv("123");
+
+        Assert.That(encoded1, Is.Not.Null);
+        Assert.That(encoded2, Is.Not.Null);
+        Assert.That(encoded1.Substring(3), Is.EqualTo(encoded2.Substring(3)));
+    }
+
+    [Test]
+    public void EncodeCvv_WithFourDigitCvv_EncodesCorrectly()
+    {
+        var encoded = SecureUtils.EncodeCvv("1234");
+
+        Assert.That(encoded, Is.Not.Null);
+        Assert.That(encoded.Length, Is.EqualTo(7));
+    }
+
+    [Test]
+    public void EncodeCvv_ReturnsOnlyLetters()
+    {
+        var encoded = SecureUtils.EncodeCvv("123");
+
+        Assert.That(encoded, Is.Not.Null);
+        Assert.That(encoded.All(char.IsLetter), Is.True);
+    }
+
+    [Test]
+    public void DecodeCvv_ReturnsOnlyDigits()
+    {
+        var encoded = SecureUtils.EncodeCvv("456");
+        var decoded = SecureUtils.DecodeCvv(encoded);
+
+        Assert.That(decoded!.All(char.IsDigit), Is.True);
+    }
+
+    [Test]
+    public void EncodeCvv_WithEmptyString_ReturnsThreeCharacters()
+    {
+        var encoded = SecureUtils.EncodeCvv("");
+
+        Assert.That(encoded, Is.Not.Null);
+        Assert.That(encoded.Length, Is.EqualTo(3));
+    }
+
+    [Test]
+    public void DecodeCvv_WithOnlyPadding_ReturnsEmpty()
+    {
+        var encoded = SecureUtils.EncodeCvv("");
+        var decoded = SecureUtils.DecodeCvv(encoded);
+
+        Assert.That(decoded, Is.EqualTo(string.Empty));
+    }
 }
