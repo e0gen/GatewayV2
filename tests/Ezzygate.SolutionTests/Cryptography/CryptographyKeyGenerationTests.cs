@@ -97,7 +97,6 @@ public class CryptographyKeyGenerationTests
     [Explicit("Manual test for generating cross-platform symmetric key")]
     public void GenerateCrossPlatformSymmetricKey_CreatesKeyFile()
     {
-        var crossPlatformKeyStore = Path.Combine(_testKeysPath, ".cryptkeys");
         var factory = new CrossPlatformCryptographyProviderFactory();
         var config = new CryptographyConfiguration
         {
@@ -105,7 +104,7 @@ public class CryptographyKeyGenerationTests
         };
         CryptographyContext.Initialize(factory, config);
 
-        const int keyNumber = 998; // Use a unique key number for testing
+        const int keyNumber = 998;
         var keyFilePath = Path.Combine(_testKeysPath, $"{keyNumber}.key");
 
         using var key = new SymEncryptionKey();

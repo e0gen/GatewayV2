@@ -65,8 +65,8 @@ public class XmlConfigurationExtensionsTests
             Assert.That(config.EnableEmail, Is.True);
             Assert.That(config.SmtpHost, Is.EqualTo("localhost"));
             Assert.That(config.SmtpPort, Is.EqualTo(25));
-            Assert.That(config.SmtpUserName, Is.EqualTo("testuser"));
-            Assert.That(config.SmtpPassword, Is.EqualTo("testpass"));
+            Assert.That(config.SmtpUserName, Is.EqualTo("test-user"));
+            Assert.That(config.SmtpPassword, Is.EqualTo("test-pass"));
             Assert.That(config.MailAddressFrom, Is.EqualTo("test@netpay-intl.com"));
             Assert.That(config.MaxImmediateReportSize, Is.EqualTo(10));
             Assert.That(config.MaxFiledReportSize, Is.EqualTo(10000));

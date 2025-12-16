@@ -1,5 +1,8 @@
+using System.Runtime.Versioning;
 using Ezzygate.Application.Configuration;
 using Ezzygate.Infrastructure.Configuration.Xml;
+using Ezzygate.Infrastructure.Cryptography;
+using Ezzygate.Infrastructure.Win32.Cryptography.Providers;
 
 namespace Ezzygate.Infrastructure.Tests.Configuration.Xml;
 
@@ -45,7 +48,7 @@ public class XmlConfigurationReaderTests
             Assert.That(config.EnableEmail, Is.True);
             Assert.That(config.SmtpHost, Is.EqualTo("localhost"));
             Assert.That(config.SmtpPort, Is.EqualTo(25));
-            Assert.That(config.SmtpUserName, Is.EqualTo("testuser"));
+            Assert.That(config.SmtpUserName, Is.EqualTo("test-user"));
             Assert.That(config.MailAddressFrom, Is.EqualTo("test@netpay-intl.com"));
             Assert.That(config.MaxImmediateReportSize, Is.EqualTo(10));
             Assert.That(config.MaxFiledReportSize, Is.EqualTo(10000));
@@ -140,7 +143,7 @@ public class XmlConfigurationReaderTests
         {
             Assert.That(domain.ShortCode, Is.EqualTo("TEST"));
             Assert.That(domain.BrandName, Is.EqualTo("TestBrand"));
-            Assert.That(domain.EncryptionKeyNumber, Is.EqualTo(5));
+            Assert.That(domain.EncryptionKeyNumber, Is.EqualTo(999));
         });
     }
 
@@ -153,7 +156,7 @@ public class XmlConfigurationReaderTests
         Assert.Multiple(() =>
         {
             Assert.That(domain.Sql1ConnectionString, Is.EqualTo("Data Source=EnvTestServer;Initial Catalog=EnvTestDB"));
-            Assert.That(domain.Sql2ConnectionString, Is.EqualTo("Data Source=EnvTestServer;Initial Catalog=EnvTestDB2"));
+            Assert.That(domain.Sql2ConnectionString, Is.EqualTo("C70F0CF5C4E6985AB8696662BEC22F5C8B64405815667061BADEC72E628531F851776A55B8EA686280CBA60EE9E150C6AF0A25E88A4D3114DDD8986AD4ACA825"));
         });
     }
 
@@ -251,5 +254,43 @@ public class XmlConfigurationReaderTests
             Assert.That(domain.ThemeFolder, Is.EqualTo("Tmp_MissingEnv"));
             Assert.That(domain.ShortCode, Is.Empty.Or.Null);
         });
+    }
+
+    [Test]
+    [SupportedOSPlatform("windows")]
+    public void ReadXmlConfiguration_EncryptedValueWithWindowsProvider_DecryptsCorrectly()
+    {
+        var testKeysPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "TestKeys");
+
+        if (!Directory.Exists(testKeysPath))
+            Directory.CreateDirectory(testKeysPath);
+
+        var factory = new WindowsCryptographyProviderFactory();
+        var cryptoConfig = new CryptographyConfiguration
+        {
+            DefaultKeyStore = testKeysPath
+        };
+
+        CryptographyContext.Reset();
+        CryptographyContext.Initialize(factory, cryptoConfig);
+
+        try
+        {
+            var config = XmlConfigurationReader.ReadXmlConfiguration(_testConfigPath);
+            var domain = config.Domains.Single(x => x.Host == "TestDomain");
+
+            const string expectedDecryptedValue = "Data Source=EnvTestServer;Initial Catalog=EnvTestDB2";
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(domain.EncryptionKeyNumber, Is.EqualTo(999));
+                Assert.That(domain.Sql2ConnectionString, Is.EqualTo(expectedDecryptedValue));
+            });
+        }
+        finally
+        {
+            SymEncryption.ClearKeyCache();
+            CryptographyContext.Reset();
+        }
     }
 }
