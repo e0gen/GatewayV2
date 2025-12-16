@@ -36,4 +36,19 @@ public static class HashUtils
         var hashBytes = hmac.ComputeHash(contentBytes);
         return Convert.ToBase64String(hashBytes);
     }
+
+    public static string GetHashKey(int length = 10)
+    {
+        const string chars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var random = new Random((int)DateTime.Now.Ticks);
+        var result = new StringBuilder(length);
+
+        for (var i = 0; i < length; i++)
+        {
+            var index = random.Next(1, chars.Length);
+            result.Append(chars[index]);
+        }
+
+        return result.ToString();
+    }
 } 

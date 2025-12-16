@@ -9,8 +9,8 @@
 		<parameter key="enableEmail" value="true"/>
 		<parameter key="smtpHost" value="localhost"/>
 		<parameter key="smtpPort" value="25"/>
-		<parameter key="smtpUserName" value="testuser"/>
-		<parameter key="smtpPassword" value="testpass"/>
+		<parameter key="smtpUserName" value="test-user"/>
+		<parameter key="smtpPassword" value="test-pass"/>
 		<parameter key="mailAddressFrom" value="test@netpay-intl.com"/>
 		<parameter key="maxImmediateReportSize" value="10"/>
 		<parameter key="maxFiledReportSize" value="10000"/>

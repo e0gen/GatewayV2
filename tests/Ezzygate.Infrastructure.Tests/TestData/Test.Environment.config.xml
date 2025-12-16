@@ -4,7 +4,7 @@
 	<parameter key="shortCode" value="TEST"/>
 	<parameter key="brandName" value="TestBrand"/>
 	<parameter key="legalName" value="Test Environment Legal Name"/>
-	<parameter key="encryptionKeyNumber" value="5"/>
+	<parameter key="encryptionKeyNumber" value="999"/>
 	<parameter key="forceSSL" value="true"/>
 	<parameter key="themeFolder" value="Tmp_TestEnv"/>
 	<parameter key="isHebrewVisible" value="true"/>
@@ -22,7 +22,7 @@
 	<parameter key="WebApiUrl" value="https://api.test-env.local/"/>
 	
 	<parameter key="sql1ConnectionString" isEncrypted="false" value="Data Source=EnvTestServer;Initial Catalog=EnvTestDB"/>
-	<parameter key="sql2ConnectionString" isEncrypted="false" value="Data Source=EnvTestServer;Initial Catalog=EnvTestDB2"/>
+	<parameter key="sql2ConnectionString" isEncrypted="true" value="C70F0CF5C4E6985AB8696662BEC22F5C8B64405815667061BADEC72E628531F851776A55B8EA686280CBA60EE9E150C6AF0A25E88A4D3114DDD8986AD4ACA825"/>
 	
 	<parameter key="DataPath" value="F:\TestEnv\Files\" />
 	<parameter key="commonPhisicalPath" value="F:\TestEnv\CommonFiles\"/>

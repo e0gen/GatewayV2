@@ -33,7 +33,8 @@ public static class XmlConfigurationExtensions
     }
 
     private static IConfigurationBuilder AddXmlInfrastructureConfiguration(
-        this IConfigurationBuilder builder, string xmlConfigPath)
+        this IConfigurationBuilder builder,
+        string xmlConfigPath)
     {
         var appConfig = XmlConfigurationReader.ReadXmlConfiguration(xmlConfigPath);
         var configDict = ConvertToConfigurationDictionary(appConfig);
