@@ -1,5 +1,6 @@
+using Ezzygate.Infrastructure.Cryptography;
 
-namespace Ezzygate.Infrastructure.Cryptography;
+namespace Ezzygate.Infrastructure.Utilities;
 
 public static class EncryptionUtils
 {

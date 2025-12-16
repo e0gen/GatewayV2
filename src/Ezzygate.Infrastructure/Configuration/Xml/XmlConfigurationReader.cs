@@ -1,6 +1,7 @@
 using System.Xml.Linq;
 using Ezzygate.Application.Configuration;
 using Ezzygate.Infrastructure.Cryptography;
+using Ezzygate.Infrastructure.Utilities;
 
 namespace Ezzygate.Infrastructure.Configuration.Xml;
 
@@ -370,7 +371,7 @@ public static class XmlConfigurationReader
         {
             value = EncryptionUtils.DecryptHex(encryptionKeyNumber, value);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             throw new InvalidOperationException($"Failed to decrypt parameter '{paramElement.Attribute("key")?.Value}' with key {encryptionKeyNumber}. ");
         }

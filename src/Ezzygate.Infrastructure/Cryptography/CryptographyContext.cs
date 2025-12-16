@@ -1,3 +1,4 @@
+using Ezzygate.Infrastructure.Cryptography.Exceptions;
 using Ezzygate.Infrastructure.Cryptography.Interfaces;
 using Ezzygate.Infrastructure.FileSystem;
 
@@ -13,22 +14,21 @@ public static class CryptographyContext
     private static readonly Lock InitLock = new();
 
     public static bool IsInitialized { get; private set; }
-    private const string? UnInitializedMessage = "CryptographyContext has not been initialized.";
 
     public static ICryptographyProviderFactory ProviderFactory =>
-        _providerFactory ?? throw new InvalidOperationException(UnInitializedMessage);
+        _providerFactory ?? throw new CryptographyContextException();
 
     public static CryptographyConfiguration Config =>
-        _config ?? throw new InvalidOperationException(UnInitializedMessage);
+        _config ?? throw new CryptographyContextException();
 
     public static IDataProtectionProvider DataProtection =>
-        _dataProtection ?? throw new InvalidOperationException(UnInitializedMessage);
+        _dataProtection ?? throw new CryptographyContextException();
 
     public static IStorageProvider Storage =>
-        _storage ?? throw new InvalidOperationException(UnInitializedMessage);
+        _storage ?? throw new CryptographyContextException();
 
     public static IFileSystemProvider FileSystem =>
-        _fileSystem ?? throw new InvalidOperationException(UnInitializedMessage);
+        _fileSystem ?? throw new CryptographyContextException();
 
     public static void Initialize(
         ICryptographyProviderFactory providerFactory,

@@ -1,6 +1,7 @@
 using System.Runtime.Versioning;
 using Ezzygate.Infrastructure.Cryptography;
 using Ezzygate.Infrastructure.Cryptography.Providers;
+using Ezzygate.Infrastructure.Utilities;
 using Ezzygate.Infrastructure.Win32.Cryptography.Providers;
 
 namespace Ezzygate.SolutionTests.Cryptography;
