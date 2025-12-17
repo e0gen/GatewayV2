@@ -66,9 +66,9 @@ public static class ServiceCollectionExtensions
     private static void AddDistributedLockService(this IServiceCollection services, IHostEnvironment environment)
     {
         if (environment.IsDevelopment())
-            services.AddSingleton<IDistributedLockService, MySqlDistributedLockService>();
+            services.AddScoped<IDistributedLockService, MySqlDistributedLockService>();
         else
-            services.AddSingleton<IDistributedLockService, SqlServerDistributedLockService>();
+            services.AddScoped<IDistributedLockService, SqlServerDistributedLockService>();
     }
 
     public static IServiceCollection AddDelayedTaskScheduler(this IServiceCollection services)

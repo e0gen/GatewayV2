@@ -371,9 +371,9 @@ public static class XmlConfigurationReader
         {
             value = EncryptionUtils.DecryptHex(encryptionKeyNumber, value);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            throw new InvalidOperationException($"Failed to decrypt parameter '{paramElement.Attribute("key")?.Value}' with key {encryptionKeyNumber}. ");
+            throw new InvalidOperationException($"Failed to decrypt parameter '{paramElement.Attribute("key")?.Value}' with key {encryptionKeyNumber}. ", ex);
         }
 
         return value;

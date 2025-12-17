@@ -553,7 +553,7 @@ public class SymEncryptionKey : IDisposable
         crypt.Padding = PaddingMode.PKCS7;
 
         using var dk = new Rfc2898DeriveBytes(
-            password, [0, 0, 0, 0, 0, 0, 0, 0], 1000, HashAlgorithmName.SHA256);
+            password, [0, 0, 0, 0, 0, 0, 0, 0], 1000, HashAlgorithmName.SHA1);
 
         crypt.Key = dk.GetBytes(crypt.KeySize / 8);
         crypt.IV = dk.GetBytes(crypt.BlockSize / 8);
