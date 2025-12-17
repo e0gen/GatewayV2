@@ -77,6 +77,7 @@ public sealed class DomainConfiguration
     public string WalletUrl { get; set; } = string.Empty;
     public string WebServicesUrl { get; set; } = string.Empty;
     public string WebApiUrl { get; set; } = string.Empty;
+    public string WebApiV2Url { get; set; } = string.Empty;
     public string PartnersUrl { get; set; } = string.Empty;
     public string ShopUrl { get; set; } = string.Empty;
     public string MiniVTUrl { get; set; } = string.Empty;

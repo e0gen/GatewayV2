@@ -29,7 +29,7 @@ public class LegacyPaymentService : ILegacyPaymentService
     public async Task<LegacyPaymentResult> ProcessAsync(LegacyProcessRequest request, CancellationToken cancellationToken = default)
     {
         var url = new StringBuilder();
-        url.Append(_domainConfiguration.ProcessUrl);
+        url.Append(_domainConfiguration.ProcessV2Url);
         url.Append($"remote_charge.asp?CompanyNum={request.MerchantNumber}");
         url.Append($"&CVV2={request.CreditCard?.Cvv}");
         url.Append($"&CardNum={request.CreditCard?.Number}");
@@ -78,7 +78,7 @@ public class LegacyPaymentService : ILegacyPaymentService
 
     public async Task<LegacyPaymentResult> RefundAsync(LegacyRefundRequest request, CancellationToken cancellationToken = default)
     {
-        var url = $"{_domainConfiguration.ProcessUrl}remote_charge.asp" +
+        var url = $"{_domainConfiguration.ProcessV2Url}remote_charge.asp" +
                   $"?CompanyNum={request.MerchantNumber}" +
                   $"&requestSource={TrxSource}" +
                   $"&Amount={request.Amount}" +
@@ -92,7 +92,7 @@ public class LegacyPaymentService : ILegacyPaymentService
 
     public async Task<LegacyPaymentResult> VoidAsync(LegacyVoidRequest request, CancellationToken cancellationToken = default)
     {
-        var url = $"{_domainConfiguration.ProcessUrl}remote_charge.asp" +
+        var url = $"{_domainConfiguration.ProcessV2Url}remote_charge.asp" +
                   $"?CompanyNum={request.MerchantNumber}" +
                   $"&requestSource={TrxSource}" +
                   $"&Currency={request.CurrencyIso.ToUpper()}" +
@@ -105,7 +105,7 @@ public class LegacyPaymentService : ILegacyPaymentService
 
     public async Task<LegacyPaymentResult> CaptureAsync(LegacyCaptureRequest request, CancellationToken cancellationToken = default)
     {
-        var url = $"{_domainConfiguration.ProcessUrl}remote_charge.asp" +
+        var url = $"{_domainConfiguration.ProcessV2Url}remote_charge.asp" +
                   $"?CompanyNum={request.MerchantNumber}" +
                   $"&requestSource={TrxSource}" +
                   $"&Currency={request.CurrencyIso.ToUpper()}" +

@@ -177,21 +177,21 @@ public class TransactionContext
 
     public string GetCallbackUrl(string? integrationEndpoint)
     {
-        var callbackUrl = $"https://{_domainConfiguration.WebApiUrl}/apps/callback/{integrationEndpoint}";
+        var callbackUrl = $"https://{_domainConfiguration.WebApiV2Url}/apps/callback/{integrationEndpoint}";
         return callbackUrl;
     }
     public string GetMerchantUrl() => _domainConfiguration.MerchantUrl;
 
     public string Get3dsAuthUrl(string approveUrl, string declineUrl)
     {
-        var baseUrl = _domainConfiguration.ProcessUrl;
+        var baseUrl = _domainConfiguration.ProcessV2Url;
         const string fileName = "remoteCharge_ccDebitGeneric3DSAuth.asp";
         var finalizeUrl = $"{baseUrl}{fileName}?approveUrl={approveUrl.ToEncodedUrl()}&declineUrl={declineUrl.ToEncodedUrl()}";
         return finalizeUrl;
     }
     public string GetCollectUrl(string actionUrl, string? integrationTag = null)
     {
-        var baseUrl = _domainConfiguration.ProcessUrl;
+        var baseUrl = _domainConfiguration.ProcessV2Url;
         const string fileName = "remoteCharge_ccDebitGenericCollect.asp";
         integrationTag ??= "direct";
         var finalizeUrl = $"{baseUrl}{fileName}?action={actionUrl.ToEncodedUrl()}&integration={integrationTag}";
@@ -200,7 +200,7 @@ public class TransactionContext
 
     public string GetFinalizeUrl(FinalizeUrlType urlType, string? baseUrl = null, string? fileName = null)
     {
-        baseUrl ??= _domainConfiguration.ProcessUrl;
+        baseUrl ??= _domainConfiguration.ProcessV2Url;
         fileName ??= "remoteCharge_ccDebitGenericFinalize.asp";
         var signature = (urlType + DebitRefCode + ChargeAttemptLogId + SignatureKey).ToSha256();
         var finalizeUrl =

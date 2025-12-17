@@ -235,6 +235,8 @@ public static class XmlConfigurationReader
             domain.WebServicesUrl = webServicesUrl;
         if (parameters.TryGetValue("WebApiUrl", out var webApiUrl))
             domain.WebApiUrl = webApiUrl;
+        if (parameters.TryGetValue("WebApiV2Url", out var webApiV2Url))
+            domain.WebApiV2Url = webApiV2Url;
         if (parameters.TryGetValue("partnersUrl", out var partnersUrl))
             domain.PartnersUrl = partnersUrl;
         if (parameters.TryGetValue("shopUrl", out var shopUrl))

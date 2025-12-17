@@ -175,6 +175,7 @@ public static class XmlConfigurationExtensions
         dict[$"{section}:WalletUrl"] = domain.WalletUrl;
         dict[$"{section}:WebServicesUrl"] = domain.WebServicesUrl;
         dict[$"{section}:WebApiUrl"] = domain.WebApiUrl;
+        dict[$"{section}:WebApiV2Url"] = domain.WebApiV2Url;
         dict[$"{section}:PartnersUrl"] = domain.PartnersUrl;
         dict[$"{section}:ShopUrl"] = domain.ShopUrl;
         dict[$"{section}:MiniVTUrl"] = domain.MiniVTUrl;
