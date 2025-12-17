@@ -25,15 +25,15 @@ public class ChargeAttemptUpdate
         return this;
     }
 
-    public ChargeAttemptUpdate SetInnerRequest(string request)
+    public ChargeAttemptUpdate SetInnerRequest(string? request)
     {
-        InnerRequest = request;
+        InnerRequest = request ?? InnerRequest;
         return this;
     }
 
-    public ChargeAttemptUpdate SetInnerResponse(string response)
+    public ChargeAttemptUpdate SetInnerResponse(string? response)
     {
-        InnerResponse = response;
+        InnerResponse = response ?? InnerResponse;
         return this;
     }
 
