@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Ezzygate.Infrastructure.Logging;
 using Ezzygate.Integrations.Paysafe;
@@ -8,6 +9,7 @@ namespace Ezzygate.WebApi.Controllers.Apps;
 
 [ApiController]
 [Route("api/apps/[controller]")]
+[ApiVersionNeutral]
 public class CallbackController : ControllerBase
 {
     private readonly ILogger<CallbackController> _logger;

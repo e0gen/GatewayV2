@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Ezzygate.Domain.Models;
@@ -15,6 +16,8 @@ namespace Ezzygate.WebApi.Controllers.Merchants;
 
 [ApiController]
 [Route("api/merchants/[controller]")]
+[ApiVersion("3.0")]
+[ApiVersion("4.0")]
 public class CreditcardController : ControllerBase
 {
     private readonly ILogger<CreditcardController> _logger;
