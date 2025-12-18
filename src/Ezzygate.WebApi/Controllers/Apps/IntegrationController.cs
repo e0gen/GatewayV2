@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.Infrastructure.Logging;
@@ -12,6 +13,7 @@ namespace Ezzygate.WebApi.Controllers.Apps;
 
 [ApiController]
 [Route("api/apps/[controller]")]
+[ApiVersionNeutral]
 public class IntegrationController : ControllerBase
 {
     private readonly ILogger<IntegrationController> _logger;
@@ -63,7 +65,7 @@ public class IntegrationController : ControllerBase
         return result.Code == "520" ? StatusCode(520, result) : Ok(result);
     }
 
-    [HttpPost]
+    [HttpPost("Ph3A")]
     [IntegrationSecurityFilter]
     public async Task<Response> Ph3ARequest(Ph3ARequestDto request)
     {
