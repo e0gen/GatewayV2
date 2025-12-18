@@ -15,7 +15,7 @@ builder.Host.UseSerilog();
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerWithVersioning();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddCors(options =>
 {
@@ -59,11 +59,9 @@ var loggerConfig = new LoggerConfiguration()
 
 Log.Logger = loggerConfig.CreateLogger();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwaggerWithVersioning();
+
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 app.UseCors();
