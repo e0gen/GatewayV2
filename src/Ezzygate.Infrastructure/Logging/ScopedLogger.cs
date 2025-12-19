@@ -58,13 +58,13 @@ namespace Ezzygate.Infrastructure.Logging
         {
             switch (_severity)
             {
-                case LogSeverity.Warning: _logger.Warn(_logTag, GetShortMessage(), GetLongMessage());
+                case LogSeverity.Warning: _logger.WarnExtra(_logTag, GetLongMessage(), GetShortMessage());
                     break;
-                case LogSeverity.Error: _logger.Error(_logTag, GetShortMessage(), GetLongMessage());
+                case LogSeverity.Error: _logger.ErrorExtra(_logTag, GetLongMessage(), GetShortMessage());
                     break;
                 case LogSeverity.Info:
                 default: 
-                    _logger.Info(_logTag, GetShortMessage(), GetLongMessage());
+                    _logger.InfoExtra(_logTag, GetLongMessage(), GetShortMessage());
                     break;
             }
         }
