@@ -19,7 +19,7 @@ public sealed class NotificationClient : INotificationClient
 
     public async Task<NotificationResult> SendNotificationAsync(NotificationData data)
     {
-        using var logger = _logger.GetScoped(LogTag.WebApiV2, "Notification sent");
+        using var logger = _logger.GetScoped(LogTag.WebApi, "Notification sent");
         try
         {
             var hashData = $"{data.ReplyCode}{data.TrxNum}{data.Order}{data.Amount:0.00}{data.Currency}{data.MerchantHashCode}";

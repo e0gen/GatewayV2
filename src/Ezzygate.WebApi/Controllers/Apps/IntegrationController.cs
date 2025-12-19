@@ -79,7 +79,7 @@ public class IntegrationController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.Error(LogTag.WebApiV2, ex, $"{nameof(Ph3ARequest)} exception");
+            _logger.Error(LogTag.WebApi, ex, $"{nameof(Ph3ARequest)} exception");
             return new Response(ResultEnum.Success, new { code = "000" });
         }
     }

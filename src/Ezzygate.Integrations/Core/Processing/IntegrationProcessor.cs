@@ -107,7 +107,7 @@ public sealed class IntegrationProcessor : IIntegrationProcessor
         }
         catch (Exception ex)
         {
-            _logger.Error(LogTag.WebApiV2, ex, "Process exception: OpType={OperationType}", request.OperationType);
+            _logger.Error(LogTag.WebApi, ex, "Process exception: OpType={OperationType}", request.OperationType);
             return new IntegrationResult
             {
                 Code = "520",

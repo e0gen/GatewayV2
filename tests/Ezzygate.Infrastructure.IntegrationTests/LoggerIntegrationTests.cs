@@ -68,7 +68,7 @@ public class LoggerIntegrationTests : IDisposable
     {
         var testMessage = "Test info log {value}";
 
-        _logger.Info(LogTag.WebApiV2, testMessage, 123);
+        _logger.Info(LogTag.WebApi, testMessage, 123);
     }
 
     [Test]
@@ -76,7 +76,7 @@ public class LoggerIntegrationTests : IDisposable
     {
         var testMessage = "Test info log {value}";
 
-        _logger.InfoExtra(LogTag.WebApiV2, "Additional info", testMessage, 123);
+        _logger.InfoExtra(LogTag.WebApi, "Additional info", testMessage, 123);
     }
 
     [Test]

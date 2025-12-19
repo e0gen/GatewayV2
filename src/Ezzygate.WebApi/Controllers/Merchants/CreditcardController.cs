@@ -74,7 +74,7 @@ public class CreditcardController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.Error(LogTag.WebApiV2, ex, "Failed to decrypt ProcessEncrypted request");
+            _logger.Error(LogTag.WebApi, ex, "Failed to decrypt ProcessEncrypted request");
             return new Response(ResultEnum.InvalidRequest, "Failed to decrypt request data");
         }
 
