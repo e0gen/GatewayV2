@@ -77,8 +77,7 @@ public class MerchantSecurityFilterAttribute : FilterBase
             await requestIdRepository.MarkRequestIdAsUsedAsync(clientRequestId);
 
             var content = await context.HttpContext.Request.ReadBodyAsStringAsync();
-            var hashKey = merchant.Account?.HashKey ?? merchant.HashKey ?? "defaultHashKey";
-            var serverSignature = HashUtils.ComputeSha256Hash(content + clientRequestId + hashKey);
+            var serverSignature = HashUtils.ComputeSha256Hash(content + clientRequestId + merchant.HashKey);
             if (clientSignature != serverSignature)
             {
                 context.Result = new BadRequestObjectResult(new Response(ResultEnum.SignatureMismatch));

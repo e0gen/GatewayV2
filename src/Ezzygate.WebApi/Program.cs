@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Asp.Versioning;
 using Ezzygate.Application;
 using Ezzygate.Infrastructure.Configuration.Xml;
@@ -12,7 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog();
 
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(options => { options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerWithVersioning();
