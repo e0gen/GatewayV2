@@ -8,13 +8,13 @@ public static class HashUtils
     public static string ComputeSha256Hash(string input)
     {
         var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(input));
-        return Convert.ToHexString(bytes).ToLower();
+        return Convert.ToBase64String(bytes);
     }
     
     public static string ComputeSha512Hash(string input)
     {
         var bytes = SHA512.HashData(Encoding.UTF8.GetBytes(input));
-        return Convert.ToHexString(bytes).ToLower();
+        return Convert.ToBase64String(bytes);
     }
     
     public static string ComputeHmacSha256(string content, string key)

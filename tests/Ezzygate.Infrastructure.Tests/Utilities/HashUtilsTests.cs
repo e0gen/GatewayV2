@@ -14,8 +14,8 @@ public class HashUtilsTests
         Assert.Multiple(() =>
         {
             Assert.That(hash, Is.Not.Null);
-            Assert.That(hash, Has.Length.EqualTo(64));
-            Assert.That(hash, Is.EqualTo(hash.ToLower()));
+            Assert.That(hash, Has.Length.EqualTo(44));
+            Assert.That(hash, Does.Match("^[A-Za-z0-9+/]+={0,2}$"));
         });
     }
 
@@ -35,7 +35,7 @@ public class HashUtilsTests
             Assert.Multiple(() =>
             {
                 Assert.That(hash1, Is.EqualTo(hash2));
-                Assert.That(hash1, Has.Length.EqualTo(64));
+                Assert.That(hash1, Has.Length.EqualTo(44));
             });
         }
     }
@@ -47,15 +47,16 @@ public class HashUtilsTests
     }
 
     [Test]
-    public void ComputeSha256Hash_OutputIsLowercaseHex()
+    public void ComputeSha256Hash_OutputIsValidBase64()
     {
         const string input = "Test Input";
         var hash = HashUtils.ComputeSha256Hash(input);
 
         Assert.Multiple(() =>
         {
-            Assert.That(hash, Is.EqualTo(hash.ToLower()));
-            Assert.That(hash, Does.Match("^[0-9a-f]{64}$"));
+            Assert.That(hash, Does.Match("^[A-Za-z0-9+/]+={0,2}$"));
+            var bytes = Convert.FromBase64String(hash);
+            Assert.That(bytes, Has.Length.EqualTo(32));
         });
     }
 
@@ -68,8 +69,8 @@ public class HashUtilsTests
         Assert.Multiple(() =>
         {
             Assert.That(hash, Is.Not.Null);
-            Assert.That(hash, Has.Length.EqualTo(128));
-            Assert.That(hash, Is.EqualTo(hash.ToLower()));
+            Assert.That(hash, Has.Length.EqualTo(88));
+            Assert.That(hash, Does.Match("^[A-Za-z0-9+/]+={0,2}$"));
         });
     }
 
@@ -89,7 +90,7 @@ public class HashUtilsTests
             Assert.Multiple(() =>
             {
                 Assert.That(hash1, Is.EqualTo(hash2));
-                Assert.That(hash1, Has.Length.EqualTo(128));
+                Assert.That(hash1, Has.Length.EqualTo(88));
             });
         }
     }
@@ -101,16 +102,16 @@ public class HashUtilsTests
     }
 
     [Test]
-    public void ComputeSha512Hash_OutputIsLowercaseHex()
+    public void ComputeSha512Hash_OutputIsValidBase64()
     {
         const string input = "Test Input";
         var hash = HashUtils.ComputeSha512Hash(input);
 
         Assert.Multiple(() =>
         {
-            Assert.That(hash, Is.EqualTo(hash.ToLower()));
-            Assert.That(hash, Does.Match("^[0-9a-f]{128}$"),
-                "Hash should be 128 lowercase hexadecimal characters");
+            Assert.That(hash, Does.Match("^[A-Za-z0-9+/]+={0,2}$"));
+            var bytes = Convert.FromBase64String(hash);
+            Assert.That(bytes, Has.Length.EqualTo(64));
         });
     }
 
@@ -263,8 +264,8 @@ public class HashUtilsTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(sha256, Has.Length.EqualTo(64));
-            Assert.That(sha512, Has.Length.EqualTo(128));
+            Assert.That(sha256, Has.Length.EqualTo(44));
+            Assert.That(sha512, Has.Length.EqualTo(88));
             Assert.That(sha256, Is.Not.EqualTo(sha512));
         });
     }
