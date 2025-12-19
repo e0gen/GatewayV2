@@ -1,3 +1,4 @@
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,7 +31,10 @@ public class ErrorsDbContextFactory : IDbContextFactory<ErrorsDbContext>
         if (_environment.IsDevelopment())
             optionsBuilder.UseMySql(connectionString, new MySqlServerVersion(new Version(9, 4, 00)));
         else
-            optionsBuilder.UseSqlServer(connectionString);
+        {
+            var connectionStringWithTrust = new SqlConnectionStringBuilder(connectionString) { TrustServerCertificate = true }.ConnectionString;
+            optionsBuilder.UseSqlServer(connectionStringWithTrust);
+        }
 
         return new ErrorsDbContext(optionsBuilder.Options);
     }
