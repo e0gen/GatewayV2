@@ -8,7 +8,7 @@ using Ezzygate.Integrations.Rapyd;
 namespace Ezzygate.WebApi.Controllers.Apps;
 
 [ApiController]
-[Route("api/apps/[controller]")]
+[Route("apps/[controller]")]
 [ApiVersionNeutral]
 public class CallbackController : ControllerBase
 {

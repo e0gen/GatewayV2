@@ -15,7 +15,7 @@ using Ezzygate.WebApi.Filters;
 namespace Ezzygate.WebApi.Controllers.Merchants;
 
 [ApiController]
-[Route("api/merchants/[controller]")]
+[Route("merchants/[controller]")]
 [ApiVersion("3.0")]
 [ApiVersion("4.0")]
 public class CreditcardController : ControllerBase

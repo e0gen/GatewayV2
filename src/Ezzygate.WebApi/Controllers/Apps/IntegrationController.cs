@@ -12,7 +12,7 @@ using Ezzygate.WebApi.Filters;
 namespace Ezzygate.WebApi.Controllers.Apps;
 
 [ApiController]
-[Route("api/apps/[controller]")]
+[Route("apps/[controller]")]
 [ApiVersionNeutral]
 public class IntegrationController : ControllerBase
 {
