@@ -6,6 +6,7 @@
         <RootNamespace>Ezzygate.WebApi</RootNamespace>
         <ImplicitUsings>enable</ImplicitUsings>
         <AssemblyVersion>3.0.0.0</AssemblyVersion>
+        <AssemblyName>Ezzygate.WebApiV2</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>

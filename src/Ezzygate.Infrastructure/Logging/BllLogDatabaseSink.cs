@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Ezzygate.Application.Interfaces;
 using Ezzygate.Infrastructure.Ef.Context;
 using Ezzygate.Infrastructure.Ef.Entities;
 using Ezzygate.Infrastructure.Ef.Models;
@@ -151,7 +152,10 @@ public class BllLogDatabaseSink : ILogEventSink
 
     private string GetApplicationName()
     {
-        return Assembly.GetEntryAssembly()?.GetName().Name ?? "EzzygateWebApi";
+        var fullName = Assembly.GetEntryAssembly()?.GetName().Name ?? "Unknown";
+
+        var firstDotIndex = fullName.IndexOf('.');
+        return firstDotIndex >= 0 ? fullName[(firstDotIndex + 1)..] : fullName;
     }
 
     private string GetCurrentDomain()
@@ -159,13 +163,13 @@ public class BllLogDatabaseSink : ILogEventSink
         try
         {
             using var scope = _serviceProvider.CreateScope();
-            var httpContextAccessor = scope.ServiceProvider.GetService<IHttpContextAccessor>();
-            var context = httpContextAccessor?.HttpContext;
-            return context?.Request?.Host.Host ?? "";
+            var domainConfigProvider = scope.ServiceProvider.GetRequiredService<IDomainConfigurationProvider>();
+            var domainConfig = domainConfigProvider.GetCurrentDomainConfiguration();
+            return domainConfig.Host;
         }
         catch
         {
-            return "";
+            return string.Empty;
         }
     }
 
