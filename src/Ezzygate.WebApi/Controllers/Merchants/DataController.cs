@@ -110,7 +110,7 @@ public class DataController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.Error(LogTag.WebApi, ex, "Error searching transactions for merchant {MerchantId}", merchant.Id);
+            _logger.Error(LogTag.WebApiV2, ex, "Error searching transactions for merchant {MerchantId}", merchant.Id);
             return new Response(ResultEnum.GeneralError);
         }
 

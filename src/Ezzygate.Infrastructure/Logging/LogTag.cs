@@ -34,6 +34,7 @@ public enum LogTag
     Wires,
     DevDocs,
     WebApi,
+    WebApiV2,
     PendingQuery,
     WebServiceLog,
     Redis,

@@ -156,7 +156,7 @@ public class TransactionService : ITransactionService
             }
             catch (Exception ex)
             {
-                _logger.Error(LogTag.WebApi, ex, "Can't remove pending trx {PendingTrxId}", pendingEntity.Id);
+                _logger.Error(LogTag.WebApiV2, ex, "Can't remove pending trx {PendingTrxId}", pendingEntity.Id);
             }
         }
 

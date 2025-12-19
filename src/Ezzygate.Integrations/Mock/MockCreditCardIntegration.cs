@@ -42,7 +42,7 @@ public class MockCreditCardIntegration : BaseIntegration, ICreditCardIntegration
 
     private async Task<IntegrationResult> ProcessTrxAsync(TransactionContext ctx, CancellationToken cancellationToken = default)
     {
-        _logger.Info(LogTag.WebApi, "Processing mock credit card transaction. OpType: {OpType}, Amount: {Amount}, DebitRefCode: {DebitRefCode}",
+        _logger.Info(LogTag.WebApiV2, "Processing mock credit card transaction. OpType: {OpType}, Amount: {Amount}, DebitRefCode: {DebitRefCode}",
             ctx.OpType, ctx.Amount, ctx.DebitRefCode);
 
         var integrationResult = new IntegrationResult
@@ -117,7 +117,7 @@ public class MockCreditCardIntegration : BaseIntegration, ICreditCardIntegration
 
         integrationResult.ApprovalNumber = "cn-" + Guid.NewGuid();
 
-        Logger.Info(LogTag.WebApi, "Mock credit card transaction completed. Code: {Code}, Message: {Message}",
+        Logger.Info(LogTag.WebApiV2, "Mock credit card transaction completed. Code: {Code}, Message: {Message}",
             integrationResult.Code, integrationResult.Message);
 
         return integrationResult;

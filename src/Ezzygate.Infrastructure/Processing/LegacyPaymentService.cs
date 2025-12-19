@@ -128,7 +128,7 @@ public class LegacyPaymentService : ILegacyPaymentService
         }
         catch (Exception ex)
         {
-            _logger.Error(LogTag.WebApi, ex, "Call to remote_charge.asp failed");
+            _logger.Error(LogTag.WebApiV2, ex, "Call to remote_charge.asp failed");
             throw;
         }
     }
