@@ -1,12 +1,13 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Moq;
 using Ezzygate.Domain.Models;
 using Ezzygate.Infrastructure.Extensions;
 using Ezzygate.Infrastructure.Processing;
 using Ezzygate.Infrastructure.Processing.Models;
 using Ezzygate.Infrastructure.Repositories.Interfaces;
+using Ezzygate.Infrastructure.Utilities;
 using Ezzygate.WebApi.Controllers.Merchants;
 using Ezzygate.WebApi.Dtos.Merchants.CreditCard;
 
@@ -58,7 +59,7 @@ public class CreditcardControllerTests
     }
 
     [Test]
-    public async Task Process_WithValidRequest_ReturnsValidResponse()
+    public async Task Process_WithValidRequest_ReturnsPendingResponse()
     {
         var request = CreateValidProcessRequest();
         var legacyResult = CreatePendingLegacyResult();
@@ -95,7 +96,7 @@ public class CreditcardControllerTests
         request.TipAmount = -10;
 
         var response = await _controller.Process(request, CancellationToken.None);
-        
+
         Assert.That(response.Result, Is.EqualTo("InvalidRequest"));
         Assert.That(response.Data, Is.EqualTo("Tip amount cannot be negative"));
     }
@@ -107,7 +108,7 @@ public class CreditcardControllerTests
         request.TipAmount = request.Amount + 1;
 
         var response = await _controller.Process(request, CancellationToken.None);
-        
+
         Assert.That(response.Result, Is.EqualTo("InvalidRequest"));
         Assert.That(response.Data, Is.EqualTo("tip Amount should be lesser than the actual amount"));
     }
@@ -120,7 +121,7 @@ public class CreditcardControllerTests
         request.SavedCardId = "saved_123";
 
         var response = await _controller.Process(request, CancellationToken.None);
-        
+
         Assert.That(response.Result, Is.EqualTo("InvalidRequest"));
         Assert.That(response.Data, Is.EqualTo("Cannot save card when trying to use a saved card"));
     }
@@ -133,7 +134,7 @@ public class CreditcardControllerTests
         request.AuthorizeOnly = true;
 
         var response = await _controller.Process(request, CancellationToken.None);
-        
+
         Assert.That(response.Result, Is.EqualTo("InvalidRequest"));
         Assert.That(response.Data, Is.EqualTo("Cannot authorize with a saved card"));
     }
@@ -156,14 +157,250 @@ public class CreditcardControllerTests
     public void Process_WhenLegacyServiceThrows_PropagatesException()
     {
         var request = CreateValidProcessRequest();
-        
+
         _legacyPaymentServiceMock
             .Setup(x => x.ProcessAsync(It.IsAny<LegacyProcessRequest>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new Exception("Legacy service error"));
 
-        var ex = Assert.ThrowsAsync<Exception>(() => 
+        var ex = Assert.ThrowsAsync<Exception>(() =>
             _controller.Process(request, CancellationToken.None));
-        
+
+        Assert.That(ex.Message, Is.EqualTo("Legacy service error"));
+    }
+
+    [Test]
+    public async Task ProcessEncrypted_WithValidRequest_ReturnsPendingResponse()
+    {
+        var request = CreateValidProcessRequest();
+        var encryptedData = AesEncryption.EncryptStringAes(JsonSerializer.Serialize(request));
+        var encryptedRequest = new CreditcardProcessEncryptedRequestDto { Data = encryptedData };
+        var legacyResult = CreatePendingLegacyResult();
+
+        _legacyPaymentServiceMock
+            .Setup(x => x.ProcessAsync(It.IsAny<LegacyProcessRequest>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(legacyResult);
+
+        var response = await _controller.ProcessEncrypted(encryptedRequest, CancellationToken.None);
+        var responseData = response.Data as CreditcardProcessResponseDto;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.Result, Is.EqualTo("Pending"));
+            Assert.That(responseData!.TransactionId, Is.EqualTo(legacyResult.TransactionId));
+            Assert.That(responseData.CurrencyIso, Is.EqualTo(_stubCurrency.IsoCode));
+            Assert.That(responseData.ReplyCode, Is.EqualTo(legacyResult.ReplyCode));
+            Assert.That(responseData.ReplyDescription, Is.EqualTo(legacyResult.ReplyDescription));
+        });
+    }
+
+    [Test]
+    public async Task ProcessEncrypted_WithInvalidEncryptedData_ReturnsInvalidRequestResponse()
+    {
+        var encryptedRequest = new CreditcardProcessEncryptedRequestDto { Data = "invalid_encrypted_data" };
+
+        var response = await _controller.ProcessEncrypted(encryptedRequest, CancellationToken.None);
+
+        Assert.That(response.Result, Is.EqualTo("InvalidRequest"));
+        Assert.That(response.Data, Is.EqualTo("Failed to decrypt request data"));
+    }
+
+    [Test]
+    public async Task ProcessEncrypted_WithMissingMerchant_ReturnsMerchantNotFoundResponse()
+    {
+        var request = CreateValidProcessRequest();
+        var encryptedData = AesEncryption.EncryptStringAes(JsonSerializer.Serialize(request));
+        var encryptedRequest = new CreditcardProcessEncryptedRequestDto
+        {
+            Data = encryptedData
+        };
+        var controller = CreateController(null);
+
+        var response = await controller.ProcessEncrypted(encryptedRequest, CancellationToken.None);
+
+        Assert.That(response.Result, Is.EqualTo("MerchantNotFound"));
+    }
+
+    [Test]
+    public async Task ProcessEncrypted_WithNegativeTipAmount_ReturnsInvalidRequestResponse()
+    {
+        var request = CreateValidProcessRequest();
+        request.TipAmount = -10;
+        var encryptedData = AesEncryption.EncryptStringAes(JsonSerializer.Serialize(request));
+        var encryptedRequest = new CreditcardProcessEncryptedRequestDto
+        {
+            Data = encryptedData
+        };
+
+        var response = await _controller.ProcessEncrypted(encryptedRequest, CancellationToken.None);
+
+        Assert.That(response.Result, Is.EqualTo("InvalidRequest"));
+        Assert.That(response.Data, Is.EqualTo("Tip amount cannot be negative"));
+    }
+
+    [Test]
+    public void ProcessEncrypted_WhenLegacyServiceThrows_PropagatesException()
+    {
+        var request = CreateValidProcessRequest();
+        var encryptedData = AesEncryption.EncryptStringAes(JsonSerializer.Serialize(request));
+        var encryptedRequest = new CreditcardProcessEncryptedRequestDto
+        {
+            Data = encryptedData
+        };
+
+        _legacyPaymentServiceMock
+            .Setup(x => x.ProcessAsync(It.IsAny<LegacyProcessRequest>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new Exception("Legacy service error"));
+
+        var ex = Assert.ThrowsAsync<Exception>(() =>
+            _controller.ProcessEncrypted(encryptedRequest, CancellationToken.None));
+
+        Assert.That(ex.Message, Is.EqualTo("Legacy service error"));
+    }
+
+    [Test]
+    public async Task Refund_WithValidRequest_ReturnsSuccessResponse()
+    {
+        var request = CreateValidRefundRequest();
+        var legacyResult = CreateSuccessLegacyResult();
+
+        _legacyPaymentServiceMock
+            .Setup(x => x.RefundAsync(It.IsAny<LegacyRefundRequest>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(legacyResult);
+
+        var response = await _controller.Refund(request, CancellationToken.None);
+        var responseData = response.Data as RefundResponseDto;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.Result, Is.EqualTo("Approved"));
+            Assert.That(responseData!.TransactionId, Is.EqualTo(int.Parse(legacyResult.TransactionId)));
+            Assert.That(responseData.Amount, Is.EqualTo(decimal.Parse(legacyResult.Amount)));
+            Assert.That(responseData.CurrencyIso, Is.EqualTo(_stubCurrency.IsoCode));
+            Assert.That(responseData.ReplyCode, Is.EqualTo(legacyResult.ReplyCode));
+            Assert.That(responseData.ReplyDescription, Is.EqualTo(legacyResult.ReplyDescription));
+        });
+    }
+
+    [Test]
+    public async Task Refund_WithMissingMerchant_ReturnsMerchantNotFoundResponse()
+    {
+        var request = CreateValidRefundRequest();
+        var controller = CreateController(null);
+
+        var response = await controller.Refund(request, CancellationToken.None);
+
+        Assert.That(response.Result, Is.EqualTo("MerchantNotFound"));
+    }
+
+    [Test]
+    public void Refund_WhenLegacyServiceThrows_PropagatesException()
+    {
+        var request = CreateValidRefundRequest();
+
+        _legacyPaymentServiceMock
+            .Setup(x => x.RefundAsync(It.IsAny<LegacyRefundRequest>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new Exception("Legacy service error"));
+
+        var ex = Assert.ThrowsAsync<Exception>(() =>
+            _controller.Refund(request, CancellationToken.None));
+
+        Assert.That(ex.Message, Is.EqualTo("Legacy service error"));
+    }
+
+    [Test]
+    public async Task Void_WithValidRequest_ReturnsSuccessResponse()
+    {
+        var request = CreateValidVoidRequest();
+        var legacyResult = CreateSuccessLegacyResult();
+
+        _legacyPaymentServiceMock
+            .Setup(x => x.VoidAsync(It.IsAny<LegacyVoidRequest>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(legacyResult);
+
+        var response = await _controller.Void(request, CancellationToken.None);
+        var responseData = response.Data as VoidResponseDto;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.Result, Is.EqualTo("Approved"));
+            Assert.That(responseData!.TransactionId, Is.EqualTo(legacyResult.TransactionId));
+            Assert.That(responseData.ReplyCode, Is.EqualTo(legacyResult.ReplyCode));
+            Assert.That(responseData.ReplyDescription, Is.EqualTo(legacyResult.ReplyDescription));
+        });
+    }
+
+    [Test]
+    public async Task Void_WithMissingMerchant_ReturnsMerchantNotFoundResponse()
+    {
+        var request = CreateValidVoidRequest();
+        var controller = CreateController(null);
+
+        var response = await controller.Void(request, CancellationToken.None);
+
+        Assert.That(response.Result, Is.EqualTo("MerchantNotFound"));
+    }
+
+    [Test]
+    public void Void_WhenLegacyServiceThrows_PropagatesException()
+    {
+        var request = CreateValidVoidRequest();
+
+        _legacyPaymentServiceMock
+            .Setup(x => x.VoidAsync(It.IsAny<LegacyVoidRequest>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new Exception("Legacy service error"));
+
+        var ex = Assert.ThrowsAsync<Exception>(() =>
+            _controller.Void(request, CancellationToken.None));
+
+        Assert.That(ex.Message, Is.EqualTo("Legacy service error"));
+    }
+
+    [Test]
+    public async Task Capture_WithValidRequest_ReturnsSuccessResponse()
+    {
+        var request = CreateValidCaptureRequest();
+        var legacyResult = CreateSuccessLegacyResult();
+
+        _legacyPaymentServiceMock
+            .Setup(x => x.CaptureAsync(It.IsAny<LegacyCaptureRequest>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(legacyResult);
+
+        var response = await _controller.Capture(request, CancellationToken.None);
+        var responseData = response.Data as CaptureResponseDto;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.Result, Is.EqualTo("Approved"));
+            Assert.That(responseData!.TransactionId, Is.EqualTo(legacyResult.TransactionId));
+            Assert.That(responseData.CurrencyIso, Is.EqualTo(_stubCurrency.IsoCode));
+            Assert.That(responseData.ReplyCode, Is.EqualTo(legacyResult.ReplyCode));
+            Assert.That(responseData.ReplyDescription, Is.EqualTo(legacyResult.ReplyDescription));
+        });
+    }
+
+    [Test]
+    public async Task Capture_WithMissingMerchant_ReturnsMerchantNotFoundResponse()
+    {
+        var request = CreateValidCaptureRequest();
+        var controller = CreateController(null);
+
+        var response = await controller.Capture(request, CancellationToken.None);
+
+        Assert.That(response.Result, Is.EqualTo("MerchantNotFound"));
+    }
+
+    [Test]
+    public void Capture_WhenLegacyServiceThrows_PropagatesException()
+    {
+        var request = CreateValidCaptureRequest();
+
+        _legacyPaymentServiceMock
+            .Setup(x => x.CaptureAsync(It.IsAny<LegacyCaptureRequest>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new Exception("Legacy service error"));
+
+        var ex = Assert.ThrowsAsync<Exception>(() =>
+            _controller.Capture(request, CancellationToken.None));
+
         Assert.That(ex.Message, Is.EqualTo("Legacy service error"));
     }
 
@@ -240,6 +477,55 @@ public class CreditcardControllerTests
             RecurringSeries = null,
             Order = "ORDER123",
             Comment = "Test transaction"
+        };
+    }
+
+    private static LegacyPaymentResult CreateSuccessLegacyResult()
+    {
+        return new LegacyPaymentResult
+        {
+            ReplyCode = "000",
+            ReplyDescription = "Transaction approved",
+            TransactionId = "67890",
+            Currency = "840",
+            Amount = "50.00",
+            Last4 = "1111",
+            CardType = "Visa",
+            SavedCardId = null,
+            Descriptor = "Test Merchant",
+            AuthenticationRedirectUrl = null,
+            RecurringSeries = null,
+            Order = "ORDER456",
+            Comment = "Test transaction"
+        };
+    }
+
+    private static RefundRequestDto CreateValidRefundRequest()
+    {
+        return new RefundRequestDto
+        {
+            Amount = 50.00m,
+            CurrencyIso = "USD",
+            TransactionId = 12345,
+            Comment = "Refund test"
+        };
+    }
+
+    private static VoidRequestDto CreateValidVoidRequest()
+    {
+        return new VoidRequestDto
+        {
+            CurrencyIso = "USD",
+            TransactionId = "12345"
+        };
+    }
+
+    private static CaptureRequestDto CreateValidCaptureRequest()
+    {
+        return new CaptureRequestDto
+        {
+            CurrencyIso = "USD",
+            TransactionId = "12345"
         };
     }
 }
