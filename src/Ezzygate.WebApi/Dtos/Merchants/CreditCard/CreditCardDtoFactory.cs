@@ -18,45 +18,55 @@ public static class CreditCardDtoFactory
         return new LegacyProcessRequest
         {
             MerchantNumber = merchant.CustomerNumber,
-            CreditCard = dto.CreditCard != null ? new LegacyCreditCard
-            {
-                Number = dto.CreditCard.Number,
-                ExpirationMonth = dto.CreditCard.ExpirationMonth,
-                ExpirationYear = dto.CreditCard.ExpirationYear,
-                HolderName = dto.CreditCard.HolderName,
-                Cvv = dto.CreditCard.Cvv,
-                Type = dto.CreditCard.Type,
-                BillingAddress = dto.CreditCard.BillingAddress != null ? new LegacyBillingAddress
+            CreditCard = dto.CreditCard != null
+                ? new LegacyCreditCard
                 {
-                    AddressLine1 = dto.CreditCard.BillingAddress.AddressLine1,
-                    AddressLine2 = dto.CreditCard.BillingAddress.AddressLine2,
-                    City = dto.CreditCard.BillingAddress.City,
-                    PostalCode = dto.CreditCard.BillingAddress.PostalCode,
-                    StateIso = dto.CreditCard.BillingAddress.StateIso,
-                    CountryIso = dto.CreditCard.BillingAddress.CountryIso
-                } : null
-            } : null,
-            Customer = dto.Customer != null ? new LegacyCustomer
-            {
-                FullName = dto.Customer.FullName,
-                PhoneNumber = dto.Customer.PhoneNumber,
-                PersonalIdNumber = dto.Customer.PersonalIdNumber,
-                Email = dto.Customer.Email,
-                DateOfBirth = dto.Customer.DateOfBirth
-            } : null,
-            Recurring = dto.Recurring != null ? new LegacyRecurring
-            {
-                Recurring1 = dto.Recurring.Recurring1,
-                Recurring2 = dto.Recurring.Recurring2,
-                Recurring3 = dto.Recurring.Recurring3,
-                Recurring4 = dto.Recurring.Recurring4,
-                Recurring5 = dto.Recurring.Recurring5,
-                Recurring6 = dto.Recurring.Recurring6
-            } : null,
-            Level3Data = dto.Level3Data != null ? new LegacyLevel3Data
-            {
-                ArrivalDate = dto.Level3Data.ArrivalDate
-            } : null,
+                    Number = dto.CreditCard.Number,
+                    ExpirationMonth = dto.CreditCard.ExpirationMonth,
+                    ExpirationYear = dto.CreditCard.ExpirationYear,
+                    HolderName = dto.CreditCard.HolderName,
+                    Cvv = dto.CreditCard.Cvv,
+                    Type = dto.CreditCard.Type,
+                    BillingAddress = dto.CreditCard.BillingAddress != null
+                        ? new LegacyBillingAddress
+                        {
+                            AddressLine1 = dto.CreditCard.BillingAddress.AddressLine1,
+                            AddressLine2 = dto.CreditCard.BillingAddress.AddressLine2,
+                            City = dto.CreditCard.BillingAddress.City,
+                            PostalCode = dto.CreditCard.BillingAddress.PostalCode,
+                            StateIso = dto.CreditCard.BillingAddress.StateIso,
+                            CountryIso = dto.CreditCard.BillingAddress.CountryIso
+                        }
+                        : null
+                }
+                : null,
+            Customer = dto.Customer != null
+                ? new LegacyCustomer
+                {
+                    FullName = dto.Customer.FullName,
+                    PhoneNumber = dto.Customer.PhoneNumber,
+                    PersonalIdNumber = dto.Customer.PersonalIdNumber,
+                    Email = dto.Customer.Email,
+                    DateOfBirth = dto.Customer.DateOfBirth
+                }
+                : null,
+            Recurring = dto.Recurring != null
+                ? new LegacyRecurring
+                {
+                    Recurring1 = dto.Recurring.Recurring1,
+                    Recurring2 = dto.Recurring.Recurring2,
+                    Recurring3 = dto.Recurring.Recurring3,
+                    Recurring4 = dto.Recurring.Recurring4,
+                    Recurring5 = dto.Recurring.Recurring5,
+                    Recurring6 = dto.Recurring.Recurring6
+                }
+                : null,
+            Level3Data = dto.Level3Data != null
+                ? new LegacyLevel3Data
+                {
+                    ArrivalDate = dto.Level3Data.ArrivalDate
+                }
+                : null,
             Amount = dto.Amount,
             Installments = dto.Installments,
             CurrencyIso = dto.CurrencyIso,
@@ -109,28 +119,37 @@ public static class CreditCardDtoFactory
         };
     }
 
-    public static CreditcardProcessResponseDto CreateBasicResponse(LegacyPaymentResult result, ICurrencyRepository currencyRepository)
+    public static CreditcardProcessResponseDto CreateBasicResponse(LegacyPaymentResult result,
+        CreditcardProcessRequestDto request, ICurrencyRepository currencyRepository)
     {
         var currency = currencyRepository.Get(int.Parse(result.Currency));
-
-        return new CreditcardProcessResponseDto
+        var response = new CreditcardProcessResponseDto
         {
             CreditCard = new CreditCardDto
             {
                 Number = result.Last4,
+                ExpirationMonth = request.CreditCard?.ExpirationMonth ?? 0,
+                ExpirationYear = request.CreditCard?.ExpirationYear ?? 0,
+                HolderName = request.CreditCard?.HolderName,
+                Cvv = "...",
                 Type = result.CardType,
-                Cvv = "..."
+                BillingAddress = request.CreditCard?.BillingAddress
             },
+            Customer = request.Customer,
             Amount = decimal.Parse(result.Amount),
+            Installments = request.Installments,
             CurrencyIso = currency.IsoCode,
+            PostRedirectUrl = request.PostRedirectUrl,
             ReplyCode = result.ReplyCode,
             TransactionId = result.TransactionId,
             ReplyDescription = result.ReplyDescription,
             SavedCardId = result.SavedCardId,
             Descriptor = result.Descriptor,
             AuthenticationRedirectUrl = result.AuthenticationRedirectUrl,
-            RecurringSeriesId = result.RecurringSeries
+            RecurringSeriesId = result.RecurringSeries,
+            TrmCode = request.TrmCode
         };
+        return response;
     }
 
     public static CreditcardProcessResponseDto CreateExtendedResponse(
@@ -143,27 +162,40 @@ public static class CreditCardDtoFactory
         var transType = request.AuthorizeOnly ? 1 : 0;
         if (!string.IsNullOrWhiteSpace(request.SavedCardId))
             transType = 3;
-
         return new CreditcardProcessResponseDto
         {
             CreditCard = new CreditCardDto
             {
                 Number = result.Last4,
+                ExpirationMonth = request.CreditCard?.ExpirationMonth ?? 0,
+                ExpirationYear = request.CreditCard?.ExpirationYear ?? 0,
+                HolderName = request.CreditCard?.HolderName,
+                Cvv = "...",
                 Type = result.CardType,
-                Cvv = "..."
+                BillingAddress = request.CreditCard?.BillingAddress
             },
-            Amount = decimal.Parse(result.Amount),
-            CurrencyIso = currency.IsoCode,
-            ReplyCode = result.ReplyCode,
-            TransactionId = result.TransactionId,
-            ReplyDescription = result.ReplyDescription,
-            SavedCardId = result.SavedCardId,
-            Descriptor = result.Descriptor,
-            AuthenticationRedirectUrl = result.AuthenticationRedirectUrl,
+            Customer = request.Customer,
+            Recurring = request.Recurring,
+            Level3Data = request.Level3Data,
             RecurringSeriesId = result.RecurringSeries,
-            TransType = transType,
+            Amount = decimal.Parse(result.Amount),
+            Installments = request.Installments,
+            CurrencyIso = currency.IsoCode,
+            PostRedirectUrl = request.PostRedirectUrl,
+            AuthenticationRedirectUrl = result.AuthenticationRedirectUrl,
+            SaveCard = request.SaveCard,
+            SavedCardId = result.SavedCardId,
+            AuthorizeOnly = request.AuthorizeOnly,
+            TrmCode = request.TrmCode,
+            ReplyCode = result.ReplyCode,
+            ReplyDescription = result.ReplyDescription,
+            TransactionId = result.TransactionId,
+            Descriptor = result.Descriptor,
             Order = result.Order,
             Comment = result.Comment,
+            OrderDescription = request.OrderDescription,
+            ClientIP = request.ClientIP,
+            TransType = transType,
             Date = result.Date,
             ConfirmationNumber = result.ConfirmationNumber,
             MerchantID = merchant.CustomerNumber,
@@ -179,7 +211,9 @@ public static class CreditCardDtoFactory
             TransMaxInstallments = result.Payments,
             DispRecurring = string.Empty,
             DispMobile = string.Empty,
-            DebugTest = string.Empty
+            DebugTest = string.Empty,
+            TipAmount = request.TipAmount,
+            CardPresent = request.CardPresent
         };
     }
 
