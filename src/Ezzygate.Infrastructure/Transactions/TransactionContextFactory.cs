@@ -10,14 +10,14 @@ namespace Ezzygate.Infrastructure.Transactions;
 public class TransactionContextFactory : ITransactionContextFactory
 {
     private readonly EzzygateDbContext _context;
-    private readonly DomainConfiguration _domainConfiguration;
+    private readonly IDomainConfiguration _domainConfiguration;
     private readonly ITerminalRepository _terminalRepository;
     private readonly IChargeAttemptRepository _chargeAttemptRepository;
     private readonly IPaymentMethodRepository _paymentMethodRepository;
 
     public TransactionContextFactory(
         EzzygateDbContext context,
-        DomainConfiguration domainConfiguration,
+        IDomainConfiguration domainConfiguration,
         ITerminalRepository terminalRepository,
         IChargeAttemptRepository chargeAttemptRepository,
         IPaymentMethodRepository paymentMethodRepository)

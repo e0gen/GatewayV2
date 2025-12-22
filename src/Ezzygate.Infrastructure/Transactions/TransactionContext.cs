@@ -9,10 +9,10 @@ namespace Ezzygate.Infrastructure.Transactions;
 
 public class TransactionContext
 {
-    private readonly DomainConfiguration _domainConfiguration;
+    private readonly IDomainConfiguration _domainConfiguration;
     private const string SignatureKey = "cf396375-5eaa-494f-a783-1ba1e05be7af";
 
-    public TransactionContext(DomainConfiguration domainConfiguration)
+    public TransactionContext(IDomainConfiguration domainConfiguration)
     {
         _domainConfiguration = domainConfiguration;
     }

@@ -13,12 +13,12 @@ public class LegacyPaymentService : ILegacyPaymentService
 {
     private const int TrxSource = (int)TransactionSource.WebApi;
     private readonly HttpClient _httpClient;
-    private readonly DomainConfiguration _domainConfiguration;
+    private readonly IDomainConfiguration _domainConfiguration;
     private readonly ILogger<LegacyPaymentService> _logger;
 
     public LegacyPaymentService(
         HttpClient httpClient,
-        DomainConfiguration domainConfiguration,
+        IDomainConfiguration domainConfiguration,
         ILogger<LegacyPaymentService> logger)
     {
         _httpClient = httpClient;

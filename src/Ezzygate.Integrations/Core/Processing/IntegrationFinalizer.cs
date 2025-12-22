@@ -14,14 +14,14 @@ public sealed class IntegrationFinalizer : IIntegrationFinalizer
     private readonly ITransactionContextFactory _transactionContextFactory;
     private readonly ICreditCardIntegrationProcessor _integrationProcessor;
     private readonly IDistributedLockService _distributedLockService;
-    private readonly DomainConfiguration _domainConfiguration;
+    private readonly IDomainConfiguration _domainConfiguration;
 
     public IntegrationFinalizer(
         ILogger<IntegrationFinalizer> logger,
         ITransactionContextFactory transactionContextFactory,
         ICreditCardIntegrationProcessor integrationProcessor,
         IDistributedLockService distributedLockService,
-        DomainConfiguration domainConfiguration)
+        IDomainConfiguration domainConfiguration)
     {
         _logger = logger;
         _transactionContextFactory = transactionContextFactory;
