@@ -15,7 +15,10 @@ builder.Host.UseSerilog();
 
 builder.Services
     .AddControllers()
-    .AddJsonOptions(options => { options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); });
+    .AddJsonOptions(options => {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        options.JsonSerializerOptions.PropertyNamingPolicy = null;
+    });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerWithVersioning();
