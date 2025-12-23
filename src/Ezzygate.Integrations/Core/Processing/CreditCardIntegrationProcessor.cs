@@ -98,7 +98,7 @@ public class CreditCardIntegrationProcessor : ICreditCardIntegrationProcessor
                 .UpdateAsync(id => id == context.ChargeAttemptLogId, u => u
                         .SetRedirectFlag(true), cancellationToken);
             if (!updated)
-                _logger.LogWarning("Failed to update Redirect flag. ChargeAttemptLogId: '{ChargeAttemptLogId}'",
+                _logger.LogWarning("Failed to set Redirect flag. ChargeAttemptLogId: '{ChargeAttemptLogId}'",
                     context.ChargeAttemptLogId);
         }
 
@@ -127,6 +127,16 @@ public class CreditCardIntegrationProcessor : ICreditCardIntegrationProcessor
                 throw new Exception($"Pre-auth trx not found '{preAuthIdInt}'");
 
             await _transactionRepository.UpdateApprovalTrxAuthStatusAsync(preAuthIdInt, context.OpType, cancellationToken);
+        }
+
+        if (processResult.Code == "553")
+        {
+            var updated = await _chargeAttemptRepository
+                .UpdateAsync(id => id == context.ChargeAttemptLogId, u => u
+                    .SetRedirectFlag(true), cancellationToken);
+            if (!updated)
+                _logger.LogWarning("Failed to set Redirect flag. ChargeAttemptLogId: '{ChargeAttemptLogId}'",
+                    context.ChargeAttemptLogId);
         }
 
         return processResult;
