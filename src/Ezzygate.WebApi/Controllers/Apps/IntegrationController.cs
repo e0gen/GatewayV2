@@ -65,7 +65,7 @@ public class IntegrationController : ControllerBase
         return result.Code == "520" ? StatusCode(520, result) : Ok(result);
     }
 
-    [HttpPost("Ph3A")]
+    [HttpPost("Ph3aRequest")]
     [IntegrationSecurityFilter]
     public async Task<Response> Ph3ARequest(Ph3ARequestDto request)
     {

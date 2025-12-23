@@ -20,4 +20,28 @@ public class IntegrationResult
     public string? StatusApiUrl { get; set; }
     public string? StatusApiSignature { get; set; }
     public dynamic? CustomParams { get; set; }
+
+    public override string ToString()
+    {
+        return $"{nameof(IntegrationResult)} {{ " +
+               $"Code = {Code}, " +
+               $"Message = {Message}, " +
+               $"RedirectUrl = {RedirectUrl}, " +
+               $"ApprovalNumber = {ApprovalNumber}, " +
+               $"DebitRefCode = {DebitRefCode}, " +
+               $"DebitRefNum = {DebitRefNum}, " +
+               $"TerminalNumber = {TerminalNumber}, " +
+               $"TrxId = {TrxId}, " +
+               $"DebitCompanyId = {DebitCompanyId}, " +
+               $"IsFinalized = {IsFinalized}, " +
+               $"TrxType = {TrxType}, " +
+               $"RecurringId = {RecurringId}, " +
+               $"CardStorageId = {CardStorageId}, " +
+               $"NotificationResponse = {NotificationResponse}, " +
+               $"BinCountry = {BinCountry}, " +
+               $"StatusApiUrl = {StatusApiUrl}, " +
+               $"StatusApiSignature = {StatusApiSignature}, " +
+               $"CustomParams = {CustomParams} " +
+               $"}}";
+    }
 }

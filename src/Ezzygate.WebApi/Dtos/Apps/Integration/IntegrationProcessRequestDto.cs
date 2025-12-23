@@ -3,7 +3,7 @@ using Ezzygate.Integrations.Core.Models;
 
 namespace Ezzygate.WebApi.Dtos.Apps.Integration;
 
-public class IntegrationProcessRequestDto
+public record IntegrationProcessRequestDto
 {
     public OperationType OperationType { get; set; }
     public string? DebitRefCode { get; set; }

@@ -3,19 +3,19 @@ using Ezzygate.Integrations.Core.Models;
 
 namespace Ezzygate.WebApi.Dtos.Apps.Integration;
 
-public class IntegrationFinalizeRequestDto
+public record IntegrationFinalizeRequestDto
 {
     public OperationType OperationType { get; set; }
     public string? DebitRefCode { get; set; }
     public string? ApprovalNumber { get; set; }
-    public string DebitRefNum { get; set; } = null!;
+    public string? DebitRefNum { get; set; }
     public int TerminalId { get; set; }
     public bool Is3DSecure { get; set; }
     public CreditCard? CreditCard { get; set; }
     public Customer? Customer { get; set; }
     public decimal Amount { get; set; }
     public decimal OriginalAmount { get; set; }
-    public string CurrencyIso { get; set; } = null!;
+    public string? CurrencyIso { get; set; }
     public byte Payments { get; set; }
     public string? RequestContent { get; set; }
     public string? FormData { get; set; }
