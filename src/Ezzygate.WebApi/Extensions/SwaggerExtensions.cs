@@ -32,8 +32,23 @@ public static class SwaggerExtensions
                               """
             });
 
+            options.AddSecurityDefinition("IntegrationAuth", new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.ApiKey,
+                In = ParameterLocation.Header,
+                Name = "X-Integration-Auth",
+                Description = """
+                              **Ezzygate Integration Authentication**
+
+                              Enter your signature salt in the format: `{salt}`
+
+                              **Required signature header will be auto-generated:**
+                              """
+            });
+
             options.OperationFilter<MerchantSecurityOperationFilter>();
             options.OperationFilter<MerchantAuthDocumentationFilter>();
+            options.OperationFilter<IntegrationSecurityOperationFilter>();
         });
 
         return services;
@@ -115,5 +130,39 @@ public class MerchantAuthDocumentationFilter : IOperationFilter
                                 """;
 
         operation.Description = (operation.Description ?? "") + authNote;
+    }
+}
+
+[UsedImplicitly]
+public class IntegrationSecurityOperationFilter : IOperationFilter
+{
+    public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    {
+        var hasIntegrationSecurity = context.MethodInfo
+            .GetCustomAttributes(true)
+            .OfType<IntegrationSecurityFilterAttribute>()
+            .Any()
+            || context.MethodInfo.DeclaringType?
+                .GetCustomAttributes(true)
+                .OfType<IntegrationSecurityFilterAttribute>()
+                .Any() == true;
+
+        if (!hasIntegrationSecurity)
+            return;
+
+        operation.Security ??= new List<OpenApiSecurityRequirement>();
+        operation.Security.Add(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "IntegrationAuth"
+                    }
+                }, []
+            }
+        });
     }
 }

@@ -71,15 +71,33 @@
             });
 
             return true;
+        },
+        /**
+         * IntegrationAuth Handler
+         * Header: X-Integration-Auth
+         * Format: signature-salt (user-provided SignatureSalt)
+         * Generates: signature header using provided SignatureSalt
+         */
+        'X-Integration-Auth': async function (req, headerValue) {
+            const signatureSalt = headerValue.trim();
+            
+            if (!signatureSalt) {
+                console.error('[Fail] IntegrationAuth: Missing SignatureSalt');
+                return false;
+            }
+
+            const requestBody = getRequestBody(req);
+            const signature = await calculateSha256Signature(requestBody, '', signatureSalt);
+
+            delete req.headers['X-Integration-Auth'];
+            req.headers['signature'] = signature;
+
+            console.log('[Success] IntegrationAuth headers added', {
+                'signature': signature.substring(0, 20) + '...'
+            });
+
+            return true;
         }
-        // TODO Support Integration Auth
-        // 'X-Integration-Auth': async function(req, headerValue) {
-        //     // Parse headerValue
-        //     // Generate required headers
-        //     // Delete the X-Integration-Auth header
-        //     // Add actual headers
-        //     return true;
-        // }
     };
 
     function initializeAuthInterceptor() {
