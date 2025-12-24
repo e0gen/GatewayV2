@@ -39,8 +39,8 @@ public partial class TblDebitTerminal
     [StringLength(50)]
     public string AccountSubId3D { get; set; } = null!;
 
-    [Column("isEzzygateTerminal")]
-    public bool IsEzzygateTerminal { get; set; }
+    [Column("isNetpayTerminal")]
+    public bool IsNetpayTerminal { get; set; }
 
     [Column("isShvaMasterTerminal")]
     public bool IsShvaMasterTerminal { get; set; }

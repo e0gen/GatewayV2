@@ -2245,7 +2245,7 @@ public partial class EzzygateDbContext : DbContext
             entity.Property(e => e.IsHidePayNeed).HasDefaultValue(true);
             entity.Property(e => e.IsInterestedInNewsletter).HasDefaultValue(true);
             entity.Property(e => e.IsMultiChargeProtection).HasDefaultValue(true);
-            entity.Property(e => e.IsEzzygateTerminal).HasDefaultValue(true);
+            entity.Property(e => e.IsNetpayTerminal).HasDefaultValue(true);
             entity.Property(e => e.IsPersonalNumber).HasDefaultValue(true);
             entity.Property(e => e.IsPhoneNumber).HasDefaultValue(true);
             entity.Property(e => e.IsPublicPayCvv2).HasDefaultValue(true);

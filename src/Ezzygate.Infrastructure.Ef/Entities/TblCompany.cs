@@ -352,8 +352,8 @@ public partial class TblCompany
     [StringLength(3)]
     public string LanguagePreference { get; set; } = null!;
 
-    [Column("isEzzygateTerminal")]
-    public bool IsEzzygateTerminal { get; set; }
+    [Column("isNetpayTerminal")]
+    public bool IsNetpayTerminal { get; set; }
 
     [StringLength(100)]
     public string PslWalletId { get; set; } = null!;

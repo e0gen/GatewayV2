@@ -20,7 +20,7 @@
 		<parameter key="adminUrl" value="https://localhost:5001/"/>
 		<parameter key="merchantUrl" value="https://localhost:5002/"/>
 		<parameter key="reportsUrl" value="https://localhost:5003/"/>
-		<parameter key="devCentertUrl" value="https://localhost:5002/WebSite/DeveloperDocs.aspx"/>
+		<parameter key="devCenterUrl" value="https://localhost:5002/WebSite/DeveloperDocs.aspx"/>
 		<parameter key="processUrl" value="https://localhost:5005/member/"/>
 		<parameter key="processV2Url" value="https://localhost:5006/"/>
 		<parameter key="WebServicesUrl" value="https://localhost:5007/"/>
@@ -35,12 +35,12 @@
 		<parameter key="signupUrl" value="hhttps://localhost:5002/WebSite/Register.aspx"/>
 		<parameter key="miniVtUrl" value="https://localhost:5015"/>
 
-		<parameter key="sql1ConnectionString" isEncrypted="false" value="Server=(localdb)\mssqllocaldb;Database=EzzygateDb;Trusted_Connection=true;MultipleActiveResultSets=true"/>
-		<parameter key="sql2ConnectionString" isEncrypted="false" value="Server=(localdb)\mssqllocaldb;Database=EzzygateDb;Trusted_Connection=true;MultipleActiveResultSets=true"/>
-		<parameter key="reportsConnectionString" isEncrypted="false" value="Server=(localdb)\mssqllocaldb;Database=EzzygateReportsDb;Trusted_Connection=true;MultipleActiveResultSets=true"/>
+		<parameter key="sql1ConnectionString" isEncrypted="false" value="Server=(localdb)\mssqllocaldb;Database=NetpayDb;Trusted_Connection=true;MultipleActiveResultSets=true"/>
+		<parameter key="sql2ConnectionString" isEncrypted="false" value="Server=(localdb)\mssqllocaldb;Database=NetpayDbDb;Trusted_Connection=true;MultipleActiveResultSets=true"/>
+		<parameter key="reportsConnectionString" isEncrypted="false" value="Server=(localdb)\mssqllocaldb;Database=NetpayDbReportsDb;Trusted_Connection=true;MultipleActiveResultSets=true"/>
 		<parameter key="sqlArchiveConnectionString" isEncrypted="false" value=""/>
 		<parameter key="analysisServicesConnectionString" isEncrypted="false" value=""/>
-		<parameter key="integrationServicesEzzygateConnectionString" isEncrypted="false" value=""/>
+		<parameter key="integrationServicesNetpayDbConnectionString" isEncrypted="false" value=""/>
 		<parameter key="integrationServicesReportsConnectionString" isEncrypted="false" value=""/>
 		<parameter key="CRMConnectionString" isEncrypted="false" value=""/>
 
