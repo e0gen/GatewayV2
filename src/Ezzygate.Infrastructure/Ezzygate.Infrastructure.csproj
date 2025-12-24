@@ -28,9 +28,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Ezzygate.Infrastructure.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+        <None Update="Netpay.Infrastructure.config.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Netpay.Infrastructure.config.xml">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
       <None Include="..\..\environments\*.Infrastructure.config.xml" Link="env\%(Filename)%(Extension)">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>

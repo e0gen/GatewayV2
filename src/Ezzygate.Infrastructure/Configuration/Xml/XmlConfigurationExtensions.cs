@@ -5,7 +5,7 @@ namespace Ezzygate.Infrastructure.Configuration.Xml;
 
 public static class XmlConfigurationExtensions
 {
-    private const string XmlInfrastructureXmlConfigFile = "Ezzygate.Infrastructure.config.xml";
+    private const string XmlInfrastructureXmlConfigFile = "Netpay.Infrastructure.config.xml";
 
     public static IConfigurationBuilder AddXmlInfrastructureConfigurationSource(
         this IConfigurationBuilder builder,

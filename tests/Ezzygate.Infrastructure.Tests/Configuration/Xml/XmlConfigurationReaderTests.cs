@@ -14,7 +14,7 @@ public class XmlConfigurationReaderTests
     [SetUp]
     public void SetUp()
     {
-        _testConfigPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "Ezzygate.Infrastructure.config.xml");
+        _testConfigPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "Netpay.Infrastructure.config.xml");
     }
 
     [Test]

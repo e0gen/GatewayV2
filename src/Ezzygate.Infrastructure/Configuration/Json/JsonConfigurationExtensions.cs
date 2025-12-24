@@ -4,7 +4,7 @@ namespace Ezzygate.Infrastructure.Configuration.Json;
 
 public static class JsonConfigurationExtensions
 {
-    private const string InfrastructureJsonConfigFile = "Ezzygate.Infrastructure.config.json";
+    private const string InfrastructureJsonConfigFile = "Netpay.Infrastructure.config.json";
 
     public static IConfigurationBuilder AddJsonInfrastructureConfigurationSource(
         this IConfigurationBuilder builder,

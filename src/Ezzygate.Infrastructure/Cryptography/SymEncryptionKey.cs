@@ -544,7 +544,7 @@ public class SymEncryptionKey : IDisposable
 
     private static byte[] InternalEncDec(byte[] data, int startIndex, string? password, bool decrypt)
     {
-        password ??= "Ezzygate.Crypt";
+        password ??= "Netpay.Crypt";
 
         using var crypt = TripleDES.Create();
         crypt.BlockSize = 64;
