@@ -43,9 +43,14 @@ public class ChargeAttemptRepository : IChargeAttemptRepository
         var update = new ChargeAttemptUpdate();
         configure(update);
 
-        var compiledPredicate = byId.Compile();
+        var entityParam = Expression.Parameter(typeof(Ef.Entities.TblLogChargeAttempt), "entity");
+        var idProperty = Expression.Property(entityParam, nameof(Ef.Entities.TblLogChargeAttempt.LogChargeAttemptsId));
+
+        var invokedExpression = Expression.Invoke(byId, idProperty);
+        var predicate = Expression.Lambda<Func<Ef.Entities.TblLogChargeAttempt, bool>>(invokedExpression, entityParam);
+
         return await UpdateEntityAsync(
-            entity => compiledPredicate(entity.LogChargeAttemptsId),
+            predicate,
             entity => ApplyUpdates(entity, update),
             cancellationToken,
             update.ThrowIfNotFound,
@@ -60,9 +65,15 @@ public class ChargeAttemptRepository : IChargeAttemptRepository
         var update = new ChargeAttemptUpdate();
         configure(update);
 
-        var compiledPredicate = byTransaction.Compile();
+        var entityParam = Expression.Parameter(typeof(Ef.Entities.TblLogChargeAttempt), "entity");
+        var transNumProperty = Expression.Property(entityParam, nameof(Ef.Entities.TblLogChargeAttempt.LcaTransNum));
+        var replyCodeProperty = Expression.Property(entityParam, nameof(Ef.Entities.TblLogChargeAttempt.LcaReplyCode));
+
+        var invokedExpression = Expression.Invoke(byTransaction, transNumProperty, replyCodeProperty);
+        var predicate = Expression.Lambda<Func<Ef.Entities.TblLogChargeAttempt, bool>>(invokedExpression, entityParam);
+
         return await UpdateEntityAsync(
-            entity => compiledPredicate(entity.LcaTransNum, entity.LcaReplyCode),
+            predicate,
             entity => ApplyUpdates(entity, update),
             cancellationToken,
             update.ThrowIfNotFound,

@@ -52,7 +52,7 @@ public class CreditcardController : ControllerBase
 
         var legacyRequest = CreditCardDtoFactory.CreateLegacyProcessRequest(request, merchant);
         var result = await _legacyPaymentService.ProcessAsync(legacyRequest, cancellationToken);
-        var response = CreditCardDtoFactory.CreateBasicResponse(result, _currencyRepository);
+        var response = CreditCardDtoFactory.CreateBasicResponse(result, request, _currencyRepository);
 
         return new Response(result.GetResultStatus(), response);
     }

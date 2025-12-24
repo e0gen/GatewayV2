@@ -105,7 +105,7 @@ public static class XmlConfigurationExtensions
         return dict;
     }
 
-    private static void AddDomainToDictionary(Dictionary<string, string?> dict, string section, DomainConfiguration domain)
+    private static void AddDomainToDictionary(Dictionary<string, string?> dict, string section, IDomainConfiguration domain)
     {
         // Basic Information
         dict[$"{section}:Host"] = domain.Host;

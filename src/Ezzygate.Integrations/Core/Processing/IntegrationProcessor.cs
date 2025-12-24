@@ -15,13 +15,13 @@ public sealed class IntegrationProcessor : IIntegrationProcessor
     private readonly ILogger<IntegrationProcessor> _logger;
     private readonly ITransactionContextFactory _transactionContextFactory;
     private readonly ICreditCardIntegrationProcessor _creditCardProcessor;
-    private readonly DomainConfiguration _domainConfiguration;
+    private readonly IDomainConfiguration _domainConfiguration;
 
     public IntegrationProcessor(
         ILogger<IntegrationProcessor> logger,
         ITransactionContextFactory transactionContextFactory,
         ICreditCardIntegrationProcessor creditCardProcessor,
-        DomainConfiguration domainConfiguration)
+        IDomainConfiguration domainConfiguration)
     {
         _logger = logger;
         _transactionContextFactory = transactionContextFactory;

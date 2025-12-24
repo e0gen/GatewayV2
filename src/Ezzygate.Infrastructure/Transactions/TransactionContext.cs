@@ -9,10 +9,10 @@ namespace Ezzygate.Infrastructure.Transactions;
 
 public class TransactionContext
 {
-    private readonly DomainConfiguration _domainConfiguration;
+    private readonly IDomainConfiguration _domainConfiguration;
     private const string SignatureKey = "cf396375-5eaa-494f-a783-1ba1e05be7af";
 
-    public TransactionContext(DomainConfiguration domainConfiguration)
+    public TransactionContext(IDomainConfiguration domainConfiguration)
     {
         _domainConfiguration = domainConfiguration;
     }
@@ -184,14 +184,14 @@ public class TransactionContext
 
     public string Get3dsAuthUrl(string approveUrl, string declineUrl)
     {
-        var baseUrl = _domainConfiguration.ProcessV2Url;
+        var baseUrl = _domainConfiguration.ProcessUrl;
         const string fileName = "remoteCharge_ccDebitGeneric3DSAuth.asp";
         var finalizeUrl = $"{baseUrl}{fileName}?approveUrl={approveUrl.ToEncodedUrl()}&declineUrl={declineUrl.ToEncodedUrl()}";
         return finalizeUrl;
     }
     public string GetCollectUrl(string actionUrl, string? integrationTag = null)
     {
-        var baseUrl = _domainConfiguration.ProcessV2Url;
+        var baseUrl = _domainConfiguration.ProcessUrl;
         const string fileName = "remoteCharge_ccDebitGenericCollect.asp";
         integrationTag ??= "direct";
         var finalizeUrl = $"{baseUrl}{fileName}?action={actionUrl.ToEncodedUrl()}&integration={integrationTag}";
@@ -200,8 +200,8 @@ public class TransactionContext
 
     public string GetFinalizeUrl(FinalizeUrlType urlType, string? baseUrl = null, string? fileName = null)
     {
-        baseUrl ??= _domainConfiguration.ProcessV2Url;
-        fileName ??= "remoteCharge_ccDebitGenericFinalize.asp";
+        baseUrl ??= _domainConfiguration.ProcessUrl;
+        fileName ??= "remoteCharge_ccDebitGenericFinalize_v2.asp";
         var signature = (urlType + DebitRefCode + ChargeAttemptLogId + SignatureKey).ToSha256();
         var finalizeUrl =
             $"{baseUrl}{fileName}?transactionReferenceCode={DebitRefCode}&type={urlType.ToString()}&transactionLogId={ChargeAttemptLogId}&signature={signature.ToEncodedUrl()}";

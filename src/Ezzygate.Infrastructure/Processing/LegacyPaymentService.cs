@@ -13,12 +13,12 @@ public class LegacyPaymentService : ILegacyPaymentService
 {
     private const int TrxSource = (int)TransactionSource.WebApi;
     private readonly HttpClient _httpClient;
-    private readonly DomainConfiguration _domainConfiguration;
+    private readonly IDomainConfiguration _domainConfiguration;
     private readonly ILogger<LegacyPaymentService> _logger;
 
     public LegacyPaymentService(
         HttpClient httpClient,
-        DomainConfiguration domainConfiguration,
+        IDomainConfiguration domainConfiguration,
         ILogger<LegacyPaymentService> logger)
     {
         _httpClient = httpClient;
@@ -29,8 +29,8 @@ public class LegacyPaymentService : ILegacyPaymentService
     public async Task<LegacyPaymentResult> ProcessAsync(LegacyProcessRequest request, CancellationToken cancellationToken = default)
     {
         var url = new StringBuilder();
-        url.Append(_domainConfiguration.ProcessV2Url);
-        url.Append($"remote_charge.asp?CompanyNum={request.MerchantNumber}");
+        url.Append(_domainConfiguration.ProcessUrl);
+        url.Append($"remote_charge_v2.asp?CompanyNum={request.MerchantNumber}");
         url.Append($"&CVV2={request.CreditCard?.Cvv}");
         url.Append($"&CardNum={request.CreditCard?.Number}");
         url.Append($"&ExpMonth={request.CreditCard?.ExpirationMonth}");
@@ -78,7 +78,7 @@ public class LegacyPaymentService : ILegacyPaymentService
 
     public async Task<LegacyPaymentResult> RefundAsync(LegacyRefundRequest request, CancellationToken cancellationToken = default)
     {
-        var url = $"{_domainConfiguration.ProcessV2Url}remote_charge.asp" +
+        var url = $"{_domainConfiguration.ProcessUrl}remote_charge_v2.asp" +
                   $"?CompanyNum={request.MerchantNumber}" +
                   $"&requestSource={TrxSource}" +
                   $"&Amount={request.Amount}" +
@@ -92,7 +92,7 @@ public class LegacyPaymentService : ILegacyPaymentService
 
     public async Task<LegacyPaymentResult> VoidAsync(LegacyVoidRequest request, CancellationToken cancellationToken = default)
     {
-        var url = $"{_domainConfiguration.ProcessV2Url}remote_charge.asp" +
+        var url = $"{_domainConfiguration.ProcessUrl}remote_charge_v2.asp" +
                   $"?CompanyNum={request.MerchantNumber}" +
                   $"&requestSource={TrxSource}" +
                   $"&Currency={request.CurrencyIso.ToUpper()}" +
@@ -105,7 +105,7 @@ public class LegacyPaymentService : ILegacyPaymentService
 
     public async Task<LegacyPaymentResult> CaptureAsync(LegacyCaptureRequest request, CancellationToken cancellationToken = default)
     {
-        var url = $"{_domainConfiguration.ProcessV2Url}remote_charge.asp" +
+        var url = $"{_domainConfiguration.ProcessUrl}remote_charge_v2.asp" +
                   $"?CompanyNum={request.MerchantNumber}" +
                   $"&requestSource={TrxSource}" +
                   $"&Currency={request.CurrencyIso.ToUpper()}" +
@@ -128,7 +128,7 @@ public class LegacyPaymentService : ILegacyPaymentService
         }
         catch (Exception ex)
         {
-            _logger.Error(LogTag.WebApi, ex, "Call to remote_charge.asp failed");
+            _logger.Error(LogTag.WebApi, ex, "Call to remote_charge_v2.asp failed");
             throw;
         }
     }

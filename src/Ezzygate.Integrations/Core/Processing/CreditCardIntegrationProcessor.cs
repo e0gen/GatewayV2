@@ -82,27 +82,27 @@ public class CreditCardIntegrationProcessor : ICreditCardIntegrationProcessor
             return result;
         }
 
-        var processResult = await integration.ProcessTransactionAsync(context, cancellationToken);
+        var finalizeResult = await integration.ProcessTransactionAsync(context, cancellationToken);
 
-        processResult.DebitRefCode = context.DebitRefCode;
-        processResult.ApprovalNumber = context.LocatedTrx?.ApprovalNumber ?? processResult.ApprovalNumber;
-        if (string.IsNullOrWhiteSpace(processResult.RedirectUrl))
-            processResult.RedirectUrl = context.LocatedTrx?.RedirectUrl;
-        processResult.DebitRefNum = context.DebitRefNum;
-        if (string.IsNullOrWhiteSpace(processResult.NotificationResponse))
-            processResult.NotificationResponse = "ok";
+        finalizeResult.DebitRefCode = context.DebitRefCode;
+        finalizeResult.ApprovalNumber = context.LocatedTrx?.ApprovalNumber ?? finalizeResult.ApprovalNumber;
+        if (string.IsNullOrWhiteSpace(finalizeResult.RedirectUrl))
+            finalizeResult.RedirectUrl = context.LocatedTrx?.RedirectUrl;
+        finalizeResult.DebitRefNum = context.DebitRefNum;
+        if (string.IsNullOrWhiteSpace(finalizeResult.NotificationResponse))
+            finalizeResult.NotificationResponse = "ok";
 
-        if (processResult.Code == "553")
+        if (finalizeResult.Code == "553")
         {
             var updated = await _chargeAttemptRepository
                 .UpdateAsync(id => id == context.ChargeAttemptLogId, u => u
                         .SetRedirectFlag(true), cancellationToken);
             if (!updated)
-                _logger.LogWarning("Failed to update Redirect flag. ChargeAttemptLogId: '{ChargeAttemptLogId}'",
+                _logger.LogWarning("Failed to set Redirect flag. ChargeAttemptLogId: '{ChargeAttemptLogId}'",
                     context.ChargeAttemptLogId);
         }
 
-        return processResult;
+        return finalizeResult;
     }
 
     private async Task<IntegrationResult> InternalProcessTransactionAsync(
@@ -110,12 +110,12 @@ public class CreditCardIntegrationProcessor : ICreditCardIntegrationProcessor
         ICreditCardIntegration integration,
         CancellationToken cancellationToken)
     {
-        var result = await integration.ProcessTransactionAsync(context, cancellationToken);
-        result.DebitRefCode = context.DebitRefCode;
-        result.DebitRefNum = context.DebitRefNum;
+        var processResult = await integration.ProcessTransactionAsync(context, cancellationToken);
+        processResult.DebitRefCode = context.DebitRefCode;
+        processResult.DebitRefNum = context.DebitRefNum;
 
         if (context.OpType is OperationType.AuthorizationCapture or OperationType.AuthorizationRelease
-            && result.Code == "000")
+            && processResult.Code == "000")
         {
             var preAuthId = context.QueryStringParsed["TransApprovalID"] ?? context.FormDataParsed["TransApprovalID"];
             if (preAuthId == null)
@@ -129,6 +129,16 @@ public class CreditCardIntegrationProcessor : ICreditCardIntegrationProcessor
             await _transactionRepository.UpdateApprovalTrxAuthStatusAsync(preAuthIdInt, context.OpType, cancellationToken);
         }
 
-        return result;
+        if (processResult.Code == "553")
+        {
+            var updated = await _chargeAttemptRepository
+                .UpdateAsync(id => id == context.ChargeAttemptLogId, u => u
+                    .SetRedirectFlag(true), cancellationToken);
+            if (!updated)
+                _logger.LogWarning("Failed to set Redirect flag. ChargeAttemptLogId: '{ChargeAttemptLogId}'",
+                    context.ChargeAttemptLogId);
+        }
+
+        return processResult;
     }
 }

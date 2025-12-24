@@ -9,7 +9,7 @@ public class DomainConfigurationProvider : IDomainConfigurationProvider
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ApplicationConfiguration _applicationConfiguration;
-    private readonly DomainConfiguration _defaultDomain;
+    private readonly IDomainConfiguration _defaultDomain;
 
     public DomainConfigurationProvider(
         IHttpContextAccessor httpContextAccessor,
@@ -23,7 +23,7 @@ public class DomainConfigurationProvider : IDomainConfigurationProvider
                          ?? new DomainConfiguration { Host = "default" };
     }
 
-    public DomainConfiguration GetCurrentDomainConfiguration()
+    public IDomainConfiguration GetCurrentDomainConfiguration()
     {
         var httpContext = _httpContextAccessor.HttpContext;
         if (httpContext == null)
@@ -33,7 +33,7 @@ public class DomainConfigurationProvider : IDomainConfigurationProvider
         return GetDomainConfiguration(host);
     }
 
-    public DomainConfiguration GetDomainConfiguration(string host)
+    public IDomainConfiguration GetDomainConfiguration(string host)
     {
         if (string.IsNullOrEmpty(host))
             return _defaultDomain;
@@ -53,7 +53,7 @@ public class DomainConfigurationProvider : IDomainConfigurationProvider
         return domain ?? _defaultDomain;
     }
 
-    public IReadOnlyList<DomainConfiguration> GetAllDomainConfigurations()
+    public IReadOnlyList<IDomainConfiguration> GetAllDomainConfigurations()
     {
         return _applicationConfiguration.Domains.AsReadOnly();
     }

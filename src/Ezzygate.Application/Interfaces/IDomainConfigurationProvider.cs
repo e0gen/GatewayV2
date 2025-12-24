@@ -4,7 +4,7 @@ namespace Ezzygate.Application.Interfaces;
 
 public interface IDomainConfigurationProvider
 {
-    DomainConfiguration GetCurrentDomainConfiguration();
-    DomainConfiguration GetDomainConfiguration(string host);
-    IReadOnlyList<DomainConfiguration> GetAllDomainConfigurations();
+    IDomainConfiguration GetCurrentDomainConfiguration();
+    IDomainConfiguration GetDomainConfiguration(string host);
+    IReadOnlyList<IDomainConfiguration> GetAllDomainConfigurations();
 }

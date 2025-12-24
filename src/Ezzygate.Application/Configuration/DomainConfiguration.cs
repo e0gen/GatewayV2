@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Ezzygate.Application.Configuration;
 
-public sealed class DomainConfiguration
+public sealed class DomainConfiguration : IDomainConfiguration
 {
     // Basic Information
     public string Host { get; set; } = string.Empty;
